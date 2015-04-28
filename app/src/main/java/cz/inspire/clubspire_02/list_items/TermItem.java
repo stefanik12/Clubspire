@@ -33,7 +33,7 @@ public class TermItem {
     }
 
     public String getDateString() {
-        return date.getDay() + "." + date.getMonth();
+        return date.getDay() + "." + date.getMonth() + ".";
     }
 
     public Day getDay() {
@@ -51,7 +51,10 @@ public class TermItem {
     }
 
     public String getStartString() {
-        return start.hour + ":" + start.minute;
+        if(start.minute == 0)
+            return start.hour + ":00" ;
+        else
+            return start.hour + ":" + start.minute;
     }
 
     public void setStart(Time start) {
@@ -63,7 +66,10 @@ public class TermItem {
     }
 
     public String getEndString() {
-        return end.hour + ":" + end.minute;
+        if(end.minute == 0)
+            return end.hour + ":00" ;
+        else
+            return end.hour + ":" + end.minute;
     }
 
     public void setEnd(Time end) {
