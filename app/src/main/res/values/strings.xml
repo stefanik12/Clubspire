@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Clubspire</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="logo">logo</string>
+    <string name="text_reservation">Rezervace</string>
+    <string name="text_userName">Uživatelské jméno</string>
+    <string name="text_reservationList">Seznam rezervací</string>
+    <string name="text_hint">Nápověda</string>
+
+    <string name="name">Jméno</string>
+    <string name="surname">Příjmení</string>
+    <string name="password">Heslo</string>
+    <string name="email">Email</string>
+    <string name="register">Registrovat</string>
+    <string name="default_attendants">1</string>
+
+</resources>

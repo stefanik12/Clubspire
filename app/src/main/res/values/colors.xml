@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_color">#ff9db1ff</color>
+    <color name="secondary_color">#ff8093ff</color>
+    <color name="background_color">#ffdedeff</color>
+
+    <color name="available_color">#ff6eff5e</color>
+    <color name="unavailable_color">#ffff2e2a</color>
+    <color name="color_reservation_item">#FFFFFEE4</color>
+    <color name="color_confirm">#FF82FF7E</color>
+    <color name="color_cancel">#FF869298</color>
+</resources>

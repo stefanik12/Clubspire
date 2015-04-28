@@ -1,0 +1,228 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:baselineAligned="false">
+
+    //toolbar
+    <include layout="@layout/toolbar"/>
+
+
+ //komentdfgdgdgdzvszvsdv
+
+
+    //reservation item list
+    <ListView
+        android:id="@+id/reservationListView"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="200dp">
+
+    </ListView>
+
+    //upozornění
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notificationLayout">
+
+        //upozornění text//
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upozornění"
+            android:id="@+id/textNotification"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true" />
+
+        //mobile notification
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mobil"
+            android:id="@+id/checkBox_notifyMobile"
+            android:checked="true"
+            android:layout_marginRight="20dp"
+            android:paddingEnd="25dp"
+            android:layout_alignParentRight="true" />
+
+        //email notification
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="e-mail"
+            android:id="@+id/checkBox_notifyEmail"
+            android:checked="true"
+            android:layout_alignParentRight="false"
+            android:paddingEnd="25dp"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/checkBox_notifyMobile" />
+
+    </RelativeLayout>
+
+
+    //účastník
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/playerLayout"
+        android:weightSum="1"
+        >
+
+        //players
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Počet účastníků"
+            android:id="@+id/textPlayers"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            />
+
+        //players content
+        <EditText
+            android:text="@string/default_attendants"
+            android:width="40dp"
+            android:inputType="number"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editPlayersContent"
+            android:layout_alignParentLeft="false"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:enabled="true"
+            android:background="@color/color_reservation_item"
+            android:clickable="true"
+            android:editable="true"
+            android:layout_alignParentStart="false"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp" />
+    </RelativeLayout>
+
+    //poznámka
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/noteLayout"
+        android:weightSum="1"
+        >
+
+        //note
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Poznámka"
+            android:id="@+id/textNote"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            />
+
+        //note content
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextNoteContent"
+            android:layout_alignParentLeft="false"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:enabled="true"
+            android:background="@color/color_reservation_item"
+            android:clickable="true"
+            android:editable="true"
+            android:layout_alignParentStart="false"
+            android:layout_toEndOf="@id/textNote"
+            android:layout_marginLeft="5dp" />
+    </RelativeLayout>
+
+
+
+
+
+    //buttons
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:id="@+id/btnConfirmLayout"
+        android:weightSum="10"
+        android:layout_margin="5dp">
+
+        //confirm
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Potvrdit"
+            android:id="@+id/btnConfirm"
+            android:background="@color/color_confirm"
+            android:layout_weight="5"
+            android:layout_marginRight="5dp" />
+
+        //cancel
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Zrušit"
+            android:id="@+id/btnCancel"
+            android:background="@color/color_cancel"
+            android:layout_weight="5"
+            android:layout_gravity="right"
+            android:layout_marginLeft="5dp" />
+
+
+    </LinearLayout>
+
+    <!--
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:id="@+id/btnConfirmLayout"
+        android:layout_marginBottom="10dp">
+
+        //confirm
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Potvrdit"
+            android:id="@+id/btnConfirm"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_confirm"
+            android:layout_alignParentStart="true" />
+
+        //cancel
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zrušit"
+            android:id="@+id/btnCancel"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_cancel"
+            android:layout_toEndOf="@id/btnConfirm" />
+
+
+    </RelativeLayout>
+    -->
+
+
+</LinearLayout>

@@ -1,0 +1,93 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    //toolbar
+    <include layout="@layout/toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp">
+
+        //LOGO
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/imageView"
+            android:src="@drawable/logo2"
+            android:contentDescription="@string/logo" />
+    </RelativeLayout>
+
+
+
+    //login + pass
+    <RelativeLayout
+        android:layout_width="@dimen/button_width"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/loginItemsLayout">
+
+
+
+        //login
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/text_userName"
+            android:id="@+id/textfield_login"
+            android:layout_marginTop="@dimen/item_marginTop" />
+        //password
+
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:id="@+id/textfield_password"
+            android:text="Heslo"
+            android:layout_marginTop="@dimen/item_marginTop"
+            android:layout_below="@+id/textfield_login"
+            />
+
+
+            //Prihlasit
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Přihlásit"
+                android:id="@+id/btn_MenuLogin"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:background="@color/primary_color"
+                android:width="@dimen/button_width"
+                android:height="@dimen/button_height"
+                android:layout_marginTop="@dimen/item_marginTop"
+                android:layout_below="@+id/textfield_password"
+                />
+
+            //Registrovat
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrovat"
+                android:id="@+id/btn_MenuRegister"
+                android:clickable="true"
+                android:background="@color/secondary_color"
+                android:width="@dimen/button_width"
+                android:height="@dimen/button_height"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/item_marginTop"
+                android:layout_below="@+id/btn_MenuLogin"
+                />
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

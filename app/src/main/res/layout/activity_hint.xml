@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    //toolbar
+    <include layout="@layout/toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp">
+
+        //LOGO
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/imageView"
+            android:src="@drawable/logo2"
+            android:contentDescription="@string/logo" />
+    </RelativeLayout>
+
+    //STEPS
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/horizontalScrollView"
+        android:layout_gravity="center_horizontal"
+        android:nestedScrollingEnabled="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/imgStepsLayout"
+            android:weightSum="10">
+
+
+            //step 01
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/img_step01"
+                android:src="@drawable/step01"
+                android:paddingLeft="-20dp"
+                android:layout_weight="3" />
+
+            //step 02
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/img_step02"
+                android:src="@drawable/step02" />
+
+            //step 03
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/img_step03"
+                android:src="@drawable/step03" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    //STEPS
+
+
+</LinearLayout>

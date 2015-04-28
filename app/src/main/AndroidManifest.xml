@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cz.inspire.clubspire_02" >
+    <uses-sdk android:minSdkVersion="11"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+
+        >
+
+        //startup activity
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        //register activity
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/app_name" >
+
+        </activity>
+
+        //main menu activity
+        <activity
+            android:name=".MainMenuActivity"
+            android:label="@string/app_name" >
+
+
+        </activity>
+
+
+        //reservation 01 activity
+        <activity
+            android:name=".Reservation01Activity"
+            android:label="@string/app_name" >
+
+
+        </activity>
+
+        //reservation 02 activity
+        <activity
+            android:name=".Reservation02Activity"
+            android:label="@string/app_name" >
+        </activity>
+
+        //reservation 03 activity
+        <activity
+            android:name=".Reservation03Activity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan">
+        >
+        </activity>
+
+
+        //list reservation activity
+        <activity
+            android:name=".ListReservationActivity"
+            android:label="@string/app_name"
+            >
+        </activity>
+
+        //hint activity
+        <activity
+            android:name=".HintActivity"
+            android:label="@string/app_name"
+            >
+        </activity>
+
+
+    </application>
+
+</manifest>

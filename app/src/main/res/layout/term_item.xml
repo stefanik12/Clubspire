@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_layout"
+    android:background="@color/secondary_color">
+
+
+    //day
+
+    <TextView
+        android:id="@+id/item_txtDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="false"
+        android:text="Day XX"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:padding="10dp"
+        android:paddingLeft="5dp" />
+
+    //time
+    <TextView
+        android:id="@+id/item_txtTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Time XX-XX"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_centerInParent="true"
+        android:padding="10dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp" />
+
+    //available
+    <TextView
+        android:id="@+id/item_txtAvailable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="default"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_centerInParent="true"
+        android:padding="10dp" />
+
+    <!--
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_background" />
+        -->
+
+
+</RelativeLayout>
