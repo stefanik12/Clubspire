@@ -23,6 +23,7 @@ public class MainActivity extends ActionBarActivity {
 
         setupActionBar();
         setTitle(loginActionBarText);
+        //
 
 
         //set login button listener (for now to main menu)
