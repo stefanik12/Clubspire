@@ -11,7 +11,7 @@ text smazal a nahradil textem od uživatele
 
 - chybí mi up lepší up navigace - dejte tam tu šipku v levé části 
 nebo alespoň logo
-- 	*u toolbaru ve styles
+-	*u toolbaru ve styles
 -	<item name="android:navigationIcon">@drawable/ic_action</item>
 -	<item name="android:logo">@drawable/ic_action</item>
 nefunguje
