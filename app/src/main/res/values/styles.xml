@@ -13,6 +13,9 @@
         <item name="android:background">?attr/colorPrimary</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:showAsAction">always</item>
+        <item name="android:navigationIcon">@drawable/ic_action</item>
+        <item name="android:logo">@drawable/ic_action</item>
     </style>
 
 </resources>

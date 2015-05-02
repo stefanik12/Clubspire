@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/weekSwitcherLayout">
 
+        <!--
         //previous
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -30,10 +31,11 @@
             android:layout_marginLeft="80dp"
             android:clickable="true"
             android:enabled="true" />
+            -->
 
         //week number
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/button_width"
             android:layout_height="wrap_content"
             android:text="Týden XX"
             android:id="@+id/textWeekNumber"
@@ -41,9 +43,12 @@
             android:layout_alignWithParentIfMissing="false"
             android:layout_centerInParent="true"
             android:background="@color/secondary_color"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:gravity="center"
+            />
 
        //next
+        <!--
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
@@ -55,6 +60,7 @@
             android:layout_marginRight="80dp"
             android:clickable="true"
             android:enabled="true" />
+            -->
 
         </RelativeLayout>
 
@@ -63,7 +69,7 @@
         android:id="@+id/termListView"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content">
 
     </ListView>
 

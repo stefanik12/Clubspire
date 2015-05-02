@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +37,11 @@ public class Reservation03Activity extends ActionBarActivity {
     private String start;
     private String end;
 
+    private TextView activityText;
+    private TextView dateText;
+    private TextView timeText;
+    private TextView userText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,22 +54,21 @@ public class Reservation03Activity extends ActionBarActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            Toast.makeText(getApplicationContext(),"no extra",Toast.LENGTH_SHORT).show();
-        }
-
-        else {
+        if (extras != null) {
             activityName = extras.getString("EXTRA_ACTIVITY_NAME");
             date = extras.getString("EXTRA_DATE");
             start = extras.getString("EXTRA_START");
             end = extras.getString("EXTRA_END");
             iconId = extras.getInt("EXTRA_ICON_ID");
 
+
             //fill reservation list
-            populateReservationList();
-            populateReservationListView();
-            registerReservationClickCallback();
+            //populateReservationList();
+            //populateReservationListView();
+            //registerReservationClickCallback();
         }
+        //set items text
+        setReservationItemsContent(activityName, date, start, end, USER);
 
         //set CONFIRM button listener
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
@@ -102,76 +108,47 @@ public class Reservation03Activity extends ActionBarActivity {
 
 
     }
-    private void populateReservationList() {
-        reservationList.clear();
-        reservationList.add(new ReservationItem("Aktivita", activityName));
-        reservationList.add(new ReservationItem("Datum", date));
-        reservationList.add(new ReservationItem("Čas", start + " - " + end));
-        reservationList.add(new ReservationItem("Uživatel", USER));
-        //Toast.makeText(getApplicationContext(), activityName + date + start + end, Toast.LENGTH_LONG).show();
+
+    private void setReservationItemsContent(String activityName, String date, String start, String end, String user )
+    {
+        this.activityText = (TextView) findViewById(R.id.txtActivityContent);
+        activityText.setText(activityName);
+
+        this.dateText = (TextView) findViewById(R.id.txtDateContent);
+        dateText.setText(date);
+
+        this.timeText = (TextView) findViewById(R.id.txtTimeContent);
+        timeText.setText(start + " - " + end);
+
+        this.userText = (TextView) findViewById(R.id.txtUserContent);
+        userText.setText(user);
 
     }
 
-    private void populateReservationListView() {
-        ArrayAdapter<ReservationItem> reservationAdapter = new MyReservationListAdapter();
-        ListView reservationListView = (ListView) findViewById(R.id.reservationListView);
-        reservationListView.setAdapter(reservationAdapter);
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-    private void registerReservationClickCallback() {
-        ListView list = (ListView) findViewById(R.id.reservationListView);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                    int position, long id) {
-
-                //TermItem clickedTerm = termList.get(position);
-                //String message = "You clicked position " + position;
-                //Toast.makeText(Reservation02Activity.this, message, Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
-            }
-        });
-    }
-
-    private class MyReservationListAdapter extends ArrayAdapter<ReservationItem> {
-        public MyReservationListAdapter() {
-            super(Reservation03Activity.this, R.layout.reservation_item_uneditable, reservationList);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_logout) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // Make sure we have a view to work with (may have been given null)
-            View itemView = convertView;
-            if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.reservation_item_uneditable, parent, false);
-            }
-
-            // Find the ReservationItem to work with.
-            ReservationItem currentReservationItem = reservationList.get(position);
-
-            TextView categoryText = (TextView) itemView.findViewById(R.id.item_category);
-            try {
-                categoryText.setText(currentReservationItem.getCategory());
-            }catch (NullPointerException e){
-                //Toast.makeText(getApplicationContext(),currentReservationItem.getCategory(),Toast.LENGTH_SHORT).show();
-            }
-
-            TextView contentText = (TextView) itemView.findViewById(R.id.item_content);
-            try {
-                contentText.setText(currentReservationItem.getContent());
-            }catch (NullPointerException e){
-                //Toast.makeText(getApplicationContext(),currentReservationItem.getContent(),Toast.LENGTH_SHORT).show();
-            }
-
-
-
-            return itemView;
-        }
+        return super.onOptionsItemSelected(item);
     }
-
-
-
-
     private void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);

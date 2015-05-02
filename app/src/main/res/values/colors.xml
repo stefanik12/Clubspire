@@ -9,4 +9,5 @@
     <color name="color_reservation_item">#FFFFFEE4</color>
     <color name="color_confirm">#FF82FF7E</color>
     <color name="color_cancel">#FF869298</color>
+    <color name="color_item_uneditable">#FFE8E3FF</color>
 </resources>

@@ -3,4 +3,13 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    style="@style/Toolbar" />
+    style="@style/Toolbar" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action"
+        android:id="@+id/toolbar_arrow"
+        android:baselineAlignBottom="true" />
+
+    </android.support.v7.widget.Toolbar>

@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Clubspire-fuckGit.iml" filepath="$PROJECT_DIR$/Clubspire-fuckGit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Clubspire.iml" filepath="$PROJECT_DIR$/Clubspire.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
-

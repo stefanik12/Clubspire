@@ -37,11 +37,13 @@ public class RegisterActivity extends ActionBarActivity {
         Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
         buttonToolbar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainMenuActivity.class));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
         });
 
     }
+
+
     private void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);

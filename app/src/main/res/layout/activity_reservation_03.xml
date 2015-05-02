@@ -9,10 +9,175 @@
     <include layout="@layout/toolbar"/>
 
 
- //komentdfgdgdgdzvszvsdv
+    //aktivita layout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/activityLayout"
+        android:layout_marginTop="5dp"
+        android:background="@color/secondary_color"
+        android:paddingRight="20dp"
+        android:paddingLeft="5dp">
+
+        //aktivita
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aktivita"
+            android:id="@+id/textActivity"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            />
+
+        //aktivita content
+        <EditText
+            android:text="aktivita XXX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtActivityContent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:enabled="false"
+            android:clickable="false"
+            android:editable="false"
+            android:layout_alignParentStart="false"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:background="#07000000" />
+    </RelativeLayout>
+
+    //datum layout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateLayout"
+        android:layout_marginTop="5dp"
+        android:background="@color/secondary_color"
+        android:paddingRight="20dp"
+        android:paddingLeft="5dp">
+
+        //datum
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Datum"
+            android:id="@+id/textDate"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            />
+
+        //datum content
+        <EditText
+            android:text="datum XXX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDateContent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:enabled="false"
+            android:clickable="false"
+            android:editable="false"
+            android:layout_alignParentStart="false"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:background="#07000000" />
+    </RelativeLayout>
+
+    //čas layout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeLayout"
+        android:layout_marginTop="5dp"
+        android:background="@color/secondary_color"
+        android:paddingRight="20dp"
+        android:paddingLeft="5dp">
+
+        //čas
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Čas"
+            android:id="@+id/textTime"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            />
+
+        //čas content
+        <EditText
+            android:text="Time XXX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTimeContent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:enabled="false"
+            android:clickable="false"
+            android:editable="false"
+            android:layout_alignParentStart="false"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:background="#07000000" />
+    </RelativeLayout>
+
+    //uživatel layout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userLayout"
+        android:layout_marginTop="5dp"
+        android:background="@color/secondary_color"
+        android:paddingRight="20dp"
+        android:paddingLeft="5dp">
+
+        //uživatel
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uživatel"
+            android:id="@+id/textUser"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            />
+
+        //uživatel content
+        <EditText
+            android:text="User XXX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtUserContent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:enabled="false"
+            android:clickable="false"
+            android:editable="false"
+            android:layout_alignParentStart="false"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:background="#07000000" />
+    </RelativeLayout>
+
+
 
 
     //reservation item list
+    <!--
     <ListView
         android:id="@+id/reservationListView"
         android:layout_width="match_parent"
@@ -20,12 +185,16 @@
         android:layout_height="200dp">
 
     </ListView>
+    -->
 
     //upozornění
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/notificationLayout">
+        android:id="@+id/notificationLayout"
+        android:layout_marginTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="5dp">
 
         //upozornění text//
 
@@ -36,7 +205,6 @@
             android:id="@+id/textNotification"
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
-            android:layout_marginLeft="10dp"
             android:padding="5dp"
             android:layout_centerVertical="true" />
 
@@ -47,7 +215,6 @@
             android:text="mobil"
             android:id="@+id/checkBox_notifyMobile"
             android:checked="true"
-            android:layout_marginRight="20dp"
             android:paddingEnd="25dp"
             android:layout_alignParentRight="true" />
 
@@ -72,7 +239,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/playerLayout"
         android:weightSum="1"
-        >
+        android:layout_marginTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="5dp">
 
         //players
         <TextView
@@ -82,7 +251,6 @@
             android:id="@+id/textPlayers"
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
-            android:layout_marginLeft="10dp"
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
@@ -99,7 +267,6 @@
             android:layout_alignParentLeft="false"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:enabled="true"
             android:background="@color/color_reservation_item"
@@ -107,7 +274,9 @@
             android:editable="true"
             android:layout_alignParentStart="false"
             android:padding="5dp"
-            android:layout_marginLeft="20dp" />
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            />
     </RelativeLayout>
 
     //poznámka
@@ -116,7 +285,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/noteLayout"
         android:weightSum="1"
-        >
+        android:layout_marginTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="5dp">
 
         //note
         <TextView
@@ -126,9 +297,7 @@
             android:id="@+id/textNote"
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
-            android:layout_marginLeft="10dp"
             android:padding="5dp"
-            android:layout_centerVertical="true"
             />
 
         //note content
@@ -139,16 +308,16 @@
             android:id="@+id/editTextNoteContent"
             android:layout_alignParentLeft="false"
             android:padding="5dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:enabled="true"
             android:background="@color/color_reservation_item"
             android:clickable="true"
             android:editable="true"
             android:layout_alignParentStart="false"
             android:layout_toEndOf="@id/textNote"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:minHeight="@dimen/menu_item_height"
+            />
     </RelativeLayout>
 
 

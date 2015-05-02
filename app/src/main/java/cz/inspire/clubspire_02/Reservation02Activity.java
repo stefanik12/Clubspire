@@ -9,8 +9,11 @@ import android.os.Bundle;
 
 import android.text.Layout;
 import android.text.format.Time;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +27,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
+import android.widget.Toast;
+
+import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
+import cz.inspire.clubspire_02.array_adapter.TermListAdapter;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.list_items.Day;
 import cz.inspire.clubspire_02.list_items.TermItem;
@@ -46,6 +56,8 @@ public class Reservation02Activity extends ActionBarActivity {
     private String activityName;
     private int iconId;
 
+    private TextView textWeekNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,22 +68,8 @@ public class Reservation02Activity extends ActionBarActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            //SET DEFAULT FOR NOW
-            iconId = R.drawable.a_01_b;
-            activityName = "DEFAULT";
 
-            View selectedActivity = findViewById(R.id.selectedActivity);
-            // icon
-            ImageView activityIcon = (ImageView)selectedActivity.findViewById(R.id.item_icon);
-            activityIcon.setImageResource(iconId);
-
-            // name:
-            TextView textViewActivityName = (TextView) selectedActivity.findViewById(R.id.item_txtName);
-            textViewActivityName .setText(activityName+"");
-        }
-
-        else {
+        if (extras != null) {
             iconId = extras.getInt("EXTRA_ICON_ID");
             activityName = extras.getString("EXTRA_ACTIVITY_NAME");
 
@@ -99,6 +97,7 @@ public class Reservation02Activity extends ActionBarActivity {
         registerTermClickCallback();
 
         //set NEXT button listener
+        /*
         Button buttonNext = (Button) findViewById(R.id.btnNext);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -108,8 +107,10 @@ public class Reservation02Activity extends ActionBarActivity {
                 populateTermListView();
             }
         });
+        */
 
         //set PREV button listener
+        /*
         Button buttonPrev = (Button) findViewById(R.id.btnPrev);
         buttonPrev.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -119,6 +120,10 @@ public class Reservation02Activity extends ActionBarActivity {
                 populateTermListView();
             }
         });
+        */
+
+        //set week SWIPE
+        textWeekNum = (TextView) findViewById(R.id.textWeekNumber);
 
         //set actionbar button listener
         Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -127,9 +132,44 @@ public class Reservation02Activity extends ActionBarActivity {
                 startActivity(new Intent(getApplicationContext(),MainMenuActivity.class));
             }
         });
-
-
     }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // TODO Auto-generated method stub
+        return gestureDetector.onTouchEvent(event);
+    }
+
+    SimpleOnGestureListener simpleOnGestureListener
+            = new SimpleOnGestureListener(){
+
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                               float velocityY) {
+            String swipe = "";
+            float sensitvity = 50;
+
+            // TODO Auto-generated method stub
+            if((e1.getX() - e2.getX()) > sensitvity){
+                weekNum++;
+            }else if((e2.getX() - e1.getX()) > sensitvity){
+                weekNum--;
+            }else{
+                //swipe += "\n";
+            }
+            weekNumber.setText("Týden " + weekNum);
+            populateTermList();
+            populateTermListView();
+
+            return super.onFling(e1, e2, velocityX, velocityY);
+        }
+    };
+
+    GestureDetector gestureDetector
+            = new GestureDetector(simpleOnGestureListener);
+
 
 
 
@@ -182,7 +222,8 @@ public class Reservation02Activity extends ActionBarActivity {
     }
 
     private void populateTermListView() {
-        ArrayAdapter<TermItem> termAdapter = new MyTermListAdapter();
+        //ArrayAdapter<TermItem> termAdapter = new MyTermListAdapter();
+        TermListAdapter termAdapter = new TermListAdapter(this,termList);
         ListView termListView = (ListView) findViewById(R.id.termListView);
         termListView.setAdapter(termAdapter);
     }
@@ -198,74 +239,47 @@ public class Reservation02Activity extends ActionBarActivity {
                 //String message = "You clicked position " + position;
                 //Toast.makeText(Reservation02Activity.this, message, Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getApplicationContext(), Reservation03Activity.class);
-                intent.putExtra("EXTRA_ICON_ID", iconId);
-                intent.putExtra("EXTRA_ACTIVITY_NAME", activityName);
-                intent.putExtra("EXTRA_DATE", clickedTerm.getDateString());
-                intent.putExtra("EXTRA_START", clickedTerm.getStartString());
-                intent.putExtra("EXTRA_END", clickedTerm.getEndString());
+                if(clickedTerm.isAvailable()) {
+                    Intent intent = new Intent(getApplicationContext(), Reservation03Activity.class);
+                    intent.putExtra("EXTRA_ICON_ID", iconId);
+                    intent.putExtra("EXTRA_ACTIVITY_NAME", activityName);
+                    intent.putExtra("EXTRA_DATE", clickedTerm.getDateString());
+                    intent.putExtra("EXTRA_START", clickedTerm.getStartString());
+                    intent.putExtra("EXTRA_END", clickedTerm.getEndString());
 
-                startActivity(intent);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"termín obsazen",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
     }
 
-    private class MyTermListAdapter extends ArrayAdapter<TermItem> {
-        public MyTermListAdapter() {
-            super(Reservation02Activity.this, R.layout.term_item, termList);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // Make sure we have a view to work with (may have been given null)
-            View itemView = convertView;
-            if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.term_item, parent, false);
-            }
-
-            // Find the TermItem to work with.
-            TermItem currentTerm = termList.get(position);
-
-            //!!!!!!!!!!!!!!nefachá
-            RelativeLayout termItemLayout = (RelativeLayout) itemView.findViewById(R.id.item_layout);
-            //Button termItemBackground = (Button) findViewById(R.id.item_background);
-            TextView termAvailable = (TextView) itemView.findViewById(R.id.item_txtAvailable);
-
-            // Day:
-            TextView dayText = (TextView) itemView.findViewById(R.id.item_txtDay);
-            dayText.setText(currentTerm.getDay().toString() + " " + currentTerm.getDateString());
-            if(currentTerm.isAvailable()) {
-                //dayText.setBackgroundColor(getResources().getColor(R.color.available_color));
-                termItemLayout.setBackgroundColor(getResources().getColor(R.color.available_color));
-                termAvailable.setText("volno");
-
-            }
-            else {
-                termItemLayout.setBackgroundColor(getResources().getColor(R.color.unavailable_color));
-                termAvailable.setText("obsazeno");
-
-            }
-
-            // Time:
-            TextView timeText = (TextView) itemView.findViewById(R.id.item_txtTime);
-            timeText.setText(currentTerm.getStartString() + " - " + currentTerm.getEndString());
-
-            return itemView;
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_logout) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
 
-
-
-
-
-
-
-
-
-
-
+        return super.onOptionsItemSelected(item);
+    }
 
     private void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
