@@ -1,11 +1,11 @@
 # Clubspire
-********TODO********
+-********TODO********
 
 *v textových polích nastavit, aby se při označení předvyplněný 
 text smazal a nahradil textem od uživatele
 
 - Toolbar není implementovaný úplně správně
-- 
+
 *už snad ok
 	
 
