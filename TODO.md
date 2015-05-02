@@ -19,10 +19,11 @@ a nevím, jak přemístit šipku
 
 
 - kliknutí na menu v aktivitě menu otevírá menu
-- 
+
 *DONE*
 
 - přihlášení jde obejít kliknutím do Toolbaru
+
 *DONE*
 
 - hromadí se vám v aplikaci activity, po pár průchodech je stack dost 
