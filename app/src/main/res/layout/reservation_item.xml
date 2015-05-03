@@ -48,7 +48,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="false"
             android:paddingRight="5dp"
-            android:layout_toStartOf="@id/reservation_item_txtName" /> <!-- pozor zálkeží na pořadí itemů; -->
+            android:layout_marginLeft="10dp" /> <!-- pozor zálkeží na pořadí itemů; -->
 
 
 

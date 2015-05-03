@@ -1,67 +1,58 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-
-
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
-
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class HintActivity extends ActionBarActivity {
+/**
+ * Created by michal on 5/3/15.
+ */
+public class HintActivity extends FragmentActivity {
+    private static final int SLIDE_STEPS = 3;
 
-    private Toolbar mToolbar;
-    private final String hintActionBarText = "Nápověda";
+    HelpAdapter helpAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+
+    public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_hint);
 
-        setupActionBar();
-        setTitle(hintActionBarText);
+        List<Fragment> fragments = getFragments();
+
+        helpAdapter = new HelpAdapter(getSupportFragmentManager(), fragments);
+
+        ViewPager pager = (ViewPager)findViewById(R.id.viewpager);
+
+        pager.setAdapter(helpAdapter);
 
         //set actionbar button listener
         Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
         buttonToolbar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainMenuActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
             }
         });
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private List<Fragment> getFragments(){
+        List<Fragment> fList = new ArrayList<>();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+        for(int i=0;i<SLIDE_STEPS;i++){
+            fList.add(HintFragment.newInstance(i));
         }
 
-        return super.onOptionsItemSelected(item);
+        return fList;
     }
-
-    private void setupActionBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-    }
-
-
 }
+

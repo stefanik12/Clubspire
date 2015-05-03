@@ -79,7 +79,7 @@ hodily by se spíše konkrétní kódy pro primární a sekundární barvu
 
 - pro nápovědu zkuste použít ViewPager
 
-*todo
+*DONE
 
 Implementačne:
 - ListView, resp. adaptery by měly implementovat ViewHolder pattern viz 
@@ -117,7 +117,7 @@ musí umřít
 - udělejte si vlastního abstraktního předka pro activity, dejte tam 
 společnou logiku
 
-*todo*něco konkrétního? 
+*todo castecne implementovane AbstractReservationActivity. Bude sa dat implementovat aj dalsia dedicnost. 
 
 
 - adaptery nedávejte do inner classes, vytáhněte ven, ať se dá použít i 

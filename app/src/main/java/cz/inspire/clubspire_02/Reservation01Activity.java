@@ -1,41 +1,32 @@
 package cz.inspire.clubspire_02;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 
 import android.os.Bundle;
 
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
 
 
-public class Reservation01Activity extends ActionBarActivity {
+public class Reservation01Activity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
     private final String reservationText = "Rezervace";
 
     //ListView listView;
 
-    private List<ActivityItem> activityList = new ArrayList<ActivityItem>();
+    private List<ActivityItem> activityList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +121,6 @@ public class Reservation01Activity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupActionBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
     }
 
 }

@@ -40,7 +40,7 @@ public class TermListAdapter extends ArrayAdapter<TermItem> {
         // Find the TermItem to work with.
         TermItem currentTerm = termList.get(position);
 
-        //!!!!!!!!!!!!!!nefachá
+        //!!!!!!!!!!!!!!nefacha
         RelativeLayout termItemLayout = (RelativeLayout) itemView.findViewById(R.id.item_layout);
         //Button termItemBackground = (Button) findViewById(R.id.item_background);
         TextView termAvailable = (TextView) itemView.findViewById(R.id.item_txtAvailable);

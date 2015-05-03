@@ -1,25 +1,18 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 
 import android.os.Bundle;
 
-import android.text.Layout;
 import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,14 +25,13 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
 import cz.inspire.clubspire_02.array_adapter.TermListAdapter;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.list_items.Day;
 import cz.inspire.clubspire_02.list_items.TermItem;
 
 
-public class Reservation02Activity extends ActionBarActivity {
+public class Reservation02Activity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
     private final String reservationText = "Rezervace";
@@ -51,7 +43,7 @@ public class Reservation02Activity extends ActionBarActivity {
     private View selectedActivity;
 
 
-    private List<TermItem> termList = new ArrayList<TermItem>();
+    private List<TermItem> termList = new ArrayList<>();
     private TextView weekNumber;
     private String activityName;
     private int iconId;
@@ -156,8 +148,6 @@ public class Reservation02Activity extends ActionBarActivity {
                 weekNum++;
             }else if((e2.getX() - e1.getX()) > sensitvity){
                 weekNum--;
-            }else{
-                //swipe += "\n";
             }
             weekNumber.setText("Týden " + weekNum);
             populateTermList();
@@ -279,11 +269,6 @@ public class Reservation02Activity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupActionBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
     }
 
 }
