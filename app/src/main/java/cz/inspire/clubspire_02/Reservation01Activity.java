@@ -41,13 +41,7 @@ public class Reservation01Activity extends AbstractReservationActivity {
         populateListView();
         registerClickCallback();
 
-        //set actionbar button listener
-        Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
-        buttonToolbar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainMenuActivity.class));
-            }
-        });
+
 
     }
 

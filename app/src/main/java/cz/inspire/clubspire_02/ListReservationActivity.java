@@ -29,7 +29,7 @@ import cz.inspire.clubspire_02.list_items.Day;
 import cz.inspire.clubspire_02.list_items.ReservationListItem;
 
 
-public class ListReservationActivity extends ActionBarActivity {
+public class ListReservationActivity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
     private final String listReservationText = "Seznam rezervací";
@@ -183,11 +183,6 @@ public class ListReservationActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupActionBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
     }
 
 }

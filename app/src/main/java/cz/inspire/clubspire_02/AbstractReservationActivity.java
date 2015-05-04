@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 /**
  * Created by michal on 5/3/15.
@@ -38,5 +39,15 @@ public class AbstractReservationActivity extends ActionBarActivity {
     protected void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_action);
+
+        mToolbar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
+            }
+        });
+
+        //TODO treba nastavit krok spat pre sipku:
+        //mToolbar.getNavigationIcon().setOnClickListener
     }
 }

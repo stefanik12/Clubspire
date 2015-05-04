@@ -94,8 +94,8 @@ public class MainActivity extends ActionBarActivity {
 
     private void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        ImageView arrow = (ImageView) findViewById(R.id.toolbar_arrow);
-        arrow.setVisibility(View.INVISIBLE);
+        //ImageView arrow = (ImageView) findViewById(R.id.toolbar_arrow);
+        //arrow.setVisibility(View.INVISIBLE);
 
         //mToolbar.setLogo(R.drawable.logo2);
         //mToolbar.setPopupTheme("@android:style/ThemeOverlay.Material.Light");
