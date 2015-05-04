@@ -69,6 +69,7 @@ public class Reservation03Activity extends AbstractReservationActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Rezervace vytvořena", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), Reservation01Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
@@ -83,6 +84,7 @@ public class Reservation03Activity extends AbstractReservationActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Reservation02Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXTRA_ICON_ID", iconId);
                 intent.putExtra("EXTRA_ACTIVITY_NAME", activityName);
                 startActivity(intent);

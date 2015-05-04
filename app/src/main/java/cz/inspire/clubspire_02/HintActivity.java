@@ -39,7 +39,9 @@ public class HintActivity extends FragmentActivity {
         Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
         buttonToolbar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
+                Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 

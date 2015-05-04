@@ -88,31 +88,6 @@ public class Reservation02Activity extends AbstractReservationActivity {
         populateTermListView();
         registerTermClickCallback();
 
-        //set NEXT button listener
-        /*
-        Button buttonNext = (Button) findViewById(R.id.btnNext);
-        buttonNext.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                weekNum++;
-                weekNumber.setText("Týden " + weekNum);
-                populateTermList();
-                populateTermListView();
-            }
-        });
-        */
-
-        //set PREV button listener
-        /*
-        Button buttonPrev = (Button) findViewById(R.id.btnPrev);
-        buttonPrev.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                weekNum--;
-                weekNumber.setText("Týden " + weekNum);
-                populateTermList();
-                populateTermListView();
-            }
-        });
-        */
 
         //set week SWIPE
         textWeekNum = (TextView) findViewById(R.id.textWeekNumber);
@@ -231,6 +206,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
 
                 if(clickedTerm.isAvailable()) {
                     Intent intent = new Intent(getApplicationContext(), Reservation03Activity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("EXTRA_ICON_ID", iconId);
                     intent.putExtra("EXTRA_ACTIVITY_NAME", activityName);
                     intent.putExtra("EXTRA_DATE", clickedTerm.getDateString());

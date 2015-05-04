@@ -48,57 +48,19 @@ public class MainActivity extends ActionBarActivity {
         Button buttonRegister = (Button) findViewById(R.id.btn_MenuRegister);
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
-        //set actionbar button listener
-        /*
-        Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
-        buttonToolbar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
-            }
-        });
-        */
 
 
     }
 
-    /*
-    no need to logout in this activity
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    */
 
     private void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        //ImageView arrow = (ImageView) findViewById(R.id.toolbar_arrow);
-        //arrow.setVisibility(View.INVISIBLE);
-
-        //mToolbar.setLogo(R.drawable.logo2);
-        //mToolbar.setPopupTheme("@android:style/ThemeOverlay.Material.Light");
         setSupportActionBar(mToolbar);
 
     }

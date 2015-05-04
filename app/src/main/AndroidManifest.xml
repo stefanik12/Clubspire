@@ -14,7 +14,12 @@
         //startup activity
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,15 +30,26 @@
         //register activity
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
         </activity>
 
         //main menu activity
         <activity
             android:name=".MainMenuActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
         </activity>
 
@@ -41,22 +57,40 @@
         //reservation 01 activity
         <activity
             android:name=".Reservation01Activity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainMenuActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
         </activity>
 
         //reservation 02 activity
         <activity
             android:name=".Reservation02Activity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".Reservation01Activity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         //reservation 03 activity
         <activity
             android:name=".Reservation03Activity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan">
-        >
+            android:windowSoftInputMode="adjustPan"
+            android:parentActivityName=".Reservation02Activity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
         </activity>
 
 
@@ -64,14 +98,24 @@
         <activity
             android:name=".ListReservationActivity"
             android:label="@string/app_name"
-            >
+            android:parentActivityName=".MainMenuActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         //hint activity
         <activity
             android:name=".HintActivity"
             android:label="@string/app_name"
-            >
+            android:parentActivityName=".MainMenuActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
 

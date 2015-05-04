@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class RegisterActivity extends ActionBarActivity {
+public class RegisterActivity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
     private final String registerActionBarText = "Registrace";
@@ -29,25 +29,15 @@ public class RegisterActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Registrace hotová", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
 
-        //set actionbar button listener
-        Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
-        buttonToolbar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            }
-        });
 
     }
 
 
-    private void setupActionBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-    }
 
 
 

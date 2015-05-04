@@ -33,7 +33,9 @@ public class MainMenuActivity extends AbstractReservationActivity {
         Button buttonReservation = (Button) findViewById(R.id.btn_reservation);
         buttonReservation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Reservation01Activity.class));
+                Intent intent = new Intent(getApplicationContext(), Reservation01Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
@@ -41,7 +43,9 @@ public class MainMenuActivity extends AbstractReservationActivity {
         Button buttonListReservation = (Button) findViewById(R.id.btn_reservation_list);
         buttonListReservation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ListReservationActivity.class));
+                Intent intent = new Intent(getApplicationContext(), ListReservationActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
@@ -49,7 +53,9 @@ public class MainMenuActivity extends AbstractReservationActivity {
         Button buttonhint= (Button) findViewById(R.id.btn_hint);
         buttonhint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),HintActivity.class));
+                Intent intent = new Intent(getApplicationContext(), HintActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 

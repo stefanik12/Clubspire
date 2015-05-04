@@ -81,7 +81,9 @@ public class Reservation01Activity extends AbstractReservationActivity {
 
                 //Intent intent = new Intent(this, Reservation02Activity.class);
 
+
                 Intent intent = new Intent(getApplicationContext(), Reservation02Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXTRA_ICON_ID", clickedActivity.getIconID());
                 intent.putExtra("EXTRA_ACTIVITY_NAME", clickedActivity.getName());
                 startActivity(intent);
