@@ -10,7 +10,7 @@ import android.view.View;
 /**
  * Created by michal on 5/3/15.
  */
-public class AbstractReservationActivity extends ActionBarActivity {
+public abstract class AbstractReservationActivity extends ActionBarActivity {
 
     private Toolbar mToolbar;
 
@@ -41,15 +41,18 @@ public class AbstractReservationActivity extends ActionBarActivity {
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_action);
 
-        mToolbar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-
-        //TODO treba nastavit krok spat pre sipku:
-        //mToolbar.getNavigationIcon().setOnClickListener
+        mToolbar.setOnClickListener(toolbarListener);
+        mToolbar.setNavigationOnClickListener(toolbarListener);
     }
+
+    private View.OnClickListener toolbarListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+    };
 }
+

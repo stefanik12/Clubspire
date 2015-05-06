@@ -22,7 +22,6 @@ import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
 public class Reservation01Activity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
-    private final String reservationText = "Rezervace";
 
     //ListView listView;
 
@@ -34,7 +33,6 @@ public class Reservation01Activity extends AbstractReservationActivity {
         setContentView(R.layout.activity_reservation_01);
 
         setupActionBar();
-        setTitle(reservationText);
 
 
         populateActivityList();

@@ -14,7 +14,7 @@
         //startup activity
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="Přihlášení">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -30,7 +30,7 @@
         //register activity
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/app_name"
+            android:label="Registrace"
             android:parentActivityName=".MainActivity">
 
             <intent-filter>
@@ -43,7 +43,7 @@
         //main menu activity
         <activity
             android:name=".MainMenuActivity"
-            android:label="@string/app_name"
+            android:label="Menu"
             android:parentActivityName=".MainActivity">
 
             <intent-filter>
@@ -57,7 +57,7 @@
         //reservation 01 activity
         <activity
             android:name=".Reservation01Activity"
-            android:label="@string/app_name"
+            android:label="Rezervace 1/3"
             android:parentActivityName=".MainMenuActivity">
 
             <intent-filter>
@@ -70,7 +70,7 @@
         //reservation 02 activity
         <activity
             android:name=".Reservation02Activity"
-            android:label="@string/app_name"
+            android:label="Rezervace 2/3"
             android:parentActivityName=".Reservation01Activity">
 
             <intent-filter>
@@ -82,7 +82,7 @@
         //reservation 03 activity
         <activity
             android:name=".Reservation03Activity"
-            android:label="@string/app_name"
+            android:label="Rezervace 3/3"
             android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".Reservation02Activity">
 
@@ -97,7 +97,7 @@
         //list reservation activity
         <activity
             android:name=".ListReservationActivity"
-            android:label="@string/app_name"
+            android:label="Seznam rezervací"
             android:parentActivityName=".MainMenuActivity">
 
             <intent-filter>
@@ -109,7 +109,7 @@
         //hint activity
         <activity
             android:name=".HintActivity"
-            android:label="@string/app_name"
+            android:label="Nápověda"
             android:parentActivityName=".MainMenuActivity">
 
             <intent-filter>

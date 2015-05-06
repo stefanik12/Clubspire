@@ -1,11 +1,12 @@
 # Clubspire
 -********TODO********
-
+1. back ikona
+2. number picker v rezervaci
 
 
 
 - Toolbar není implementovaný úplně správně
-* dodělat v HintActivity + onClickListener pro navigation Arrow + předělat správně odkazy pro stisknutí Toolbaru(MainMenu / oneStepBack)
+* DONE
 
 
 
@@ -16,14 +17,14 @@ plný - neukončujete activitu při jejím opustění
 http://stackoverflow.com/questions/4732184/how-to-finish-an-android-application
     funguje dobře, ale nerozumím, jak to funguje.
     při spuštení HintActivity to allocuje mnohonásobně více paměti a pak jí to neuvolní
-
+*TODO: skusit implementovat na HintActiivty (?)
 
 
 - stejně tak tlačítko pro změnu týdne
 týdny by se klidně daly přepína swipem nebo to udělejte jako 
 number picker přes dialog
 
-*DONE + jak efektivněji zpracovat swipe. Momentálně jde o TextView, reagující na swipe 
+*TODO: in progress
 změnou textu, ale nijak graficky
     asi předělat na swipovacé fragment jako v HintActivity
 
@@ -32,7 +33,7 @@ změnou textu, ale nijak graficky
 - zkuste to graficky a UX více učesat, barevně viz Clubspire Webclient, 
 Androidu komponenty nepřestylovávat, input pro poznámku více místa
 
-*nevím, kde přesně vzít barevné hodnoty.
+*ASK: nevím, kde přesně vzít barevné hodnoty.
 https://rezervace.partyfit.cz/public/Welcome.do  ?
 hodily by se spíše konkrétní kódy pro primární a sekundární barvu
 
@@ -41,13 +42,13 @@ Implementačne:
 http://developer.android.com/training/improving-layouts/smooth-scrolling.html 
 nebo http://www.vogella.com/tutorials/AndroidListView/article.html (8.4)
 
-*todo, zatím mi to nešlo. O co vlastně v tomto požadavku jde, o smooth scrolling?
+*TODO, zatím mi to nešlo. O co vlastně v tomto požadavku jde, o smooth scrolling?
 
 
 - snažte se nepočítat velikosti komponent v kódu, pokud to není nezbytně 
 nutné např. jaká je motivace pro nastavení výšky tlačítek v rezervaci?
 
-*k šířce tlačítka: jak jinak se dá nastavit šířka tlačítka na poloviční šířku displeje?
+*DONE: k šířce tlačítka: jak jinak se dá nastavit šířka tlačítka na poloviční šířku displeje?
 při jiném nastavení dochází k překrývání tlačítek na menším displeji.
 Pokud to je připomínka pouze k výšce, tak tu samozřejmě upravovat nemusíme
 
@@ -59,20 +60,20 @@ Pokud to je připomínka pouze k výšce, tak tu samozřejmě upravovat nemusím
 
 - title activity lze nastavit v manifestu
 
-*todo 
+*DONE
 
 
 - nevidím důvod, proč by activity neměla mít extra, pokud je tam 
 posíláte, rozhodně pokud se to stane a activity nemá potřebná data, pak 
 musí umřít
 
-*todo
+*TODO nerozumiem poziadavke
 
 
 - udělejte si vlastního abstraktního předka pro activity, dejte tam 
 společnou logiku
 
-*todo castecne implementovane AbstractReservationActivity. Bude sa dat implementovat aj dalsia dedicnost. 
+*DONE
 
 
 - grafické assety by neměly být v drawable - zde jsou typicky generované 
@@ -89,12 +90,12 @@ v podsložkách (hdpi/ldpi/...), nemohu k nim přistoupit
 - mipmapy jsou užitečné až od Androidu 4.3, kompatibilitu máte od 4.0, 
 takže je nepoužívejte
 
-*ty jsme ani nikde nepoužívali. Složky jsem smazal
+*DONE ty jsme ani nikde nepoužívali. Složky jsem smazal
 
 - zkuste mít layout co nejvíce plochý (málo zanořených ViewGroups v 
 sobě), kde to jde (skoro vždy) používejte LinearLayout místo RelativeLayout
 
-*je potřeba to měnit? Podstatně lépe se mi pracuje s Relative 
+*DONE je potřeba to měnit? Podstatně lépe se mi pracuje s Relative 
 
 
 - pozadí termínu můžete ovlivnit taky pomocí 

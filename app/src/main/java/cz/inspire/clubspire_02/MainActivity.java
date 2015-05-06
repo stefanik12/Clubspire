@@ -17,7 +17,6 @@ import android.widget.ImageView;
 public class MainActivity extends ActionBarActivity {
 
     private Toolbar mToolbar;
-    private final String loginActionBarText = "Přihlášení";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         setupActionBar();
-        setTitle(loginActionBarText);
         //
 
 

@@ -1,5 +1,6 @@
 package cz.inspire.clubspire_02;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -14,18 +15,19 @@ import java.util.List;
 /**
  * Created by michal on 5/3/15.
  */
-public class HintActivity extends FragmentActivity {
+public class HintActivity extends AbstractReservationActivity {
     private static final int SLIDE_STEPS = 3;
+    Toolbar mToolbar;
 
     HelpAdapter helpAdapter;
 
     @Override
-
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_hint);
+
+        setupActionBar();
 
         List<Fragment> fragments = getFragments();
 

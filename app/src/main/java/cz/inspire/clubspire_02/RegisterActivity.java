@@ -14,7 +14,6 @@ import android.widget.Toast;
 public class RegisterActivity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
-    private final String registerActionBarText = "Registrace";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +21,6 @@ public class RegisterActivity extends AbstractReservationActivity {
         setContentView(R.layout.activity_register);
 
         setupActionBar();
-        setTitle(registerActionBarText);
 
         Button btnConfirmRegistration = (Button) findViewById(R.id.btn_confirm_register);
         btnConfirmRegistration.setOnClickListener(new View.OnClickListener() {

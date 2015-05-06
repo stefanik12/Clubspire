@@ -34,7 +34,6 @@ import cz.inspire.clubspire_02.list_items.TermItem;
 public class Reservation02Activity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
-    private final String reservationText = "Rezervace";
     private int weekNum = 22;
 
     //ListView listView;
@@ -56,7 +55,6 @@ public class Reservation02Activity extends AbstractReservationActivity {
         setContentView(R.layout.activity_reservation_02);
 
         setupActionBar();
-        setTitle(reservationText);
 
 
         Bundle extras = getIntent().getExtras();
@@ -77,11 +75,11 @@ public class Reservation02Activity extends AbstractReservationActivity {
         }
 
         //week number
-        weekNumber = (TextView) findViewById(R.id.textWeekNumber);
+        //weekNumber = (TextView) findViewById(R.id.textWeekNumber);
         //Calendar cal = Calendar.getInstance();
        // int weekNum = cal.get(Calendar.WEEK_OF_YEAR);
 
-        weekNumber.setText("Týden " + weekNum );
+        //weekNumber.setText("Týden " + weekNum );
 
         //fill term list
         populateTermList();
@@ -90,7 +88,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
 
 
         //set week SWIPE
-        textWeekNum = (TextView) findViewById(R.id.textWeekNumber);
+        //textWeekNum = (TextView) findViewById(R.id.textWeekNumber);
 
         //set actionbar button listener
         Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -32,7 +32,6 @@ import cz.inspire.clubspire_02.list_items.ReservationListItem;
 public class ListReservationActivity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
-    private final String listReservationText = "Seznam rezervací";
 
     //ListView listView;
 
@@ -43,11 +42,7 @@ public class ListReservationActivity extends AbstractReservationActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_reservation);
 
-
         setupActionBar();
-        setTitle(listReservationText);
-
-
 
         populateReservationList();
         populateListView();

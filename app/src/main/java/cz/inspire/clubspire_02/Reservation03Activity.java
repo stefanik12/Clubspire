@@ -20,7 +20,6 @@ import cz.inspire.clubspire_02.list_items.ReservationItem;
 public class Reservation03Activity extends AbstractReservationActivity {
 
     private Toolbar mToolbar;
-    private final String reservationText = "Rezervace";
     private final String USER = "Vukmir";
 
     private List<ReservationItem> reservationList = new ArrayList<>();
@@ -41,10 +40,6 @@ public class Reservation03Activity extends AbstractReservationActivity {
         setContentView(R.layout.activity_reservation_03);
 
         setupActionBar();
-        setTitle(reservationText);
-
-
-
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
