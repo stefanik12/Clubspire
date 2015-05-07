@@ -17,4 +17,6 @@
     <string name="default_attendants">2</string>
     <string name="text_logout">Odhlásit</string>
 
+    <string name="text_tyden">Týden</string>
+
 </resources>

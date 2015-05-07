@@ -124,40 +124,6 @@ public class Reservation02Activity extends AbstractReservationActivity {
 
     }
 
-    /*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // Auto-generated method stub
-        return gestureDetector.onTouchEvent(event);
-    }
-
-    SimpleOnGestureListener simpleOnGestureListener
-            = new SimpleOnGestureListener(){
-
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                               float velocityY) {
-            String swipe = "";
-            float sensitvity = 50;
-
-            // Auto-generated method stub
-            if((e1.getX() - e2.getX()) > sensitvity){
-                weekNum++;
-            }else if((e2.getX() - e1.getX()) > sensitvity){
-                weekNum--;
-            }
-            weekNumber.setText("Týden " + weekNum);
-            populateTermList();
-            populateTermListView();
-
-            return super.onFling(e1, e2, velocityX, velocityY);
-        }
-    };
-
-    GestureDetector gestureDetector
-            = new GestureDetector(simpleOnGestureListener);
-    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -188,6 +154,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
         Calendar cal = Calendar.getInstance();
         Time start = new Time();
         Time end = new Time();
+
         switch (getWeekFromSelection()){
             case 20:
 
@@ -269,11 +236,30 @@ public class Reservation02Activity extends AbstractReservationActivity {
         List<SpinnerItem> out = new ArrayList<>();
 
         //TODO: make use of getActualWeek
-        out.add(new SpinnerItem(20));
-        out.add(new SpinnerItem(23));
-        out.add(new SpinnerItem(24));
-        out.add(new SpinnerItem(25));
+
+        Date from1 = new Date(2015,5,4);
+        Date from2 = new Date(2015,5,11);
+        Date from3 = new Date(2015,5,18);
+        Date from4 = new Date(2015,5,26);
+        Date from5 = new Date(2015,6,3);
+
+        Date to1 = new Date(2015,5,11);
+        Date to2 = new Date(2015,5,18);
+        Date to3 = new Date(2015,5,25);
+        Date to4 = new Date(2015,5,3);
+        Date to5 = new Date(2015,6,10);
+
+        out.add(new SpinnerItem(20,from1,to1));
+        out.add(new SpinnerItem(21,from2,to2));
+        out.add(new SpinnerItem(22,from3,to3));
+        out.add(new SpinnerItem(23,from4,to4));
+        out.add(new SpinnerItem(25,from5,to5));
         out.add(new SpinnerItem(26));
+        out.add(new SpinnerItem(27));
+        out.add(new SpinnerItem(28));
+        out.add(new SpinnerItem(29));
+        out.add(new SpinnerItem(29));
+        out.add(new SpinnerItem(29));
 
         return out;
     }
@@ -282,7 +268,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
 
     public void addListenerOnSpinnerItemSelection(){
 
-        spinner1.setOnItemSelectedListener(new SpinnerListener());
+        spinner1.setOnItemSelectedListener(new SpinnerListener2());
         //TODO setOnItemSelectedListener calls updateTerm()
     }
 
@@ -296,7 +282,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
         return ((SpinnerItem)(spinner1.getSelectedItem())).getWeekNum();
     }
 
-    private void updateTerm(){
+    public void updateTerm(){
         //TODO not sure here if we ll do it like this
 
         //fill term list
@@ -305,6 +291,24 @@ public class Reservation02Activity extends AbstractReservationActivity {
         populateTermListView();
 
         registerTermClickCallback();
+
+    }
+
+    private class SpinnerListener2 implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            //Toast.makeText(parent.getContext(), parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
+            updateTerm();
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+            adapterView.setSelection(1);
+        }
+
 
     }
 }

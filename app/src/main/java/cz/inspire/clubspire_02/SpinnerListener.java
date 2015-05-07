@@ -12,11 +12,15 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-        Toast.makeText(parent.getContext(), parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(parent.getContext(), parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
+
+
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         adapterView.setSelection(1);
     }
+
+
 }
