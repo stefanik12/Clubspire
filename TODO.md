@@ -60,7 +60,7 @@ Pokud to je připomínka pouze k výšce, tak tu samozřejmě upravovat nemusím
 posíláte, rozhodně pokud se to stane a activity nemá potřebná data, pak 
 musí umřít
 
-*TODO nerozumiem poziadavke
+*DONE (?)
 
 
 - udělejte si vlastního abstraktního předka pro activity, dejte tam 
