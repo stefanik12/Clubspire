@@ -1,6 +1,8 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -17,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +34,7 @@ import cz.inspire.clubspire_02.list_items.ReservationListItem;
 
 public class ListReservationActivity extends AbstractReservationActivity {
 
-    private Toolbar mToolbar;
-
-    //ListView listView;
-
-    private List<ReservationListItem> reservationList = new ArrayList<ReservationListItem>();
+    private List<ReservationListItem> reservationList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class ListReservationActivity extends AbstractReservationActivity {
         Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
         buttonToolbar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainMenuActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
             }
         });
 
@@ -122,6 +121,9 @@ public class ListReservationActivity extends AbstractReservationActivity {
     }
 
 
+    //TODO:  ListView, resp. adaptery by měly implementovat ViewHolder pattern viz
+    //  http://developer.android.com/training/improving-layouts/smooth-scrolling.html
+    //  nebo http://www.vogella.com/tutorials/AndroidListView/article.html (8.4)
 
     private class MyListAdapter extends ArrayAdapter<ReservationListItem> {
         public MyListAdapter() {
@@ -136,48 +138,64 @@ public class ListReservationActivity extends AbstractReservationActivity {
                 itemView = getLayoutInflater().inflate(R.layout.reservation_item, parent, false);
             }
 
+            //View holder implementation:
+            ViewHolder holder = new ViewHolder();
+
             // Find the ActivityItem to work with.
             ReservationListItem currentReservation = reservationList.get(position);
 
             // Date:
-            TextView dateText = (TextView) itemView.findViewById(R.id.reservation_item_txtDate);
-            dateText.setText(currentReservation.getDateString() + "(" + currentReservation.getStartString() + "-" + currentReservation.getEndString() + ")");
+            holder.dateText = (TextView) itemView.findViewById(R.id.reservation_item_txtDate);
+            //dateText.setText(currentReservation.getDateString() + "(" + currentReservation.getStartString() + "-" + currentReservation.getEndString() + ")");
 
             // Fill the view
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.reservation_item_icon);
-            imageView.setImageResource(currentReservation.getIconId());
+            holder.imageView = (ImageView)itemView.findViewById(R.id.reservation_item_icon);
+            //imageView.setImageResource(currentReservation.getIconId());
 
             // Name:
-            TextView nameText = (TextView) itemView.findViewById(R.id.reservation_item_txtName);
-            nameText.setText(currentReservation.getActivityName());
+            holder.nameText = (TextView) itemView.findViewById(R.id.reservation_item_txtName);
+            //nameText.setText(currentReservation.getActivityName());
+
+            itemView.setTag(holder);
+
+            //task will be used to populate data from REST (one day)
+            // Using an AsyncTask to load the slow images in a background thread
+            //see http://developer.android.com/training/improving-layouts/smooth-scrolling.html
+            new AsyncTask<ViewHolder, Void, ReservationListItem>() {
+                private ViewHolder v;
+
+                @Override
+                protected ReservationListItem doInBackground(ViewHolder... params) {
+                    //TODO: spracovat REST, vratit novy objekt ReservationListItem
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(ReservationListItem result) {
+                    super.onPostExecute(result);
+                    /*
+                    if (v.position == position) {
+                        // If this item hasn't been recycled already, hide the
+                        // progress and set and show the image
+                        v.progress.setVisibility(View.GONE);
+                        v.imageView.setVisibility(View.VISIBLE);
+                        v.imageView.setImageBitmap(result);
+                    }
+                    */
+                }
+            }.execute(holder);
 
             return itemView;
         }
-    }
 
+        private class ViewHolder {
+            public TextView dateText;
+            public ImageView imageView;
+            public TextView nameText;
+            public ProgressBar progress;
+            public final int position = 0;
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

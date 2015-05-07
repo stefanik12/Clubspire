@@ -21,7 +21,7 @@ týdny by se klidně daly přepína swipem nebo to udělejte jako
 number picker přes dialog
 
 *DONE
-implementovane spinnerom - sna ddostatocne pohodlne
+implementovane spinnerom - snad dostatocne pohodlne
 
 
 - zkuste to graficky a UX více učesat, barevně viz Clubspire Webclient, 
@@ -32,12 +32,11 @@ https://rezervace.partyfit.cz/public/Welcome.do  ?
 hodily by se spíše konkrétní kódy pro primární a sekundární barvu
 
 Implementačne:
-- ListView, resp. adaptery by měly implementovat ViewHolder pattern viz 
+- ListView, resp. adaptery by měly implementovat ViewHolder pattern viz
 http://developer.android.com/training/improving-layouts/smooth-scrolling.html 
 nebo http://www.vogella.com/tutorials/AndroidListView/article.html (8.4)
 
-*TODO, zatím mi to nešlo. O co vlastně v tomto požadavku jde, o smooth scrolling?
-
+*DONE pre ListReservationActivity.MyListAdapter - treba to robit aj inde? To bude asi jediny adapter requestujuci REST API
 
 - snažte se nepočítat velikosti komponent v kódu, pokud to není nezbytně 
 nutné např. jaká je motivace pro nastavení výšky tlačítek v rezervaci?
