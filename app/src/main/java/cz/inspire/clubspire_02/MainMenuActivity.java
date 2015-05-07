@@ -60,4 +60,10 @@ public class MainMenuActivity extends AbstractReservationActivity {
         });
 
     }
+
+    @Override
+    protected void setupActionBar(){
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+    }
 }
