@@ -1,9 +1,5 @@
 # Clubspire
 -********TODO********
-1. back ikona
-2. number picker v rezervaci
-
-
 
 - Toolbar není implementovaný úplně správně
 * DONE
@@ -17,17 +13,15 @@ plný - neukončujete activitu při jejím opustění
 http://stackoverflow.com/questions/4732184/how-to-finish-an-android-application
     funguje dobře, ale nerozumím, jak to funguje.
     při spuštení HintActivity to allocuje mnohonásobně více paměti a pak jí to neuvolní
-*TODO: skusit implementovat na HintActiivty (?)
+*TODO: ciastocne poriesene, zabijanie procesu pri back arrow (pozri AbstractReservationActivity.toolbarListener()), nefunguje ale pri back kliku inde ako na sipku
 
 
 - stejně tak tlačítko pro změnu týdne
 týdny by se klidně daly přepína swipem nebo to udělejte jako 
 number picker přes dialog
 
-*TODO: in progress
-změnou textu, ale nijak graficky
-    asi předělat na swipovacé fragment jako v HintActivity
-
+*DONE
+implementovane spinnerom - sna ddostatocne pohodlne
 
 
 - zkuste to graficky a UX více učesat, barevně viz Clubspire Webclient, 

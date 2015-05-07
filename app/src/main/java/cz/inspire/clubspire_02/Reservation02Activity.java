@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,9 +35,12 @@ import cz.inspire.clubspire_02.list_items.TermItem;
 
 
 public class Reservation02Activity extends AbstractReservationActivity {
+    //TODO clear out commented code
 
     private Toolbar mToolbar;
-    private int weekNum = 22;
+
+    //spinner components
+    private Spinner spinner1;
 
     //ListView listView;
 
@@ -43,11 +49,11 @@ public class Reservation02Activity extends AbstractReservationActivity {
 
 
     private List<TermItem> termList = new ArrayList<>();
-    private TextView weekNumber;
+    //private TextView weekNumber;
     private String activityName;
     private int iconId;
 
-    private TextView textWeekNum;
+    //private TextView textWeekNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,6 @@ public class Reservation02Activity extends AbstractReservationActivity {
         setContentView(R.layout.activity_reservation_02);
 
         setupActionBar();
-
 
         Bundle extras = getIntent().getExtras();
 
@@ -75,11 +80,28 @@ public class Reservation02Activity extends AbstractReservationActivity {
         }
 
         //week number
-        //weekNumber = (TextView) findViewById(R.id.textWeekNumber);
+        //weekNumber = (TextView) findViewById(R.id.spinner1);
         //Calendar cal = Calendar.getInstance();
        // int weekNum = cal.get(Calendar.WEEK_OF_YEAR);
 
         //weekNumber.setText("Týden " + weekNum );
+
+        //Spinner settings:
+        //
+        //
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        List<SpinnerItem> list = populateSpinnerList();
+
+        ArrayAdapter<SpinnerItem> dataAdapter = new ArrayAdapter<SpinnerItem>
+                (this, android.R.layout.simple_spinner_item,list);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner1.setAdapter(dataAdapter);
+        spinner1.setSelection(1);
+
+        // Spinner item selection Listener
+        addListenerOnSpinnerItemSelection();
 
         //fill term list
         populateTermList();
@@ -97,12 +119,15 @@ public class Reservation02Activity extends AbstractReservationActivity {
                 startActivity(new Intent(getApplicationContext(),MainMenuActivity.class));
             }
         });
+
+
+
     }
 
-
+    /*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         return gestureDetector.onTouchEvent(event);
     }
 
@@ -116,7 +141,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
             String swipe = "";
             float sensitvity = 50;
 
-            // TODO Auto-generated method stub
+            // Auto-generated method stub
             if((e1.getX() - e2.getX()) > sensitvity){
                 weekNum++;
             }else if((e2.getX() - e1.getX()) > sensitvity){
@@ -132,10 +157,30 @@ public class Reservation02Activity extends AbstractReservationActivity {
 
     GestureDetector gestureDetector
             = new GestureDetector(simpleOnGestureListener);
+    */
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_logout) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
 
-
+        return super.onOptionsItemSelected(item);
+    }
 
     private void populateTermList() {
         termList.clear();
@@ -143,7 +188,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
         Calendar cal = Calendar.getInstance();
         Time start = new Time();
         Time end = new Time();
-        switch (weekNum){
+        switch (getWeekFromSelection()){
             case 20:
 
                 cal.set(Calendar.HOUR_OF_DAY,17);
@@ -202,7 +247,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
                 //String message = "You clicked position " + position;
                 //Toast.makeText(Reservation02Activity.this, message, Toast.LENGTH_SHORT).show();
 
-                if(clickedTerm.isAvailable()) {
+                if (clickedTerm.isAvailable()) {
                     Intent intent = new Intent(getApplicationContext(), Reservation03Activity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("EXTRA_ICON_ID", iconId);
@@ -212,37 +257,54 @@ public class Reservation02Activity extends AbstractReservationActivity {
                     intent.putExtra("EXTRA_END", clickedTerm.getEndString());
 
                     startActivity(intent);
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"termín obsazen",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "termín obsazen", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private List<SpinnerItem> populateSpinnerList(){
+        List<SpinnerItem> out = new ArrayList<>();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
+        //TODO: make use of getActualWeek
+        out.add(new SpinnerItem(20));
+        out.add(new SpinnerItem(23));
+        out.add(new SpinnerItem(24));
+        out.add(new SpinnerItem(25));
+        out.add(new SpinnerItem(26));
 
-        return super.onOptionsItemSelected(item);
+        return out;
     }
 
+    // Add spinner data
+
+    public void addListenerOnSpinnerItemSelection(){
+
+        spinner1.setOnItemSelectedListener(new SpinnerListener());
+        //TODO setOnItemSelectedListener calls updateTerm()
+    }
+
+    private int getActualWeek(){
+        //TODO not implemented yet
+        return 23;
+    }
+
+    private int getWeekFromSelection(){
+        //TODO cotinue here: nothing selected on Create !
+        return ((SpinnerItem)(spinner1.getSelectedItem())).getWeekNum();
+    }
+
+    private void updateTerm(){
+        //TODO not sure here if we ll do it like this
+
+        //fill term list
+        populateTermList();
+
+        populateTermListView();
+
+        registerTermClickCallback();
+
+    }
 }
