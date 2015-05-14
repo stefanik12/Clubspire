@@ -6,11 +6,12 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name= "android:theme">@android:style/Theme.NoTitleBar</item>
+        <!--<item name="android:background">@color/background_color</item>  totálně to zesere ??????????  -->
         <!-- CO S TIM??????? <item name= "android:theme">@android:style/Theme.NoTitleBar.Fullscreen</item>-->
     </style>
 
     <style name="Toolbar" parent="@style/Widget.AppCompat.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:background">@color/secondary_color</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:showAsAction">always</item>

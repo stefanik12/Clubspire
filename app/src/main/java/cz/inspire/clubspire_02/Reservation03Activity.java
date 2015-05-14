@@ -49,11 +49,6 @@ public class Reservation03Activity extends AbstractReservationActivity {
             end = extras.getString("EXTRA_END");
             iconId = extras.getInt("EXTRA_ICON_ID");
 
-
-            //fill reservation list
-            //populateReservationList();
-            //populateReservationListView();
-            //registerReservationClickCallback();
         }
         //set items text
         setReservationItemsContent(activityName, date, start, end, USER);

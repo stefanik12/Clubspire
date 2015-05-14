@@ -25,10 +25,11 @@ public class MainMenuActivity extends AbstractReservationActivity {
 
         setupActionBar();
         setTitle(mainMenuActionBarText);
-
+//hjjhjhwrtwtsfgdfgr
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         //mToolbar.setNavigationIcon(R.drawable.ic_action);
 
+        //uguyf
         //set reservation button listener
         Button buttonReservation = (Button) findViewById(R.id.btn_reservation);
         buttonReservation.setOnClickListener(new View.OnClickListener() {

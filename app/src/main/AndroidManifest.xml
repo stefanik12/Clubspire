@@ -19,11 +19,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 
@@ -45,6 +41,11 @@
             android:name=".MainMenuActivity"
             android:label="Menu"
             >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -99,6 +100,18 @@
             android:name=".ListReservationActivity"
             android:label="Seznam rezervací"
             android:parentActivityName=".MainMenuActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        //view reservation activity
+        <activity
+            android:name=".ViewReservationActivity"
+            android:label="Správa rezervace"
+            android:parentActivityName=".ListReservationActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

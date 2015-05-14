@@ -78,9 +78,9 @@ public class ListReservationActivity extends AbstractReservationActivity {
         end.set(0,00,14,24,12,2015);
 
         reservationList.add(new ReservationListItem(R.drawable.a_01_b, "Plavání", day, Day.PO, start, end));
-        reservationList.add(new ReservationListItem(R.drawable.a_01_b, "Plavání", day, Day.PO, start, end));
-        reservationList.add(new ReservationListItem(R.drawable.a_01_b, "Plavání", day, Day.PO, start, end));
-        reservationList.add(new ReservationListItem(R.drawable.a_01_b, "Plavání", day, Day.PO, start, end));
+        reservationList.add(new ReservationListItem(R.drawable.a_02_b, "Volejbal", day, Day.PO, start, end));
+        reservationList.add(new ReservationListItem(R.drawable.a_01_b, "Posilovna", day, Day.PO, start, end));
+        reservationList.add(new ReservationListItem(R.drawable.a_02_b, "Plavání", day, Day.PO, start, end));
     }
 
     private void populateListView() {
@@ -96,25 +96,19 @@ public class ListReservationActivity extends AbstractReservationActivity {
             public void onItemClick(AdapterView<?> parent, View viewClicked,
                                     final int position, long id) {
 
+                Intent intent = new Intent(getApplicationContext(), ViewReservationActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                 ReservationListItem clickedReservation = reservationList.get(position);
-                //String message = "You clicked position " + position;
-                Toast.makeText(ListReservationActivity.this, clickedReservation.getActivityName(), Toast.LENGTH_SHORT).show();
-                try {
-                    Button btn = (Button) viewClicked.findViewById(R.id.btnDeleteReservation);
-                    btn.setVisibility(View.VISIBLE);
 
-                    btn.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            reservationList.remove(position);
-                            populateListView();
-                        }
-                    });
+                intent.putExtra("EXTRA_ICON_ID", 1);
+                intent.putExtra("EXTRA_ACTIVITY_NAME", clickedReservation.getActivityName());
+                intent.putExtra("EXTRA_DATE", clickedReservation.getDateString());
+                intent.putExtra("EXTRA_START", clickedReservation.getStartString());
+                intent.putExtra("EXTRA_END", clickedReservation.getEndString());
 
-                    //jak zmizet button při kliku na jiný item?
+                startActivity(intent);
 
-                }catch(Exception e){
-                    Toast.makeText(ListReservationActivity.this, "fail", Toast.LENGTH_SHORT).show();
-                }
             }
 
         });

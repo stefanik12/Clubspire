@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffb9c9ff"
+    android:background="@color/background_color"
     tools:context=".MainActivity">
 
     //toolbar
@@ -79,7 +79,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:height="@dimen/button_height"
-            android:background="#ff8093ff"
+            android:background="@color/secondary_item_color"
             android:clickable="true"
             android:text="@string/register"
             android:layout_alignEnd="@+id/textfield_email"
