@@ -47,7 +47,7 @@
             android:layout_alignParentStart="false"
             android:padding="5dp"
             android:layout_marginLeft="20dp"
-            android:background="#07000000" />
+            android:background="#00000000" />
     </RelativeLayout>
 
     //datum layout
@@ -129,7 +129,7 @@
             android:layout_alignParentStart="false"
             android:padding="5dp"
             android:layout_marginLeft="20dp"
-            android:background="#07000000" />
+            android:background="#00000000" />
     </RelativeLayout>
 
     //uživatel layout
@@ -170,7 +170,7 @@
             android:layout_alignParentStart="false"
             android:padding="5dp"
             android:layout_marginLeft="20dp"
-            android:background="#07000000" />
+            android:background="#00000000" />
     </RelativeLayout>
 
 
