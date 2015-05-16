@@ -54,7 +54,8 @@ public abstract class AbstractReservationActivity extends ActionBarActivity {
             startActivity(intent);
 
             //TODO seems to be clearing cache only when pressing the arrow, not menu - WTF?
-            android.os.Process.killProcess(android.os.Process.myPid());
+            //android.os.Process.killProcess(android.os.Process.myPid());
+            finish();
         }
     };
 }

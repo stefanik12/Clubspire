@@ -15,7 +15,7 @@ public class SpinnerAdapter {
         //extends ArrayAdapter<String> {
     /* not ready yet, subject of discussion
 
-    private final Activity context;
+    private final ActivityObject context;
     private final String[] names;
 
     static class ViewHolder {
@@ -23,7 +23,7 @@ public class SpinnerAdapter {
         public ImageView image;
     }
 
-    public SpinnerAdapter(Activity context, String[] names) {
+    public SpinnerAdapter(ActivityObject context, String[] names) {
         super(context, R.layout.activity_reservation_02, names);
         this.context = context;
         this.names = names;

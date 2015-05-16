@@ -3,6 +3,9 @@
     package="cz.inspire.clubspire_02" >
     <uses-sdk android:minSdkVersion="15"/>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
 
@@ -41,11 +44,7 @@
             android:name=".MainMenuActivity"
             android:label="Menu"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -131,7 +130,26 @@
             </intent-filter>
         </activity>
 
-        //Spinner activity
+        //Login activity - test
+        <activity
+            android:name="cz.inspire.clubspire_02.retrofitResources.LoginActivity"
+            android:label="@string/app_name"
+            android:configChanges="keyboard|orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="http://netspire.net:6868/oauth"
+                    android:scheme="your" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 

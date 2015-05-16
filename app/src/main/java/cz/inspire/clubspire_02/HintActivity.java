@@ -58,5 +58,7 @@ public class HintActivity extends AbstractReservationActivity {
 
         return fList;
     }
+
+
 }
 
