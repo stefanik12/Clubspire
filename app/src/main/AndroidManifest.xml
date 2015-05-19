@@ -14,13 +14,18 @@
 
         >
 
-        //startup activity
+        //login activity
         <activity
             android:name=".MainActivity"
             android:label="Přihlášení">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
 
@@ -144,11 +149,6 @@
                     android:scheme="your" />
             </intent-filter>
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
     </application>

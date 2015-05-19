@@ -48,4 +48,5 @@ public class ActivityListAdapter extends ArrayAdapter<ActivityItem> {
 
         return itemView;
     }
+
 }

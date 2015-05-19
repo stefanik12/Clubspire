@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import java.util.List;
 
-import cz.inspire.clubspire_02.*;
 import cz.inspire.clubspire_02.retrofitResources.POJO.ActivityObject;
 import retrofit.http.GET;
 import retrofit.http.Path;

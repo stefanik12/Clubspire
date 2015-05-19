@@ -6,11 +6,20 @@ import android.support.v7.widget.Toolbar;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +43,45 @@ public class Reservation01Activity extends AbstractReservationActivity {
 
         setupActionBar();
 
-
         populateActivityList();
         populateListView();
         registerClickCallback();
-
-
-
     }
 
     private void populateActivityList() {
+        //TODO: get images, cache them
+
+        Intent intent = getIntent();
+        String JSONResponse = intent.getStringExtra("Reservation01Activity");
+        if(JSONResponse != null) {
+            try {
+                JSONObject baseJSON = new JSONObject(JSONResponse);
+                JSONArray activityJSON = baseJSON.getJSONArray("data");
+                for(int i = 0;i<activityJSON.length(); i++){
+                    activityList.add(new ActivityItem()
+                                    .setIconID(R.drawable.a_01_b)
+                                    .setId(new JSONObject(activityJSON.get(i).toString()).getString("id"))
+                                    .setName(new JSONObject(activityJSON.get(i).toString()).getString("name"))
+                                    .setDescription(new JSONObject(activityJSON.get(i).toString()).getString("description"))
+                    );
+                }
+                //JsonPath query = new JsonPath(JSON);
+                //query.read(JSONResponse);
+
+            } catch (JSONException e) {
+                Log.e("Reservation01Activity:", "JSON parsing failed");
+                e.printStackTrace();
+            }
+            Log.d("Reservation01Activity: ", JSONResponse);
+
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Failed to load a list of activities", Toast.LENGTH_SHORT).show();
+            Log.w("Reservation01Activity", "null");
+        }
+
+
+        /*
         activityList.add(new ActivityItem(R.drawable.a_01_b, "Běhání"));
         activityList.add(new ActivityItem(R.drawable.a_02_b, "Posilovna"));
         activityList.add(new ActivityItem(R.drawable.a_01_b, "Tenis"));
@@ -56,6 +94,7 @@ public class Reservation01Activity extends AbstractReservationActivity {
         activityList.add(new ActivityItem(R.drawable.a_02_b, "Posilovna"));
         activityList.add(new ActivityItem(R.drawable.a_01_b, "Tenis"));
         activityList.add(new ActivityItem(R.drawable.a_02_b, "Volejbal"));
+        */
     }
 
     private void populateListView() {

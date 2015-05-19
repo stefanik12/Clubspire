@@ -5,7 +5,7 @@ import cz.inspire.clubspire_02.retrofitResources.BaseResponse;
 /**
  * Created by michal on 5/15/15.
  */
-public class AccessToken extends BaseResponse {
+public class AccessToken {
 
     private String accessToken;
     private String tokenType;

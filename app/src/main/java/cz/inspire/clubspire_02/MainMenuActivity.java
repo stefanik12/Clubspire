@@ -12,11 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import cz.inspire.clubspire_02.retrofitResources.NewServices.TriggerServiceActivity;
 
-public class MainMenuActivity extends AbstractReservationActivity {
+
+public class MainMenuActivity extends TriggerServiceActivity {
 
     private Toolbar mToolbar;
     private final String mainMenuActionBarText = "Menu";
+    private final String newReservationService = "/api/activities";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,7 @@ public class MainMenuActivity extends AbstractReservationActivity {
 
         setupActionBar();
         setTitle(mainMenuActionBarText);
-//hjjhjhwrtwtsfgdfgr
+
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         //mToolbar.setNavigationIcon(R.drawable.ic_action);
 
@@ -36,7 +39,9 @@ public class MainMenuActivity extends AbstractReservationActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Reservation01Activity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+
+                initializeTrigger(newReservationService, intent);
+                ContinueOnLoad();
             }
         });
 
@@ -51,8 +56,8 @@ public class MainMenuActivity extends AbstractReservationActivity {
         });
 
         //set hint button listener
-        Button buttonhint= (Button) findViewById(R.id.btn_hint);
-        buttonhint.setOnClickListener(new View.OnClickListener() {
+        Button buttonHint = (Button) findViewById(R.id.btn_hint);
+        buttonHint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HintActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
