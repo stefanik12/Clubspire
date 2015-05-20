@@ -1,10 +1,8 @@
 package cz.inspire.clubspire_02;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,7 +13,7 @@ import java.util.List;
 /**
  * Created by michal on 5/3/15.
  */
-public class HintActivity extends AbstractReservationActivity {
+public class HintActivity extends AbstractBaseActivity {
     private static final int SLIDE_STEPS = 3;
     Toolbar mToolbar;
 

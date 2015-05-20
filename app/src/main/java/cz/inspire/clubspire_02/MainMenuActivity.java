@@ -1,21 +1,13 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-
-
 import android.os.Bundle;
-
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import cz.inspire.clubspire_02.retrofitResources.NewServices.TriggerServiceActivity;
 
-
-public class MainMenuActivity extends TriggerServiceActivity {
+public class MainMenuActivity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
     private final String mainMenuActionBarText = "Menu";
@@ -32,16 +24,17 @@ public class MainMenuActivity extends TriggerServiceActivity {
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         //mToolbar.setNavigationIcon(R.drawable.ic_action);
 
-        //uguyf
         //set reservation button listener
         Button buttonReservation = (Button) findViewById(R.id.btn_reservation);
         buttonReservation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Reservation01Activity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
+                /*
                 initializeTrigger(newReservationService, intent);
                 ContinueOnLoad();
+                */
+                startActivity(intent);
             }
         });
 

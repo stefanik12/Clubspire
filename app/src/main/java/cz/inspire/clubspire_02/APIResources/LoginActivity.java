@@ -1,4 +1,4 @@
-package cz.inspire.clubspire_02.retrofitResources;
+package cz.inspire.clubspire_02.APIResources;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,11 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-/*
-import org.apache.cxf.rs.security.oauth2.common.AccessToken;
-import org.apache.cxf.rs.security.oauth2.common.Client;
-import org.apache.cxf.rs.security.oauth2.tokens.bearer.BearerAccessToken;
-/*/
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -31,20 +26,12 @@ import java.util.List;
 
 import cz.inspire.clubspire_02.R;
 import cz.inspire.clubspire_02.RegisterActivity;
-import cz.inspire.clubspire_02.retrofitResources.POJO.AccessToken;
-import cz.inspire.clubspire_02.retrofitResources.Services.ApiService;
 
 
 /**
  * Created by michal on 5/15/15.
  */
 public class LoginActivity extends Activity {
-
-    // you should either define client id and secret as constants or in string resources
-    private final String clientId = "fimuni_app";
-    private final String clientSecret = "fimuni";
-    private final String username = "fimuni";
-    private final String password = "123456";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,28 +53,26 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private class AsyncAuthentization extends AsyncTask<Void, Void, AccessToken> {
+    private class AsyncAuthentization extends AsyncTask<Void, Void, AccessTokenObject> {
 
-        private final String clientId = "fimuni_app";
-        private final String clientSecret = "fimuni";
         private final String username = "fimuni";
         private final String password = "123456";
 
-        private AccessToken token;
+        private AccessTokenObject token;
 
         @Override
-        protected AccessToken doInBackground(Void... voids) {
+        protected AccessTokenObject doInBackground(Void... voids) {
 
             List<NameValuePair> nameValuePairs = new ArrayList<>();
             nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
-            nameValuePairs.add(new BasicNameValuePair("client_id", clientId));
-            nameValuePairs.add(new BasicNameValuePair("client_secret", clientSecret));
+            nameValuePairs.add(new BasicNameValuePair("client_id", RESTconfiq.CLIENT_ID));
+            nameValuePairs.add(new BasicNameValuePair("client_secret", RESTconfiq.CLIENT_SECRET));
             nameValuePairs.add(new BasicNameValuePair("username", username));
             nameValuePairs.add(new BasicNameValuePair("password", password));
             nameValuePairs.add(new BasicNameValuePair("scope", "write"));
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(ApiService.BASE_URL + "/oauth/token");
+            HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
 
 
             Log.d("onCreate: ", "before httppost");
@@ -108,7 +93,7 @@ public class LoginActivity extends Activity {
             try {
                 JSONObject jsonHeader = new JSONObject(resultContent);
 
-                token = new AccessToken().setAccessToken(jsonHeader.get("access_token").toString())
+                token = new AccessTokenObject().setAccessToken(jsonHeader.get("access_token").toString())
                         .setExpires_in(Long.parseLong(jsonHeader.get("expires_in").toString()))
                         .setScope(jsonHeader.get("scope").toString())
                         .setTokenType(jsonHeader.get("token_type").toString());
@@ -123,7 +108,7 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(AccessToken token) {
+        protected void onPostExecute(AccessTokenObject token) {
             super.onPostExecute(token);
 
             if (token != null) {
@@ -133,7 +118,7 @@ public class LoginActivity extends Activity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {
-                //zly token = chybne prihlasenie
+                //zly token TODO spracuj chybne prihlasenie
                 Toast.makeText(getApplicationContext(), "Prihlasenie zlyhalo", Toast.LENGTH_SHORT).show();
             }
         }

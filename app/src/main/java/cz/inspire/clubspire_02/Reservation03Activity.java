@@ -17,7 +17,7 @@ import java.util.List;
 import cz.inspire.clubspire_02.list_items.ReservationItem;
 
 
-public class Reservation03Activity extends AbstractReservationActivity {
+public class Reservation03Activity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
     private final String USER = "Vukmir";

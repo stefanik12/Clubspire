@@ -1,18 +1,16 @@
-package cz.inspire.clubspire_02.retrofitResources.POJO;
-
-import cz.inspire.clubspire_02.retrofitResources.BaseResponse;
+package cz.inspire.clubspire_02.APIResources;
 
 /**
  * Created by michal on 5/15/15.
  */
-public class AccessToken {
+public class AccessTokenObject {
 
     private String accessToken;
     private String tokenType;
     private long expires_in;
     private String scope;
 
-    public AccessToken setTokenType(String tokenType) {
+    public AccessTokenObject setTokenType(String tokenType) {
         this.tokenType = tokenType;
         return this;
     }
@@ -21,7 +19,7 @@ public class AccessToken {
         return scope;
     }
 
-    public AccessToken setScope(String scope) {
+    public AccessTokenObject setScope(String scope) {
         this.scope = scope;
         return this;
     }
@@ -30,7 +28,7 @@ public class AccessToken {
         return expires_in;
     }
 
-    public AccessToken setExpires_in(long expires_in) {
+    public AccessTokenObject setExpires_in(long expires_in) {
         this.expires_in = expires_in;
         return this;
     }
@@ -48,7 +46,7 @@ public class AccessToken {
         return tokenType;
     }
 
-    public AccessToken setAccessToken(String accessToken) {
+    public AccessTokenObject setAccessToken(String accessToken) {
         this.accessToken = accessToken;
         return this;
     }

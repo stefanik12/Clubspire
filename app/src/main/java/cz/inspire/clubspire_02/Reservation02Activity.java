@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -23,9 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 import cz.inspire.clubspire_02.array_adapter.TermListAdapter;
@@ -34,26 +31,16 @@ import cz.inspire.clubspire_02.list_items.Day;
 import cz.inspire.clubspire_02.list_items.TermItem;
 
 
-public class Reservation02Activity extends AbstractReservationActivity {
-    //TODO clear out commented code
+public class Reservation02Activity extends AbstractBaseActivity {
 
-    private Toolbar mToolbar;
-
-    //spinner components
     private Spinner spinner1;
 
-    //ListView listView;
-
-    private List<ActivityItem> activityList;
-    private View selectedActivity;
-
-
     private List<TermItem> termList = new ArrayList<>();
-    //private TextView weekNumber;
+
     private String activityName;
     private int iconId;
+    private String JSONResponse = "";
 
-    //private TextView textWeekNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +66,6 @@ public class Reservation02Activity extends AbstractReservationActivity {
 
         }
 
-        //week number
-        //weekNumber = (TextView) findViewById(R.id.spinner1);
-        //Calendar cal = Calendar.getInstance();
-       // int weekNum = cal.get(Calendar.WEEK_OF_YEAR);
-
-        //weekNumber.setText("Týden " + weekNum );
-
-        //Spinner settings:
-        //
-        //
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         List<SpinnerItem> list = populateSpinnerList();
 
@@ -100,30 +77,39 @@ public class Reservation02Activity extends AbstractReservationActivity {
         spinner1.setAdapter(dataAdapter);
         spinner1.setSelection(1);
 
-        // Spinner item selection Listener
-        addListenerOnSpinnerItemSelection();
-
-        //fill term list
-        populateTermList();
-        populateTermListView();
-        registerTermClickCallback();
-
-
-        //set week SWIPE
-        //textWeekNum = (TextView) findViewById(R.id.textWeekNumber);
-
         //set actionbar button listener
         Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
         buttonToolbar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainMenuActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
             }
         });
 
-
+        //API loader initialization
+            new LocalAsyncAPIRequestExtension().execute("/api/activities");
+        //continues in onPostExecute
 
     }
 
+    protected class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {
+        @Override
+        protected void onPostExecute(Void v) {
+            super.onPostExecute(v);
+
+            // Spinner item selection Listener
+            addListenerOnSpinnerItemSelection();
+
+            JSONResponse = resultContent.toString();
+
+            Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
+            Log.d("loaded content:", resultContent.toString());
+
+            populateTermList();
+            populateTermListView();
+            registerTermClickCallback();
+
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -149,6 +135,15 @@ public class Reservation02Activity extends AbstractReservationActivity {
     }
 
     private void populateTermList() {
+
+        if(!JSONResponse.equals("")) {
+            //TODO: sparsovat JSONResponse a nahadzat nove prvky do termList
+            //TODO: asi bude treba najskor spravit getActualWeek
+        } else {
+            Toast.makeText(getApplicationContext(), "Failed to load a list of terms", Toast.LENGTH_SHORT).show();
+            Log.e("Reservation02Activity", "JSONResponse was empty");
+        }
+
         termList.clear();
         Date day;
         Calendar cal = Calendar.getInstance();
@@ -235,7 +230,7 @@ public class Reservation02Activity extends AbstractReservationActivity {
     private List<SpinnerItem> populateSpinnerList(){
         List<SpinnerItem> out = new ArrayList<>();
 
-        //TODO: make use of getActualWeek
+        //TODO: use getActualWeek
 
         Date from1 = new Date(2015,5,4);
         Date from2 = new Date(2015,5,11);
@@ -278,13 +273,10 @@ public class Reservation02Activity extends AbstractReservationActivity {
     }
 
     private int getWeekFromSelection(){
-        //TODO cotinue here: nothing selected on Create !
         return ((SpinnerItem)(spinner1.getSelectedItem())).getWeekNum();
     }
 
     public void updateTerm(){
-        //TODO not sure here if we ll do it like this
-
         //fill term list
         populateTermList();
 

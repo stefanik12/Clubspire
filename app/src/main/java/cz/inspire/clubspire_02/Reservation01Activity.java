@@ -14,9 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +25,7 @@ import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
 
 
-public class Reservation01Activity extends AbstractReservationActivity {
+public class Reservation01Activity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
 
@@ -43,17 +40,37 @@ public class Reservation01Activity extends AbstractReservationActivity {
 
         setupActionBar();
 
+        //download and list content from API:
+        new LocalAsyncAPIRequestExtension().execute("/api/activities");
+
+        //continues on data loading complete (with onPostExecute)
+
+        /*
         populateActivityList();
         populateListView();
         registerClickCallback();
+        */
+
+    }
+
+    protected class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {
+        @Override
+        protected void onPostExecute(Void v) {
+            super.onPostExecute(v);
+
+            Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
+
+            populateActivityList();
+            populateListView();
+            registerClickCallback();
+        }
     }
 
     private void populateActivityList() {
         //TODO: get images, cache them
 
-        Intent intent = getIntent();
-        String JSONResponse = intent.getStringExtra("Reservation01Activity");
-        if(JSONResponse != null) {
+        String JSONResponse = resultContent.toString();
+        if(!JSONResponse.equals("")) {
             try {
                 JSONObject baseJSON = new JSONObject(JSONResponse);
                 JSONArray activityJSON = baseJSON.getJSONArray("data");
@@ -65,8 +82,6 @@ public class Reservation01Activity extends AbstractReservationActivity {
                                     .setDescription(new JSONObject(activityJSON.get(i).toString()).getString("description"))
                     );
                 }
-                //JsonPath query = new JsonPath(JSON);
-                //query.read(JSONResponse);
 
             } catch (JSONException e) {
                 Log.e("Reservation01Activity:", "JSON parsing failed");
@@ -77,28 +92,13 @@ public class Reservation01Activity extends AbstractReservationActivity {
 
         } else {
             Toast.makeText(getApplicationContext(), "Failed to load a list of activities", Toast.LENGTH_SHORT).show();
-            Log.w("Reservation01Activity", "null");
+            Log.e("Reservation01Activity", "was empty");
         }
 
 
-        /*
-        activityList.add(new ActivityItem(R.drawable.a_01_b, "Běhání"));
-        activityList.add(new ActivityItem(R.drawable.a_02_b, "Posilovna"));
-        activityList.add(new ActivityItem(R.drawable.a_01_b, "Tenis"));
-        activityList.add(new ActivityItem(R.drawable.a_02_b, "Volejbal"));
-        activityList.add(new ActivityItem(R.drawable.a_01_b, "Běhání"));
-        activityList.add(new ActivityItem(R.drawable.a_02_b, "Posilovna"));
-        activityList.add(new ActivityItem(R.drawable.a_01_b, "Tenis"));
-        activityList.add(new ActivityItem(R.drawable.a_02_b, "Volejbal"));
-        activityList.add(new ActivityItem(R.drawable.a_01_b, "Běhání"));
-        activityList.add(new ActivityItem(R.drawable.a_02_b, "Posilovna"));
-        activityList.add(new ActivityItem(R.drawable.a_01_b, "Tenis"));
-        activityList.add(new ActivityItem(R.drawable.a_02_b, "Volejbal"));
-        */
     }
 
     private void populateListView() {
-        //ArrayAdapter<ActivityItem> adapter = new MyListAdapter();
         ActivityListAdapter adapter = new ActivityListAdapter(this,activityList);
         ListView list = (ListView) findViewById(R.id.activityListView);
         list.setAdapter(adapter);
@@ -112,12 +112,6 @@ public class Reservation01Activity extends AbstractReservationActivity {
                                     int position, long id) {
 
                 ActivityItem clickedActivity = activityList.get(position);
-                //String message = "You clicked position " + position;
-                //Toast.makeText(Reservation01Activity.this, message, Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(getApplicationContext(), Reservation02Activity.class));
-
-                //Intent intent = new Intent(this, Reservation02Activity.class);
-
 
                 Intent intent = new Intent(getApplicationContext(), Reservation02Activity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

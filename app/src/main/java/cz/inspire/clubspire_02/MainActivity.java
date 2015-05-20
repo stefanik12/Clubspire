@@ -28,9 +28,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.inspire.clubspire_02.retrofitResources.Services.ApiService;
-import cz.inspire.clubspire_02.retrofitResources.POJO.AccessToken;
-import cz.inspire.clubspire_02.retrofitResources.TokenHolder;
+import cz.inspire.clubspire_02.APIResources.RESTconfiq;
+import cz.inspire.clubspire_02.APIResources.AccessTokenObject;
+import cz.inspire.clubspire_02.APIResources.TokenHolder;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private class AsyncAuthentization extends AsyncTask<Void, Void, AccessToken> {
+    private class AsyncAuthentization extends AsyncTask<Void, Void, AccessTokenObject> {
 
         private final String clientId = "fimuni_app";
         private final String clientSecret = "fimuni";
@@ -85,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
         private final String password = "123456";
 
         @Override
-        protected AccessToken doInBackground(Void... voids) {
+        protected AccessTokenObject doInBackground(Void... voids) {
 
             List<NameValuePair> nameValuePairs = new ArrayList<>();
             nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
             nameValuePairs.add(new BasicNameValuePair("scope", "write"));
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(ApiService.BASE_URL + "/oauth/token");
+            HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
 
 
             Log.d("onCreate: ", "before httppost");
@@ -117,7 +117,7 @@ public class MainActivity extends ActionBarActivity {
             try {
                 JSONObject jsonHeader = new JSONObject(resultContent);
 
-                AccessToken token = new AccessToken().setAccessToken(jsonHeader.get("access_token").toString())
+                AccessTokenObject token = new AccessTokenObject().setAccessToken(jsonHeader.get("access_token").toString())
                         .setExpires_in(Long.parseLong(jsonHeader.get("expires_in").toString()))
                         .setScope(jsonHeader.get("scope").toString())
                         .setTokenType(jsonHeader.get("token_type").toString());
@@ -131,11 +131,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(AccessToken accessToken) {
+        protected void onPostExecute(AccessTokenObject accessToken) {
             super.onPostExecute(accessToken);
             Log.w("onPostExecute", "token loading finished");
             if (accessToken != null) {
-                Log.w("onPostExecute: token:", accessToken.getAccessToken());
+                Log.d("onPostExecute: token:", accessToken.getAccessToken());
 
                 TokenHolder.setTokenObject(accessToken);
 

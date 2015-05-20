@@ -1,27 +1,21 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 
 import android.os.Bundle;
 
 import android.text.format.Time;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,7 +26,7 @@ import cz.inspire.clubspire_02.list_items.Day;
 import cz.inspire.clubspire_02.list_items.ReservationListItem;
 
 
-public class ListReservationActivity extends AbstractReservationActivity {
+public class ListReservationActivity extends AbstractBaseActivity {
 
     private List<ReservationListItem> reservationList = new ArrayList<>();
 

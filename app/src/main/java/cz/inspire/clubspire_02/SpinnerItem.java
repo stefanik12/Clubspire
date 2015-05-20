@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class SpinnerItem {
 
-    //TODO: will be implemented
+
     private final String prefix = "Tyden";
     private int weekNum;
     private Date from;

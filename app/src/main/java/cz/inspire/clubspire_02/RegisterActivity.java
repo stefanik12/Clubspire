@@ -1,7 +1,6 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 
@@ -11,7 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class RegisterActivity extends AbstractReservationActivity {
+public class RegisterActivity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
 
