@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="@dimen/menu_item_height"
     android:id="@+id/item_layout"
-    android:background="@color/primary_item_color">
+    android:background="@drawable/items_color">
 
 
     //day
@@ -18,7 +18,8 @@
         android:layout_centerInParent="true"
         android:layout_alignParentLeft="true"
         android:padding="10dp"
-        android:paddingLeft="5dp" />
+        android:paddingLeft="5dp"
+        android:textColor="@color/primary_color" />
 
     //time
     <TextView
@@ -31,7 +32,8 @@
         android:layout_centerInParent="true"
         android:padding="10dp"
         android:paddingRight="5dp"
-        android:paddingLeft="5dp" />
+        android:paddingLeft="5dp"
+        android:textColor="@color/primary_color" />
 
     //available
     <TextView
@@ -41,7 +43,8 @@
         android:text="default"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_centerInParent="true"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textColor="@color/primary_color" />
 
     <!--
     <Button

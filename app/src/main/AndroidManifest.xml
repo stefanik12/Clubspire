@@ -12,6 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
 
+
         >
 
         //login activity
@@ -48,6 +49,7 @@
         <activity
             android:name=".MainMenuActivity"
             android:label="Menu"
+            android:parentActivityName=".MainActivity">
             >
 
 

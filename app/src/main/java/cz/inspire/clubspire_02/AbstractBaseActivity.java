@@ -58,7 +58,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
     protected void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_action);
+        mToolbar.setNavigationIcon(R.drawable.left_arrow_white);
 
         mToolbar.setOnClickListener(toolbarListener);
         mToolbar.setNavigationOnClickListener(toolbarListener);

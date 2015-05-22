@@ -1,6 +1,50 @@
 # Clubspire
 -********TODO********
 
+********************************22.5.2015 Adam**************************************************
+
+- tlačítka mají tmavý text písma a pozadí - špatný kontrast, nečitelné
+DONE
+
+- input pro heslo má jiný font než input pro uživatelské jméno
+Jaký font použít..všude? font se tam přenastavil automaticky
+
+- ikona pro Up navigaci nejde téměř vidět na tmavém pozadí
+DONE
+
+- při tapnutí na aktivitu centra se zobrazí výchozí oranžové pozadí
+TODO...nějak se tomu nechce
+
+- text volného termínu je nečitelný - světlý text na světlém pozadí
+DONE
+
+- labely prvků v rezervačním formuláři jsou nečitelné - světlý text na světlém pozadí
+DONE
+
+- tapnutí na button v ActionBaru má výchozí oranžové pozadí
+TODO
+
+- inputy pro přihlášení/registraci mají při focusu výchozí oranžový border
+DONE
+
+- je mi divné, že všechny Android widgety (inputy, checboxy atd.) jsou z verze 2.x přitom to kompilujte oproti 4.x, zkuste zjistit proč, mělo by to vypadat viz http://developer.android.com/design/building-blocks/index.html
+
+Funkční připomínky:
+- nezobrazujte termín, který je obsazený, nebo ať na něj nejde tapnout 
+(uživatel z červeného pozadí chápe, že tento termín je obsazený)
+nelze na něj kliknout (neodkazuje do další aktivity)
+
+- při přihlášení jde vidět lag, upozorněte uživatele progress barem,
+ že se něco děje (obdobně při dalších operacích s API)- v nápovědě 
+ jako uživatel nevím, že to má nějké další stránky, chybí zde nějaký viewpager indicator
+ 
+- v nápovědě máte staré obrázky
+TODO
+
+********************************22.5.2015 Adam**************************************************
+
+
+
 - Toolbar není implementovaný úplně správně
 * DONE
 
