@@ -72,7 +72,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
         ArrayAdapter<SpinnerItem> dataAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_spinner_item,list);
 
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_item);
 
         spinner1.setAdapter(dataAdapter);
         spinner1.setSelection(1);
