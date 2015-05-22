@@ -1,6 +1,8 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
+import android.net.Network;
+import android.net.wifi.WifiConfiguration;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -32,14 +35,14 @@ import cz.inspire.clubspire_02.APIResources.RESTconfiq;
 import cz.inspire.clubspire_02.APIResources.AccessTokenObject;
 import cz.inspire.clubspire_02.APIResources.TokenHolder;
 
+import static cz.inspire.clubspire_02.R.id.progressBar;
 
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
 
     // you should either define client id and secret as constants or in string resources
-    private final String clientId = "fimuni_app";
-    private final String clientSecret = "fimuni";
     private final String username = "fimuni";
     private final String password = "123456";
 
@@ -71,26 +74,27 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private void setupActionBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-
-    }
-
     private class AsyncAuthentization extends AsyncTask<Void, Void, AccessTokenObject> {
 
-        private final String clientId = "fimuni_app";
-        private final String clientSecret = "fimuni";
-        private final String username = "fimuni";
-        private final String password = "123456";
+        private ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //make loader visible:
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected AccessTokenObject doInBackground(Void... voids) {
+            //first check internet connection:
+            //if none, throw error message
+            //WifiConfiguration.Status
 
             List<NameValuePair> nameValuePairs = new ArrayList<>();
             nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
-            nameValuePairs.add(new BasicNameValuePair("client_id", clientId));
-            nameValuePairs.add(new BasicNameValuePair("client_secret", clientSecret));
+            nameValuePairs.add(new BasicNameValuePair("client_id", RESTconfiq.CLIENT_ID));
+            nameValuePairs.add(new BasicNameValuePair("client_secret", RESTconfiq.CLIENT_SECRET));
             nameValuePairs.add(new BasicNameValuePair("username", username));
             nameValuePairs.add(new BasicNameValuePair("password", password));
             nameValuePairs.add(new BasicNameValuePair("scope", "write"));
@@ -143,11 +147,11 @@ public class MainActivity extends ActionBarActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {
-                //zly token = chybne prihlasenie TODO: neskor upravit
+                //zly token <= chybne prihlasenie TODO: neskor upravit
                 Toast.makeText(getApplicationContext(), "Prihlasenie zlyhalo", Toast.LENGTH_SHORT).show();
             }
 
-
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
