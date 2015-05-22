@@ -7,4 +7,6 @@
     <dimen name="item_marginTop">20dp</dimen>
 
     <dimen name="menu_item_height">60dp</dimen>
+    <dimen name="edit_text_border">3dp</dimen>
+    <dimen name="edit_text_padding">10dp</dimen>
 </resources>

@@ -30,7 +30,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            />
+            android:textColor="@color/secondary_color" />
 
         //aktivita content
         <EditText
@@ -71,7 +71,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            />
+            android:textColor="@color/secondary_color" />
 
         //datum content
         <EditText
@@ -112,7 +112,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            />
+            android:textColor="@color/secondary_color" />
 
         //čas content
         <EditText
@@ -153,7 +153,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            />
+            android:textColor="@color/secondary_color" />
 
         //uživatel content
         <EditText
@@ -206,7 +206,8 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
             android:padding="5dp"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:textColor="@color/secondary_color" />
 
         //mobile notification
         <CheckBox
@@ -216,7 +217,8 @@
             android:id="@+id/checkBox_notifyMobile"
             android:checked="true"
             android:paddingEnd="25dp"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:textColor="@color/secondary_color" />
 
         //email notification
         <CheckBox
@@ -228,7 +230,8 @@
             android:layout_alignParentRight="false"
             android:paddingEnd="25dp"
             android:layout_centerInParent="true"
-            android:layout_toStartOf="@id/checkBox_notifyMobile" />
+            android:layout_toStartOf="@id/checkBox_notifyMobile"
+            android:textColor="@color/secondary_color" />
 
     </RelativeLayout>
 
@@ -254,7 +257,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            />
+            android:textColor="@color/secondary_color" />
 
         //players content
         <EditText
@@ -286,7 +289,7 @@
         android:id="@+id/noteLayout"
         android:weightSum="1"
         android:layout_marginTop="5dp"
-        android:paddingRight="20dp"
+        android:paddingRight="10dp"
         android:paddingLeft="5dp">
 
         //note
@@ -298,7 +301,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
             android:padding="5dp"
-            />
+            android:textColor="@color/secondary_color" />
 
         //note content
         <EditText
@@ -307,7 +310,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/editTextNoteContent"
             android:layout_alignParentLeft="false"
-            android:padding="5dp"
             android:layout_alignParentRight="true"
             android:enabled="true"
             android:background="@color/color_reservation_item"
@@ -316,8 +318,7 @@
             android:layout_alignParentStart="false"
             android:layout_toEndOf="@id/textNote"
             android:layout_marginLeft="5dp"
-            android:minHeight="@dimen/menu_item_height"
-            />
+            android:minHeight="@dimen/menu_item_height" />
     </RelativeLayout>
 
 

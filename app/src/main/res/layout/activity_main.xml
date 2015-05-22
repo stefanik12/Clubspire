@@ -40,9 +40,14 @@
             android:inputType="textPersonName"
             android:hint="@string/text_userName"
             android:id="@+id/textfield_login"
-            android:layout_marginTop="@dimen/item_marginTop" />
-        //password
+            android:layout_marginTop="@dimen/item_marginTop"
 
+            android:background="@drawable/edit_text"
+            android:padding="@dimen/edit_text_padding"
+            android:paddingTop="@dimen/edit_text_padding"
+            android:paddingBottom="@dimen/edit_text_padding"/>
+
+        //password
 
         <EditText
             android:layout_width="fill_parent"
@@ -51,6 +56,12 @@
             android:id="@+id/textfield_password"
             android:hint="Heslo"
             android:layout_marginTop="@dimen/item_marginTop"
+
+            android:background="@drawable/edit_text"
+            android:padding="@dimen/edit_text_padding"
+            android:paddingTop="@dimen/edit_text_padding"
+            android:paddingBottom="@dimen/edit_text_padding"
+
             android:layout_below="@+id/textfield_login"
             />
 
@@ -68,10 +79,11 @@
                 android:height="@dimen/button_height"
                 android:layout_marginTop="@dimen/item_marginTop"
                 android:layout_below="@+id/textfield_password"
-                />
+                android:textColor="@color/primary_color" />
 
             //Registrovat
             <Button
+
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Registrovat"
@@ -83,7 +95,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/item_marginTop"
                 android:layout_below="@+id/btn_MenuLogin"
-                />
+                android:textColor="@color/primary_color" />
 
 
 

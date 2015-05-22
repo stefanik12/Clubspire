@@ -6,10 +6,8 @@
     <color name="primary_item_color">#65212924</color>
     <color name="secondary_item_color">#c1212924</color>
 
-<!--
-    <color name="primary_item_color">#ff9db1ff</color>
-    <color name="secondary_item_color">#ff8093ff</color>  gg
--->
+    <color name="secondary_toolbar_color">#c1212924</color>
+
 
     <color name="background_color">#ffe6e6e6</color>
 
