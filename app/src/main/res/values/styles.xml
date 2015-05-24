@@ -13,8 +13,8 @@
 
     <style name="Toolbar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="android:background">@color/secondary_color</item>
-        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/MyDarkToolbarStyle</item>
+        <item name="android:popupTheme">@style/MyDarkToolbarStyle</item>
         <item name="android:showAsAction">always</item>
 
 
@@ -33,6 +33,17 @@
         <item name="android:navigationIcon">@drawable/ic_action</item>
         <item name="android:logo">@drawable/ic_action</item>
         -->
+    </style>
+
+    <style name="MyDarkToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/secondary_color</item>
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:colorAccent">@color/primary_color</item>
+        <item name="android:colorButtonNormal">@color/primary_color</item>
+        <item name="android:color">@color/primary_color</item>
+        <item name="android:colorControlHighlight">@color/primary_color</item>
+        <item name="android:colorControlActivated">@color/primary_color</item>
+        <item name="android:colorControlNormal">@color/primary_color</item>
     </style>
 
 </resources>
