@@ -1,10 +1,6 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
-import android.net.Network;
-import android.net.wifi.WifiConfiguration;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 
@@ -16,14 +12,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,11 +20,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.inspire.clubspire_02.APIResources.RESTconfiq;
 import cz.inspire.clubspire_02.APIResources.AccessTokenObject;
+import cz.inspire.clubspire_02.APIResources.HttpMethod;
+import cz.inspire.clubspire_02.APIResources.RESTconfiq;
 import cz.inspire.clubspire_02.APIResources.TokenHolder;
-
-import static cz.inspire.clubspire_02.R.id.progressBar;
 
 
 public class MainActivity extends AbstractBaseActivity {
@@ -57,7 +45,15 @@ public class MainActivity extends AbstractBaseActivity {
         Button buttonLogin = (Button) findViewById(R.id.btn_MenuLogin);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new AsyncAuthentization().execute();
+                List<NameValuePair> requestParams = new ArrayList<>();
+                requestParams.add(new BasicNameValuePair("grant_type", "password"));
+                requestParams.add(new BasicNameValuePair("client_id", RESTconfiq.CLIENT_ID));
+                requestParams.add(new BasicNameValuePair("client_secret", RESTconfiq.CLIENT_SECRET));
+                requestParams.add(new BasicNameValuePair("username", username));
+                requestParams.add(new BasicNameValuePair("password", password));
+                requestParams.add(new BasicNameValuePair("scope", "write"));
+
+                new AsyncAuthentization().setParameters(requestParams).execute("/oauth/token", HttpMethod.POST);
             }
         });
 
@@ -74,7 +70,7 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
 
-    private class AsyncAuthentization extends AsyncTask<Void, Void, AccessTokenObject> {
+    private class AsyncAuthentization extends AsyncAPIRequest {
 
         private ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
@@ -86,68 +82,36 @@ public class MainActivity extends AbstractBaseActivity {
         }
 
         @Override
-        protected AccessTokenObject doInBackground(Void... voids) {
-            //first check internet connection:
-            //if none, throw error message
-            //WifiConfiguration.Status
+        protected void onPostExecute(Void v) {
+            super.onPostExecute(v);
+            Log.d("onPostExecute", "tokenObject loading finished");
 
-            List<NameValuePair> nameValuePairs = new ArrayList<>();
-            nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
-            nameValuePairs.add(new BasicNameValuePair("client_id", RESTconfiq.CLIENT_ID));
-            nameValuePairs.add(new BasicNameValuePair("client_secret", RESTconfiq.CLIENT_SECRET));
-            nameValuePairs.add(new BasicNameValuePair("username", username));
-            nameValuePairs.add(new BasicNameValuePair("password", password));
-            nameValuePairs.add(new BasicNameValuePair("scope", "write"));
-
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
-
-
-            Log.d("onCreate: ", "before httppost");
-
-            String resultContent = null;
-            try {
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse response = httpclient.execute(httppost);
-                ResponseHandler<String> handler = new BasicResponseHandler();
-
-                resultContent = handler.handleResponse(response);
-
-            } catch (Exception e) {
-                Log.e("loadToken:", "app was unable to request auth token from server");
-                e.printStackTrace();
+            AccessTokenObject tokenObject = null;
+            if(resultContent != null){
+                try {
+                    JSONObject jsonHeader = new JSONObject(resultContent);
+                    tokenObject = new AccessTokenObject().setAccessToken(jsonHeader.get("access_token").toString())
+                            .setExpires_in(Long.parseLong(jsonHeader.get("expires_in").toString()))
+                            .setScope(jsonHeader.get("scope").toString())
+                            .setTokenType(jsonHeader.get("token_type").toString());
+                } catch (JSONException e) {
+                    Log.e("loadToken:", "retrieved tokenObject was not serializable");
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("OnPostExecute", "retrieved content was not valid");
             }
 
-            try {
-                JSONObject jsonHeader = new JSONObject(resultContent);
+            if (tokenObject != null) {
+                Log.d("onPostExecute: token:", tokenObject.getAccessToken());
 
-                AccessTokenObject token = new AccessTokenObject().setAccessToken(jsonHeader.get("access_token").toString())
-                        .setExpires_in(Long.parseLong(jsonHeader.get("expires_in").toString()))
-                        .setScope(jsonHeader.get("scope").toString())
-                        .setTokenType(jsonHeader.get("token_type").toString());
-                return token;
-            } catch (JSONException e) {
-                Log.e("loadToken:", "retrieved token was not serializable");
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(AccessTokenObject accessToken) {
-            super.onPostExecute(accessToken);
-            Log.w("onPostExecute", "token loading finished");
-            if (accessToken != null) {
-                Log.d("onPostExecute: token:", accessToken.getAccessToken());
-
-                TokenHolder.setTokenObject(accessToken);
+                TokenHolder.setTokenObject(tokenObject);
 
                 Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {
-                //zly token <= chybne prihlasenie TODO: neskor upravit
+                //zly tokenObject <= chybne prihlasenie TODO: neskor spracovat
                 Toast.makeText(getApplicationContext(), "Prihlasenie zlyhalo", Toast.LENGTH_SHORT).show();
             }
 

@@ -25,6 +25,7 @@ import java.util.List;
 
 import android.widget.Toast;
 
+import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.array_adapter.TermListAdapter;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.list_items.Day;
@@ -87,7 +88,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
         });
 
         //API loader initialization
-            new LocalAsyncAPIRequestExtension().execute("/api/activities");
+            new LocalAsyncAPIRequestExtension().execute("/api/activities", HttpMethod.GET);
         //continues in onPostExecute
 
     }

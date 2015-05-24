@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
 
@@ -41,16 +42,9 @@ public class Reservation01Activity extends AbstractBaseActivity {
         setupActionBar();
 
         //download and list content from API:
-        new LocalAsyncAPIRequestExtension().execute("/api/activities");
+        new LocalAsyncAPIRequestExtension().execute("/api/activities", HttpMethod.GET);
 
         //continues on data loading complete (with onPostExecute)
-
-        /*
-        populateActivityList();
-        populateListView();
-        registerClickCallback();
-        */
-
     }
 
     protected class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {
@@ -69,7 +63,7 @@ public class Reservation01Activity extends AbstractBaseActivity {
     private void populateActivityList() {
         //TODO: get images, cache them
 
-        String JSONResponse = resultContent.toString();
+        String JSONResponse = resultContent;
         if(!JSONResponse.equals("")) {
             try {
                 JSONObject baseJSON = new JSONObject(JSONResponse);
@@ -94,8 +88,6 @@ public class Reservation01Activity extends AbstractBaseActivity {
             Toast.makeText(getApplicationContext(), "Failed to load a list of activities", Toast.LENGTH_SHORT).show();
             Log.e("Reservation01Activity", "was empty");
         }
-
-
     }
 
     private void populateListView() {
@@ -124,15 +116,13 @@ public class Reservation01Activity extends AbstractBaseActivity {
         });
     }
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

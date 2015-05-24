@@ -6,14 +6,25 @@ import android.support.v7.widget.Toolbar;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.inspire.clubspire_02.APIResources.HttpMethod;
+import cz.inspire.clubspire_02.APIResources.RESTconfiq;
+import cz.inspire.clubspire_02.POJO.Reservation;
 import cz.inspire.clubspire_02.list_items.ReservationItem;
 
 
@@ -49,6 +60,8 @@ public class Reservation03Activity extends AbstractBaseActivity {
             end = extras.getString("EXTRA_END");
             iconId = extras.getInt("EXTRA_ICON_ID");
 
+        } else {
+            Log.e("onCreate", "one step of reservation was skipped");
         }
         //set items text
         setReservationItemsContent(activityName, date, start, end, USER);
@@ -64,10 +77,24 @@ public class Reservation03Activity extends AbstractBaseActivity {
             }
         });
         //set CONFIRM button size
-        int scrWidth  = getWindowManager().getDefaultDisplay().getWidth();
         int scrHeight = getWindowManager().getDefaultDisplay().getHeight();
-        //btnConfirm.setWidth(scrWidth/2);
+
         btnConfirm.setHeight(scrHeight/10);
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Reservation reservation = new Reservation();
+                reservation.setNote("seihgdgf");
+
+                GsonBuilder gson = new GsonBuilder();
+                Object json = JSONObject.wrap(reservation);
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>();
+                nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
+                //nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
+
+                //new LocalAsyncAPIRequestExtension().execute("/api/reservations", HttpMethod.POST);
+            }
+        });
 
         //set CANCEL button listener
         Button btnCancel = (Button) findViewById(R.id.btnCancel);
@@ -93,6 +120,24 @@ public class Reservation03Activity extends AbstractBaseActivity {
 
 
     }
+
+    protected class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {
+        @Override
+        protected void onPostExecute(Void v) {
+            super.onPostExecute(v);
+
+            Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
+            Log.d("loaded content:", resultContent.toString());
+
+            //next activity initialization
+            Intent intent = new Intent(getApplicationContext(), Reservation02Activity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXTRA_ICON_ID", iconId);
+            intent.putExtra("EXTRA_ACTIVITY_NAME", activityName);
+            startActivity(intent);
+        }
+    }
+
 
     private void setReservationItemsContent(String activityName, String date, String start, String end, String user )
     {

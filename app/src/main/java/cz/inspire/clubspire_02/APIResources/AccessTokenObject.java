@@ -1,14 +1,33 @@
 package cz.inspire.clubspire_02.APIResources;
 
+import android.util.Log;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
 /**
  * Created by michal on 5/15/15.
  */
 public class AccessTokenObject {
 
+    private final Timestamp expirationTime;
     private String accessToken;
     private String tokenType;
     private long expires_in;
     private String scope;
+
+    public AccessTokenObject(){
+        expirationTime = new Timestamp(Calendar.getInstance().getTimeInMillis());
+    }
+
+    public boolean isValid(){
+        Log.d("AccessToken", "expires in "
+                +((expirationTime.getTime()/1000) - (Calendar.getInstance().getTimeInMillis()/1000))
+                +" secs");
+
+        return expirationTime.after(new Timestamp(Calendar.getInstance().getTimeInMillis()/1000));
+    }
 
     public AccessTokenObject setTokenType(String tokenType) {
         this.tokenType = tokenType;
@@ -30,6 +49,7 @@ public class AccessTokenObject {
 
     public AccessTokenObject setExpires_in(long expires_in) {
         this.expires_in = expires_in;
+        expirationTime.setTime(expirationTime.getTime() + (expires_in*1000));
         return this;
     }
 
