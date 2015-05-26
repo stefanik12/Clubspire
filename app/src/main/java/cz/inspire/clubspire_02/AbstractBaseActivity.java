@@ -58,6 +58,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
+            TokenHolder.setTokenObject(null);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -130,60 +131,6 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            /*
-            ResponseHandler<String> handler = new BasicResponseHandler();
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpRequestBase request;
-
-            switch(requestMethod){
-                case GET:
-                    Log.d("Http GET address: ", RESTconfiq.BASE_URL + suffix);
-                    request = new HttpGet(RESTconfiq.BASE_URL + suffix);
-
-                    break;
-                case POST:
-                    request = new HttpPost(RESTconfiq.BASE_URL + suffix);
-
-                    try{
-                        request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                    } catch (UnsupportedEncodingException e){
-                        Log.e("doInBackground:", "unsupported encoding");
-                        e.printStackTrace();
-                    }
-                    break;
-                case PUT:
-                    request = new HttpPut(RESTconfiq.BASE_URL + suffix);
-                    break;
-                default:
-                    throw new NullPointerException("requestMethod in AsyncAPIRequest was not correctly initialized");
-            }
-            request.addHeader("Authorization", "Bearer " + TokenHolder.getTokenObject().getAccessToken());
-
-            // add request header
-
-
-            HttpResponse response = null;
-            try {
-                response = httpclient.execute(request);
-
-
-                Log.d("Response Code : ", String.valueOf(response.getStatusLine().getStatusCode()));
-
-                BufferedReader rd = new BufferedReader(
-                        new InputStreamReader(response.getEntity().getContent()));
-
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    resultContent.append(line);
-                }
-                Log.d("content", resultContent);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("doInBackground", "loading failed");
-            }
-            */
-
             //HttpURLConnection implementation-universal for all GET/POST/PUT methods:
             URL url = null;
             try {
@@ -205,7 +152,8 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         urlConnection.setRequestProperty("Authorization", "Bearer " + TokenHolder.getTokenObject().getAccessToken());
                         urlConnection.setRequestProperty("Content-Type", "application/json");
                     } else {
-                        Log.d("AsyncAPIRequest", "Token is not valid: TODO new token should be requested here");
+                        //TODO: new token should be requested here
+                        Log.d("AsyncAPIRequest", "Token is not valid");
                     }
                 } else {
                     //token request:

@@ -2,21 +2,49 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/available_color</item>
+        <item name="colorPrimary">@color/primary_color</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name= "android:theme">@android:style/Theme.NoTitleBar</item>
         <item name= "android:textColor">@android:color/white</item>
+        <!--<item name="android:background">@color/background_color</item>  totálně to zesere ??????????  -->
+        <!-- CO S TIM??????? <item name= "android:theme">@android:style/Theme.NoTitleBar.Fullscreen</item>-->
     </style>
 
     <style name="Toolbar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="android:textColor">@color/primary_color</item>
+        <item name="android:background">@color/secondary_color</item>
+        <item name="theme">@style/MyDarkToolbarStyle</item>
         <item name="android:popupTheme">@style/MyDarkToolbarStyle</item>
+        <item name="android:showAsAction">always</item>
+
+
+
+        <!-- TODO
+        Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette-->
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="android:colorPrimary">#2196F3</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="android:colorPrimaryDark">#1976D2</item>
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+
+        <!--
+        TODO
+        <item name="android:navigationIcon">@drawable/ic_action</item>
+        <item name="android:logo">@drawable/ic_action</item>
+        -->
     </style>
 
     <style name="MyDarkToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:colorBackground">@color/primary_color</item>
-        <item name="android:textColor">@color/secondary_color</item>
+        <item name="android:colorBackground">@color/secondary_color</item>
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:colorAccent">@color/primary_color</item>
+        <item name="android:colorButtonNormal">@color/primary_color</item>
+        <item name="android:color">@color/primary_color</item>
+        <item name="android:colorControlHighlight">@color/primary_color</item>
+        <item name="android:colorControlActivated">@color/primary_color</item>
+        <item name="android:colorControlNormal">@color/primary_color</item>
     </style>
 
 </resources>
