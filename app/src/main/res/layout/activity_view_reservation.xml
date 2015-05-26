@@ -209,7 +209,9 @@
             android:checked="true"
             android:paddingEnd="25dp"
             android:layout_alignParentRight="true"
-            android:textColor="@color/secondary_color" />
+            android:textColor="@color/secondary_color"
+            android:enabled="false"
+            />
 
         //email notification
         <CheckBox
@@ -222,7 +224,9 @@
             android:paddingEnd="25dp"
             android:layout_centerInParent="true"
             android:layout_toStartOf="@id/checkBox_notifyMobile"
-            android:textColor="@color/secondary_color" />
+            android:textColor="@color/secondary_color"
+            android:enabled="false"
+            />
 
     </RelativeLayout>
 
@@ -234,7 +238,7 @@
         android:id="@+id/playerViewReservationLayout"
         android:weightSum="1"
         android:layout_marginTop="5dp"
-        android:paddingRight="20dp"
+        android:paddingRight="10dp"
         android:paddingLeft="5dp">
 
         //players
@@ -262,14 +266,18 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
-            android:enabled="true"
+
             android:background="@color/color_reservation_item"
-            android:clickable="true"
-            android:editable="true"
+
             android:layout_alignParentStart="false"
             android:padding="5dp"
             android:layout_marginLeft="20dp"
             android:gravity="center"
+            android:textColor="@color/secondary_color"
+
+            android:clickable="false"
+            android:editable="false"
+            android:enabled="false"
             />
     </RelativeLayout>
 
@@ -280,7 +288,7 @@
         android:id="@+id/noteViewReservationLayout"
         android:weightSum="1"
         android:layout_marginTop="5dp"
-        android:paddingRight="20dp"
+        android:paddingRight="10dp"
         android:paddingLeft="5dp">
 
         //note
@@ -292,7 +300,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
             android:padding="5dp"
-            />
+            android:textColor="@color/secondary_color" />
 
         //note content
         <EditText
@@ -301,16 +309,22 @@
             android:layout_height="wrap_content"
             android:id="@+id/editTextViewReservationNoteContent"
             android:layout_alignParentLeft="false"
-            android:padding="5dp"
             android:layout_alignParentRight="true"
-            android:enabled="true"
             android:background="@color/color_reservation_item"
-            android:clickable="true"
-            android:editable="true"
             android:layout_alignParentStart="false"
             android:layout_toEndOf="@id/textNote"
             android:layout_marginLeft="5dp"
             android:minHeight="@dimen/menu_item_height"
+            android:textColor="@color/secondary_color"
+
+            android:clickable="false"
+            android:editable="false"
+            android:enabled="false"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_alignParentEnd="false"
+            android:layout_toRightOf="@+id/textViewReservationNote"
+
             />
     </RelativeLayout>
 
@@ -331,9 +345,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="Potvrdit"
+            android:text="@string/string_back"
             android:id="@+id/btnViewReservationConfirm"
-            android:background="@color/color_confirm"
+            android:background="@color/secondary_item_color"
             android:layout_weight="5"
             android:layout_marginRight="5dp" />
 
@@ -341,7 +355,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="Zrušit"
+            android:text="@string/string_cancel"
             android:id="@+id/btnViewReservationCancel"
             android:background="@color/color_delete"
             android:layout_weight="5"

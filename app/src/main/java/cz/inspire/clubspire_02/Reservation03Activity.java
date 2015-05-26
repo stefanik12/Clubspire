@@ -47,6 +47,8 @@ public class Reservation03Activity extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        parentIntent = new Intent(getApplicationContext(), Reservation02Activity.class);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_03);
 
@@ -70,16 +72,21 @@ public class Reservation03Activity extends AbstractBaseActivity {
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Rezervace vytvořena", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), Reservation01Activity.class);
+                Toast.makeText(getApplicationContext(), getString(R.string.text_reservation_complete), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ListReservationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
             }
         });
+
         //set CONFIRM button size
         int scrHeight = getWindowManager().getDefaultDisplay().getHeight();
 
         btnConfirm.setHeight(scrHeight/10);
+
+        //!!!!!!!!!!!!TODO dvojí deklarace
+        /*
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Reservation reservation = new Reservation();
@@ -95,6 +102,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 //new LocalAsyncAPIRequestExtension().execute("/api/reservations", HttpMethod.POST);
             }
         });
+        */
 
         //set CANCEL button listener
         Button btnCancel = (Button) findViewById(R.id.btnCancel);

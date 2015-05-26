@@ -20,13 +20,14 @@
         //jmeno
 
         <EditText
+            android:textColor="@color/secondary_color"
             android:id="@+id/textfield_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/name"
             android:textAlignment="center"
             android:layout_marginTop="@dimen/item_marginTop"
+            android:hint="@string/name"
 
             android:background="@drawable/edit_text"
             android:padding="@dimen/edit_text_padding"
@@ -37,11 +38,12 @@
         //prijmeni
 
         <EditText
+            android:textColor="@color/secondary_color"
             android:id="@+id/textfield_surname"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/surname"
+            android:hint="@string/surname"
             android:textAlignment="center"
             android:layout_below="@+id/textfield_name"
             android:layout_marginTop="@dimen/item_marginTop"
@@ -55,11 +57,12 @@
         //login
 
         <EditText
+            android:textColor="@color/secondary_color"
             android:id="@+id/textfield_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/text_userName"
+            android:hint="@string/text_userName"
             android:textAlignment="center"
             android:layout_below="@+id/textfield_surname"
             android:layout_marginTop="@dimen/item_marginTop"
@@ -73,11 +76,12 @@
         //password
 
         <EditText
+            android:textColor="@color/secondary_color"
             android:id="@+id/textfield_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:text="@string/password"
+            android:hint="@string/password"
             android:textAlignment="center"
             android:layout_below="@+id/textfield_login"
             android:layout_marginTop="@dimen/item_marginTop"
@@ -91,11 +95,12 @@
         //email
 
         <EditText
+            android:textColor="@color/secondary_color"
             android:id="@+id/textfield_email"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:text="@string/email"
+            android:hint="@string/email"
             android:textAlignment="center"
             android:layout_below="@+id/textfield_password"
             android:layout_marginTop="@dimen/item_marginTop"

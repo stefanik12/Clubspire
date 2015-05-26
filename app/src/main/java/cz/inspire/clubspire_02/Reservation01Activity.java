@@ -36,6 +36,8 @@ public class Reservation01Activity extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        parentIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_01);
 

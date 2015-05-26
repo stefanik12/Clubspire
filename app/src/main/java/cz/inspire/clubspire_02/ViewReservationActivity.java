@@ -1,5 +1,11 @@
 package cz.inspire.clubspire_02;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.View.OnClickListener;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +26,9 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
     private final String USER = "Vukmir";
+    final Context context = this;
+    final int CUSTOM_DIALOG = 0;
+    final int DEFAULT_DIALOG = 1;
 
     private List<ReservationItem> reservationList = new ArrayList<>();
     private String activityName;
@@ -35,6 +44,8 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        parentIntent = new Intent(getApplicationContext(), ListReservationActivity.class);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_reservation);
 
@@ -58,6 +69,7 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
         //set items text
         setReservationItemsContent(activityName, date, start, end, USER);
 
+
         //set CONFIRM button listener
         Button btnConfirm = (Button) findViewById(R.id.btnViewReservationConfirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -75,13 +87,15 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
         btnConfirm.setHeight(scrHeight/10);
 
         //set CANCEL button listener
+
+
         Button btnDelete = (Button) findViewById(R.id.btnViewReservationCancel);
         btnDelete.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ListReservationActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //TODO remove activity from list
-                startActivity(intent);
+            public void onClick(View view) {
+                //Dialog d = onCreateDialog(0);
+                Dialog d = CustomDialog.createDialog(0, context, ListReservationActivity.class, getString(R.string.text_cancel_reservation),getString(R.string.text_cancel_reservation_question),
+                        getString(R.string.text_no),getString(R.string.text_yes),getString(R.string.text_reservation_canceled));
+                d.show();
             }
         });
         //set DELETE button size
@@ -105,5 +119,6 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
         userText.setText(user);
 
     }
+
 
 }

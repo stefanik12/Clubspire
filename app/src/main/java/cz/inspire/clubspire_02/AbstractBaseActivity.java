@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -41,6 +42,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
     private String suffix;
     protected String resultContent;
     public boolean toolbarMenuPresent;
+    public Intent parentIntent;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,9 +102,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            parentIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            startActivity(parentIntent);
 
             //TODO seems to be clearing cache only when pressing the arrow, not menu - WTF?
             //android.os.Process.killProcess(android.os.Process.myPid());

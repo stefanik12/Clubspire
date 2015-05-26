@@ -17,6 +17,8 @@ public class RegisterActivity extends AbstractBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        parentIntent = new Intent(getApplicationContext(), MainActivity.class);
+
         setContentView(R.layout.activity_register);
 
         setupActionBar();

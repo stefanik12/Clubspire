@@ -21,6 +21,7 @@ public class HintActivity extends AbstractBaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        parentIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hint);

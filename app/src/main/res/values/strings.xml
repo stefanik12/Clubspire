@@ -19,4 +19,14 @@
 
     <string name="text_tyden">Týden</string>
 
+    <string name="text_cancel_reservation">Zrušit rezervaci</string>
+    <string name="text_cancel_reservation_question">Opravdu chcete rezervaci zrušit?</string>
+    <string name="text_reservation_canceled">Rezervace zrušena</string>
+    <string name="text_yes">Ano</string>
+    <string name="text_no">Ne</string>
+    <string name="string_back">Zpět</string>
+    <string name="string_cancel">Zrušit</string>
+    <string name="text_reservation_complete">Rezervace vytvořena</string>
+
+
 </resources>

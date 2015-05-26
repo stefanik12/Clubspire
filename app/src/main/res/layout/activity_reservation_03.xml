@@ -243,7 +243,7 @@
         android:id="@+id/playerLayout"
         android:weightSum="1"
         android:layout_marginTop="5dp"
-        android:paddingRight="20dp"
+        android:paddingRight="10dp"
         android:paddingLeft="5dp">
 
         //players
@@ -267,7 +267,6 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:id="@+id/editPlayersContent"
-            android:layout_alignParentLeft="false"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
@@ -275,10 +274,11 @@
             android:background="@color/color_reservation_item"
             android:clickable="true"
             android:editable="true"
-            android:layout_alignParentStart="false"
             android:padding="5dp"
-            android:layout_marginLeft="20dp"
             android:gravity="center"
+            android:textColor="@color/secondary_color"
+
+
             />
     </RelativeLayout>
 
@@ -305,7 +305,7 @@
 
         //note content
         <EditText
-
+            android:gravity="top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextNoteContent"
@@ -317,8 +317,11 @@
             android:editable="true"
             android:layout_alignParentStart="false"
             android:layout_toEndOf="@id/textNote"
+            android:layout_toRightOf="@+id/textNote"
             android:layout_marginLeft="5dp"
-            android:minHeight="@dimen/menu_item_height" />
+            android:minHeight="@dimen/menu_item_height"
+            android:textColor="@color/secondary_color"
+            android:layout_toLeftOf="@+id/textNote" />
     </RelativeLayout>
 
 

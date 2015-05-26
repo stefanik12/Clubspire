@@ -32,6 +32,8 @@ public class ListReservationActivity extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        parentIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_reservation);
 

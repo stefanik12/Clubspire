@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/available_color</item>
+        <item name="colorPrimary">@color/primary_color</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name= "android:theme">@android:style/Theme.NoTitleBar</item>
@@ -18,5 +18,15 @@
         <item name="android:colorBackground">@color/primary_color</item>
         <item name="android:textColor">@color/secondary_color</item>
     </style>
+
+
+
+
+    <style name="Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
 
 </resources>

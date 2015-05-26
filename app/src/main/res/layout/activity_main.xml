@@ -37,6 +37,7 @@
         //login
 
         <EditText
+            android:textColor="@color/secondary_color"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -52,6 +53,7 @@
         //password
 
         <EditText
+            android:textColor="@color/secondary_color"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
