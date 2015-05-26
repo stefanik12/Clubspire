@@ -15,10 +15,12 @@ public class MainMenuActivity extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        toolbarMenuPresent = true;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        setupActionBar();
+        setupActionBarWithoutArrow();
         setTitle(mainMenuActionBarText);
 
         //getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,9 +62,5 @@ public class MainMenuActivity extends AbstractBaseActivity {
 
     }
 
-    @Override
-    protected void setupActionBar(){
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-    }
+
 }

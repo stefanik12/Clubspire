@@ -40,11 +40,13 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
     private Toolbar mToolbar;
     private String suffix;
     protected String resultContent;
+    public boolean toolbarMenuPresent;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(toolbarMenuPresent)
+            getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
     @Override
@@ -59,6 +61,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -69,7 +72,14 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         mToolbar.setNavigationIcon(R.drawable.left_arrow_white);
 
         mToolbar.setOnClickListener(toolbarListener);
-        mToolbar.setNavigationOnClickListener(toolbarListener);
+        mToolbar.setNavigationOnClickListener(arrowListener);
+    }
+
+    protected void setupActionBarWithoutArrow() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+
     }
 
     private View.OnClickListener toolbarListener = new View.OnClickListener() {
@@ -77,6 +87,20 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+            //TODO seems to be clearing cache only when pressing the arrow, not menu - WTF?
+            //android.os.Process.killProcess(android.os.Process.myPid());
+            finish();
+        }
+    };
+
+    private View.OnClickListener arrowListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 

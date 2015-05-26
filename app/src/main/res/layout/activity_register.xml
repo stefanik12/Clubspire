@@ -11,10 +11,12 @@
 
 
     <RelativeLayout
-        android:layout_width="@dimen/button_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/registrationItemsLayout">
+        android:id="@+id/registrationItemsLayout"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
         //jmeno
 
         <EditText

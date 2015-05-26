@@ -4,16 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@drawable/toolbar_color"
-    android:popupTheme="@style/MyDarkToolbarStyle"
-    style="@style/Toolbar" >
 
-    <!--
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo2"
-        android:id="@+id/toolbar_arrow"
-        android:baselineAlignBottom="true" />
-    -->
+    style="@style/Toolbar"
+
+     >
+
 
     </android.support.v7.widget.Toolbar>

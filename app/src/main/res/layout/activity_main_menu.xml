@@ -23,11 +23,13 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="@dimen/button_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:paddingLeft="@dimen/menu_padding"
+        android:paddingRight="@dimen/menu_padding">
 
         //rezervace button
         <Button

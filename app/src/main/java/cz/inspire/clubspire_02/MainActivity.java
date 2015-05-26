@@ -37,10 +37,12 @@ public class MainActivity extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        toolbarMenuPresent = false;
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        setupActionBar();
+        setupActionBarWithoutArrow();
 
         Button buttonLogin = (Button) findViewById(R.id.btn_MenuLogin);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
