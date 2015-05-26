@@ -21,6 +21,7 @@ public class HintActivity extends AbstractBaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        toolbarMenuPresent = true;
         parentIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
 
         super.onCreate(savedInstanceState);

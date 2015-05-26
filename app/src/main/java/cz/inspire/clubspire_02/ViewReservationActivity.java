@@ -44,6 +44,7 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        toolbarMenuPresent = true;
         parentIntent = new Intent(getApplicationContext(), ListReservationActivity.class);
 
         super.onCreate(savedInstanceState);
