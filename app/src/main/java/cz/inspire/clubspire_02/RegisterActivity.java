@@ -16,6 +16,7 @@ public class RegisterActivity extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        toolbarMenuPresent = false;
         super.onCreate(savedInstanceState);
         parentIntent = new Intent(getApplicationContext(), MainActivity.class);
 

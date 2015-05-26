@@ -44,6 +44,7 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        toolbarMenuPresent = true;
         parentIntent = new Intent(getApplicationContext(), ListReservationActivity.class);
 
         super.onCreate(savedInstanceState);
@@ -70,17 +71,17 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
         setReservationItemsContent(activityName, date, start, end, USER);
 
 
-        //set CONFIRM button listener
+        //set BACK button listener
         Button btnConfirm = (Button) findViewById(R.id.btnViewReservationConfirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Rezervace upravena", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Rezervace upravena", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), ListReservationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
-        //set CONFIRM button size
+        //set BACK button size
         int scrWidth  = getWindowManager().getDefaultDisplay().getWidth();
         int scrHeight = getWindowManager().getDefaultDisplay().getHeight();
         //btnConfirm.setWidth(scrWidth/2);

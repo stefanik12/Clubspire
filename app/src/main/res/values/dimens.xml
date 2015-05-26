@@ -8,6 +8,9 @@
 
     <dimen name="menu_item_height">60dp</dimen>
     <dimen name="edit_text_border">3dp</dimen>
+    <dimen name="edit_text_border_unf">2dp</dimen>
     <dimen name="edit_text_padding">10dp</dimen>
     <dimen name="menu_padding">50dp</dimen>
+    <dimen name="text_corners">5dp</dimen>
+    <dimen name="text_corners_in">2dp</dimen>
 </resources>

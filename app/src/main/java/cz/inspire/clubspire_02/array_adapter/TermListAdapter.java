@@ -2,6 +2,7 @@ package cz.inspire.clubspire_02.array_adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,14 +49,19 @@ public class TermListAdapter extends ArrayAdapter<TermItem> {
         // Day:
         TextView dayText = (TextView) itemView.findViewById(R.id.item_txtDay);
         dayText.setText(currentTerm.getDay().toString() + " " + currentTerm.getDateString());
+
         if(currentTerm.isAvailable()) {
-            termItemLayout.setBackgroundColor(context.getResources().getColor(R.color.available_color));
-            termAvailable.setText("volno");
+            //termItemLayout.setBackgroundColor(context.getResources().getColor(R.color.available_color));
+
+            termItemLayout.setBackgroundResource(R.drawable.item_available);
+
+            termAvailable.setText(context.getString(R.string.text_available));
 
         }
         else {
-            termItemLayout.setBackgroundColor(context.getResources().getColor(R.color.unavailable_color));
-            termAvailable.setText("obsazeno");
+            termItemLayout.setBackgroundResource(R.drawable.item_unavailable);
+
+            termAvailable.setText(context.getString(R.string.text_unavailable));
 
         }
 

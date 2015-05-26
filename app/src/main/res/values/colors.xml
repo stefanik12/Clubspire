@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary_color">#ffffff</color>
-    <color name="secondary_color">#212924</color>
+    <color name="secondary_color">#ff282828</color>
 
-    <color name="primary_item_color">#65212924</color>
-    <color name="secondary_item_color">#c1212924</color>
+    <color name="text_unfocussed_color">#fff8f8f8</color>
 
-    <color name="secondary_toolbar_color">#c1212924</color>
+    <color name="primary_item_color">#ff8d8d8d</color>
+    <color name="secondary_item_color">#ff4b4b4b</color>
+
+
+    <color name="secondary_toolbar_color">#ff606060</color>
 
 
     <color name="background_color">#ffe6e6e6</color>
 
-    <color name="available_color">#ff6eff5e</color>
+    <color name="available_color">#ff67dd57</color>
+    <color name="available_color_2">#ff448544</color>
     <color name="unavailable_color">#ffff2e2a</color>
+    <color name="unavailable_color_2">#ff831715</color>
     <color name="color_reservation_item">#FFFFFEE4</color>
     <color name="color_confirm">#18AC00</color>
     <color name="color_cancel">#FF869298</color>

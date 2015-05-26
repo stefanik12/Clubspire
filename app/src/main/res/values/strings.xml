@@ -27,6 +27,8 @@
     <string name="string_back">Zpět</string>
     <string name="string_cancel">Zrušit</string>
     <string name="text_reservation_complete">Rezervace vytvořena</string>
+    <string name="text_available">volno</string>
+    <string name="text_unavailable">obsazeno</string>
 
 
 </resources>

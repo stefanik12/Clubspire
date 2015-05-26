@@ -19,24 +19,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/weekSwitcherLayout">
 
-        <!--
-        //previous
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&lt;"
-            android:id="@+id/btnPrev"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="80dp"
-            android:clickable="true"
-            android:enabled="true" />
-            -->
 
         //week number
-
-
-
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="wrap_content"
@@ -48,24 +32,6 @@
             android:layout_marginTop="10dp"
             android:gravity="center_vertical|center_horizontal"
             android:layout_centerHorizontal="true" />
-
-
-
-        //next
-        <!--
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=">"
-            android:id="@+id/btnNext"
-            android:layout_gravity="center_horizontal"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="80dp"
-            android:clickable="true"
-            android:enabled="true" />
-            -->
-
         </RelativeLayout>
 
     //term list

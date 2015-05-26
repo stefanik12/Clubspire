@@ -1,12 +1,22 @@
 # Clubspire
 -********TODO********
 ********************************24.5.2015 Adam**************************************************
-Toolbar text color - černá na mobilu
+zobrazení názvu aplikace v menu
+
+Toolbar text color - černá na mobilu (pouze u Michala:D)
+
 TextField např u registrace bílá barva textu (po označení), předělat na HINT
-navigation arrow fix
+DONE
+
+navigation arrow fix (funguje, ale zeptat se na efektivnější řešení)
+
 správa rexervace: zakazat editaci, tlačítko Potvrdit = Zpět, zrušit hlášku, šedé, + potvrzení u zrušení
+DONE
+
 Nápověda: progress..maybe
+
 Toolbar onClick šedá
+DONE
 
 ********************************22.5.2015 Adam**************************************************
 
