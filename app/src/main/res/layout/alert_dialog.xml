@@ -5,25 +5,27 @@
     android:minWidth="280dip"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
-        android:background="@color/secondary_color"
+        android:background="@color/secondary_item_color"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_centerHorizontal="true"
             android:padding="5dp"
-            android:text="Zrušit rezervaci"
+            android:text="Zrušit rezervaci@"
             android:id="@+id/title"
             android:paddingRight="8dip"
             android:paddingLeft="8dip"
-            android:background="@color/secondary_color"
-            android:layout_width="wrap_content"
+            android:background="@color/secondary_item_color"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/content"
         android:orientation="vertical"
         android:background="@color/secondary_color"
@@ -31,14 +33,15 @@
         android:layout_height="wrap_content">
 
         <TextView
-
-            android:text="opravdu chcete rezervaci zrušit?"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:text="opravdu chcete rezervaci zrušit?@"
             android:id="@+id/message"
             android:padding="5dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -52,7 +55,12 @@
             android:layout_width="0dip"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:background="@drawable/button_gray"
+            android:text="ANO@"
+            android:padding="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
 
         <Button
             android:id="@+id/negativeButton"
@@ -60,7 +68,12 @@
             android:layout_width="0dip"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:singleLine="true"/>
+            android:background="@drawable/button_gray"
+            android:singleLine="true"
+            android:text="NE@"
+            android:padding="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
 
     </LinearLayout>
 

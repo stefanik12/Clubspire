@@ -116,7 +116,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:height="@dimen/button_height"
-            android:background="@color/secondary_item_color"
+            android:background="@drawable/button_gray"
             android:clickable="true"
             android:text="@string/register"
             android:layout_alignEnd="@+id/textfield_email"
