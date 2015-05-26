@@ -25,7 +25,11 @@ import java.util.List;
 
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
+import cz.inspire.clubspire_02.APIResources.ReservationHolder;
 import cz.inspire.clubspire_02.array_adapter.TermListAdapter;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.list_items.Day;
@@ -40,8 +44,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
     private String activityName;
     private int iconId;
-    private String JSONResponse = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +91,21 @@ public class Reservation02Activity extends AbstractBaseActivity {
             }
         });
 
+        //GET attribute pairs:
+        List<NameValuePair> requestParams = new ArrayList<>();
+
+        //TODO: napojit atribut date na nejaky den z vybraneho tyzdna
+        requestParams.add(new BasicNameValuePair("date", "2015-06-04"));
+        //atribut date API ignoruje: robilo problemy aj pri testovani/ stale vracia aktualny tyzden
+        requestParams.add(new BasicNameValuePair("history", "false"));
+        requestParams.add(new BasicNameValuePair("matchesFilter", "true"));
+        requestParams.add(new BasicNameValuePair("lessonStarted", "false"));
+        requestParams.add(new BasicNameValuePair("clickable", "true"));
+        requestParams.add(new BasicNameValuePair("substitute", "false"));
+        requestParams.add(new BasicNameValuePair("activityId", ReservationHolder.getReservationActivityId()));
+
         //API loader initialization
-            new LocalAsyncAPIRequestExtension().execute("/api/activities", HttpMethod.GET);
+        new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/timeline/week", HttpMethod.GET);
         //continues in onPostExecute
 
     }
@@ -103,10 +118,19 @@ public class Reservation02Activity extends AbstractBaseActivity {
             // Spinner item selection Listener
             addListenerOnSpinnerItemSelection();
 
-            JSONResponse = resultContent.toString();
-
             Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
-            Log.d("loaded content:", resultContent.toString());
+            Log.d("loaded content:", resultContent);
+
+            //TODO Reservation: dostat z jsonobject-u vsetko relevantne pre novovytvorenu rezervaciu:
+            //activityId
+            //sportId
+            //startTime
+            //endTime
+
+            if(!resultContent.equals("")) {
+                //podobne ako v Reservation01
+
+            }
 
             populateTermList();
             populateTermListView();
@@ -140,12 +164,12 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
     private void populateTermList() {
 
-        if(!JSONResponse.equals("")) {
-            //TODO: sparsovat JSONResponse a nahadzat nove prvky do termList
+        if(!resultContent.equals("")) {
+            //TODO: sparsovat resultContent a nahadzat nove prvky do termList
             //TODO: asi bude treba najskor spravit getActualWeek
         } else {
             Toast.makeText(getApplicationContext(), "Failed to load a list of terms", Toast.LENGTH_SHORT).show();
-            Log.e("Reservation02Activity", "JSONResponse was empty");
+            Log.e("Reservation02Activity", "resultContent was empty");
         }
 
         termList.clear();

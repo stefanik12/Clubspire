@@ -329,38 +329,52 @@
 
 
     //buttons
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:id="@+id/btnConfirmLayout"
-        android:weightSum="10"
-        android:layout_margin="5dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:id="@+id/btnConfirmLayout"
+            android:weightSum="10"
+            android:layout_margin="5dp">
 
-        //confirm
-        <Button
+            //confirm
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Potvrdit"
+                android:id="@+id/btnConfirm"
+                android:background="@color/color_confirm"
+                android:layout_weight="5"
+                android:layout_marginRight="5dp" />
+
+            //cancel
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Zrušit"
+                android:id="@+id/btnCancel"
+                android:background="@color/color_cancel"
+                android:layout_weight="5"
+                android:layout_gravity="right"
+                android:layout_marginLeft="5dp" />
+
+
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            android:visibility="invisible"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/item_marginTop"
+            android:layout_below="@+id/btnConfirmLayout"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Potvrdit"
-            android:id="@+id/btnConfirm"
-            android:background="@color/color_confirm"
-            android:layout_weight="5"
-            android:layout_marginRight="5dp" />
-
-        //cancel
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Zrušit"
-            android:id="@+id/btnCancel"
-            android:background="@color/color_cancel"
-            android:layout_weight="5"
-            android:layout_gravity="right"
-            android:layout_marginLeft="5dp" />
-
-
-    </LinearLayout>
-
+            android:indeterminateOnly="true"
+            android:keepScreenOn="true"
+            />
+    </RelativeLayout>
     <!--
     <RelativeLayout
         android:layout_width="match_parent"

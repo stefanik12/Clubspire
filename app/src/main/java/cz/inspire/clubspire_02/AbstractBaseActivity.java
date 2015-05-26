@@ -17,6 +17,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -47,10 +48,11 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if(toolbarMenuPresent)
+        if (toolbarMenuPresent)
             getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -69,6 +71,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     protected void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -118,16 +121,22 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
         //holds name-value pairs to be sent to the API server
         private List<NameValuePair> nameValuePairs = new ArrayList<>();
-
+        private String plainRequest;
         private HttpMethod requestMethod;
 
-        protected void execute(String s, HttpMethod requestMethod){
+        protected void execute(String s, HttpMethod requestMethod) {
             suffix = s;
             this.requestMethod = requestMethod;
             execute();
         }
-        protected AsyncAPIRequest setParameters(List<NameValuePair> pairs){
+
+        protected AsyncAPIRequest setParameters(List<NameValuePair> pairs) {
             nameValuePairs = pairs;
+            return this;
+        }
+
+        protected AsyncAPIRequest setPlainRequest(String data) {
+            this.plainRequest = data;
             return this;
         }
 
@@ -135,6 +144,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         protected Void doInBackground(Void... voids) {
             //HttpURLConnection implementation-universal for all GET/POST/PUT methods:
             URL url = null;
+            int responseCode = 0;
             try {
                 url = new URL(RESTconfiq.BASE_URL + suffix);
             } catch (MalformedURLException e) {
@@ -145,25 +155,15 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
             HttpURLConnection urlConnection = null;
             try {
-                urlConnection = (HttpURLConnection) url.openConnection();
 
-                if(TokenHolder.getTokenObject() != null){
-                    if(TokenHolder.getTokenObject().isValid()){
-                        Log.d("token used", TokenHolder.getTokenObject().getAccessToken());
-                        //set auth header:
-                        urlConnection.setRequestProperty("Authorization", "Bearer " + TokenHolder.getTokenObject().getAccessToken());
-                        urlConnection.setRequestProperty("Content-Type", "application/json");
-                    } else {
-                        //TODO: new token should be requested here
-                        Log.d("AsyncAPIRequest", "Token is not valid");
-                    }
-                } else {
+                if (TokenHolder.getTokenObject() == null) {
+
                     //token request:
 
                     Log.d("AsyncAPIRequest", "Token request");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + suffix);
-                    Log.d("onCreate: ", "before httppost");
+                    Log.d("onCreate: ", "before httppost: request: " + RESTconfiq.BASE_URL + suffix);
 
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                     HttpResponse response = httpclient.execute(httppost);
@@ -172,31 +172,71 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
                     return null;
                 }
+                if (TokenHolder.getTokenObject().isValid()) {
+                    Log.d("token used", TokenHolder.getTokenObject().getAccessToken());
 
-                //API request:
-                //set GET/POST/PUT:
-                urlConnection.setRequestMethod(requestMethod.name());
+                    if (requestMethod.equals(requestMethod.POST) && plainRequest != null) {
 
-                //set parameters to GET/POST/PUT
-                for(NameValuePair pair:nameValuePairs){
-                    urlConnection.setRequestProperty(pair.getName(), pair.getValue());
+                        //sending plainRequest content using POSt - when creating new reservation
+                        HttpClient httpclient = new DefaultHttpClient();
+                        HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + suffix);
+                        Log.d("onCreate: ", "before httppost: request: " + RESTconfiq.BASE_URL + suffix);
+
+                        //set auth header:
+                        httppost.addHeader("Authorization", "Bearer " + TokenHolder.getTokenObject().getAccessToken());
+                        httppost.addHeader("Content-Type", "application/json");
+
+                        httppost.setEntity(new StringEntity(plainRequest));
+
+                        HttpResponse response = httpclient.execute(httppost);
+                        ResponseHandler<String> handler = new BasicResponseHandler();
+
+                        responseCode = response.getStatusLine().getStatusCode();
+                        Log.d("response code ", String.valueOf(responseCode));
+                        if(responseCode != 200) {
+                            //TODO now what?
+                        }
+                        Log.d("response message ", response.getStatusLine().getReasonPhrase());
+
+                        resultContent = handler.handleResponse(response);
+
+                    } else {
+                        //retrieving content
+                        //set GET/POST/PUT:
+
+                        urlConnection = (HttpURLConnection) url.openConnection();
+
+                        //set auth header:
+                        urlConnection.setRequestProperty("Authorization", "Bearer " + TokenHolder.getTokenObject().getAccessToken());
+                        urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                        urlConnection.setRequestMethod(requestMethod.name());
+
+                        //set parameters to GET/POST/PUT
+                        for (NameValuePair pair : nameValuePairs) {
+                            urlConnection.setRequestProperty(pair.getName(), pair.getValue());
+                        }
+                        responseCode = urlConnection.getResponseCode();
+
+                        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                        resultContent = IOUtils.toString(in, "UTF-8");
+
+                    }
+                } else {
+                    //TODO: new token should be requested here
+                    Log.d("AsyncAPIRequest", "Token is not valid");
                 }
-
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                resultContent = IOUtils.toString(in, "UTF-8");
 
             } catch (Exception e) {
-                Log.e("urlConnection", "error while reading");
-                try {
-                    Log.e("Response Code : ", String.valueOf(urlConnection.getResponseCode()));
-                } catch (IOException e2){
-                    e2.printStackTrace();
-                }
+                Log.e("doInBackground", "error while retrieving content from " + RESTconfiq.BASE_URL + suffix);
+
                 e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
             }
-            finally {
-                urlConnection.disconnect();
-            }
+            Log.d("response code ",String.valueOf(responseCode));
             Log.d("content", resultContent);
 
             return null;

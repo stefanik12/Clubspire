@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 /**
  * Created by michal on 5/22/15.
  */
-public class Reservation extends java.lang.Object {
+public class Reservation {
     private String instructorId;
     private String sportId;
     private String objectId;

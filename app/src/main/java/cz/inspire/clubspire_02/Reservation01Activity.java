@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
+import cz.inspire.clubspire_02.APIResources.ReservationHolder;
+import cz.inspire.clubspire_02.POJO.Reservation;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
 
@@ -53,8 +55,13 @@ public class Reservation01Activity extends AbstractBaseActivity {
         @Override
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
-
             Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
+
+            //TODO Reservation: dostat z jsonobject-u vsetko relevantne pre novovytvorenu rezervaciu:
+            if(!resultContent.equals("")) {
+                //vid populateActivityList
+
+            }
 
             populateActivityList();
             populateListView();
@@ -65,10 +72,9 @@ public class Reservation01Activity extends AbstractBaseActivity {
     private void populateActivityList() {
         //TODO: get images, cache them
 
-        String JSONResponse = resultContent;
-        if(!JSONResponse.equals("")) {
+        if(!resultContent.equals("")) {
             try {
-                JSONObject baseJSON = new JSONObject(JSONResponse);
+                JSONObject baseJSON = new JSONObject(resultContent);
                 JSONArray activityJSON = baseJSON.getJSONArray("data");
                 for(int i = 0;i<activityJSON.length(); i++){
                     activityList.add(new ActivityItem()
@@ -83,7 +89,7 @@ public class Reservation01Activity extends AbstractBaseActivity {
                 Log.e("Reservation01Activity:", "JSON parsing failed");
                 e.printStackTrace();
             }
-            Log.d("Reservation01Activity: ", JSONResponse);
+            Log.d("Reservation01Activity: ", resultContent);
 
 
         } else {
@@ -105,12 +111,17 @@ public class Reservation01Activity extends AbstractBaseActivity {
             public void onItemClick(AdapterView<?> parent, View viewClicked,
                                     int position, long id) {
 
-                ActivityItem clickedActivity = activityList.get(position);
+                ActivityItem clickedItem = activityList.get(position);
 
                 Intent intent = new Intent(getApplicationContext(), Reservation02Activity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("EXTRA_ICON_ID", clickedActivity.getIconID());
-                intent.putExtra("EXTRA_ACTIVITY_NAME", clickedActivity.getName());
+                intent.putExtra("EXTRA_ICON_ID", clickedItem.getIconID());
+                intent.putExtra("EXTRA_ACTIVITY_NAME", clickedItem.getName());
+
+                //initialize new Rezervation in RezervationHolder
+                ReservationHolder.setReservation(new Reservation());
+                ReservationHolder.setReservationActivityId(clickedItem.getId());
+
                 startActivity(intent);
 
                 //startActivity(new Intent(getApplicationContext(), Reservation02Activity.class));
