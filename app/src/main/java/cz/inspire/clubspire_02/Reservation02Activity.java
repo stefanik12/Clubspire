@@ -18,15 +18,25 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.ReservationHolder;
@@ -102,7 +112,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
         List<NameValuePair> requestParams = new ArrayList<>();
 
         //TODO: napojit atribut date na nejaky den z vybraneho tyzdna
-        requestParams.add(new BasicNameValuePair("date", "2015-06-04"));
+        requestParams.add(new BasicNameValuePair("date", "2015-06-20"));
         //atribut date API ignoruje: robilo problemy aj pri testovani/ stale vracia aktualny tyzden
         requestParams.add(new BasicNameValuePair("history", "false"));
         requestParams.add(new BasicNameValuePair("matchesFilter", "true"));
@@ -111,6 +121,15 @@ public class Reservation02Activity extends AbstractBaseActivity {
         requestParams.add(new BasicNameValuePair("substitute", "false"));
         requestParams.add(new BasicNameValuePair("activityId", ReservationHolder.getReservationActivityId()));
 
+
+        https://api.clubspire.com/api/timeline/week?
+        // date=2015-06-20&
+        // history=false&
+        // matchesFilter=true&
+        // lessonStarted=false&
+        // lessonFinished=false&
+        // clickable=true&substitute=false&
+        // activityId=639b1d5cac1303f00011cd38b40e36c0
         //API loader initialization
         new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/timeline/week", HttpMethod.GET);
         //continues in onPostExecute
@@ -150,15 +169,154 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
     private void populateTermList() {
 
-        if(!resultContent.equals("")) {
             //TODO: sparsovat resultContent a nahadzat nove prvky do termList
             //TODO: asi bude treba najskor spravit getActualWeek
+            //"2015-06-15T00:00:00.000+0200
+        if(!resultContent.equals("")) {
+            try {
+
+                //JSONObject json = (JSONObject) JSONSerializer.toJSON(s);
+
+                JsonObject obj = new JsonParser().parse(resultContent).getAsJsonObject();
+                System.out.println("objekt = " + obj.toString());
+
+
+                //JSONObject baseJSON = new JSONObject();
+                //JsonObject baseJSON = new JsonParser().parse(resultContent).getAsJsonObject();
+                //Object obj=JSONValue.parse(s);
+
+                JSONObject baseJSON = new JSONObject(resultContent);
+
+                Log.d("base","getting base");
+                System.out.println("result content = " + resultContent);
+                System.out.println("base = " + baseJSON.toString());
+
+                JSONArray dataJSON = baseJSON.getJSONArray("data");
+                Log.d("data", "getting data");
+                System.out.println("data = " + dataJSON.toString());
+
+                JSONObject dataObj = dataJSON.getJSONObject(0);
+                System.out.println("dataObj[0]:" + dataObj.toString());
+
+                JSONArray dayJSON = dataObj.getJSONArray("days");
+                Log.d("day","getting day");
+
+                System.out.println("days length = " + dayJSON.length());
+
+                for(int i = 0;i<dayJSON.length(); i++){
+
+
+
+
+
+                    JSONObject dayObj = (JSONObject)dayJSON.get(i);
+                    System.out.println("dayObj[" + i + "]:" + dayObj.toString());
+
+                    JSONArray termJSON = dayObj.getJSONArray("dayTabs");
+                    System.out.println(i + " - terms length = " + termJSON.length());
+                    for(int j = 0; j<termJSON.length();j++){
+                        TermItem t = new TermItem();
+
+                        //date
+                        //TODO
+                        //JSONObject jo = dayObj.getJSONObject("date");
+                        //System.out.println(i + " : date = " + jo.toString());
+
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
+                        //t.setDate(df.parse(new JSONObject(dayJSON.get(i).toString()).getString("date")));
+                        Calendar cal = Calendar.getInstance();
+                        Date day = cal.getTime();
+                        t.setDate(day);
+
+
+                        //day
+                        switch (i){
+                            case 0:
+                                t.setDay(Day.PO);
+                                break;
+                            case 1:
+                                t.setDay(Day.ÚT);
+                                break;
+                            case 2:
+                                t.setDay(Day.ST);
+                                break;
+                            case 3:
+                                t.setDay(Day.ČT);
+                                break;
+                            case 4:
+                                t.setDay(Day.PÁ);
+                                break;
+                            case 5:
+                                t.setDay(Day.SO);
+                                break;
+                            case 6:
+                                t.setDay(Day.NE);
+                                break;
+                            default:
+                                t.setDay(Day.PO);
+                                break;
+                        }
+
+                        //available
+                        t.setAvailable(true);
+
+                        //start
+                        //System.out.println("--------------");
+                        //System.out.println(termJSON.get(j).toString());
+                        //System.out.println("--------------");
+
+                        String startString = new JSONObject(termJSON.get(j).toString()).getString("startHour");
+                        System.out.println("start hour = " + startString);
+                        int startInt = Integer.parseInt(startString);
+                        Time startTime = new Time();
+                        startTime.set(0,0,startInt,0,0,0);
+                        t.setStart(startTime);
+
+                        //end
+
+                        String endString = new JSONObject(termJSON.get(j).toString()).getString("endHour");
+                        System.out.println("end hour = " + endString);
+                        int endInt = Integer.parseInt(endString);
+                        Time endTime = new Time();
+                        endTime.set(0,0,endInt,0,0,0);
+                        t.setEnd(endTime);
+
+                        termList.add(t);
+
+                        if(i<10){
+                            System.out.println(t.getDay());
+                            //System.out.println(t.getDateString());
+                            System.out.println(t.getStartString());
+                            System.out.println(t.getEndString());
+                        }
+                    }
+
+
+                    /*
+
+
+
+                    */
+
+
+
+
+                }
+
+            } catch (JSONException e) {
+                Log.e("Reservation02Activity:", "JSON  fail");
+                e.printStackTrace();
+            }catch (Exception e) {
+                Log.e("Reservation02Activity:", "JSON parsing failed");
+                e.printStackTrace();
+            }Log.d("Reservation01Activity: ", resultContent);
         } else {
             Toast.makeText(getApplicationContext(), "Failed to load a list of terms", Toast.LENGTH_SHORT).show();
             Log.e("Reservation02Activity", "resultContent was empty");
         }
 
-        termList.clear();
+        //termList.clear();
+        /*
         Date day;
         Calendar cal = Calendar.getInstance();
         Time start = new Time();
@@ -202,6 +360,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
 
         }
+        */
 
     }
 

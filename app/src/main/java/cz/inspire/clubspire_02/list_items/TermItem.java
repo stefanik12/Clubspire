@@ -15,6 +15,8 @@ public class TermItem {
     private int weekNumber;
     private boolean available;
 
+    public TermItem(){};
+
     public TermItem(Date date, Day day, Time start, Time end, int weekNumber, boolean available) {
         this.date = date;
         this.day = day;
