@@ -8,8 +8,6 @@ import android.os.Bundle;
 
 import android.text.format.Time;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +17,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,7 +38,6 @@ import org.json.JSONObject;
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.ReservationHolder;
 import cz.inspire.clubspire_02.array_adapter.TermListAdapter;
-import cz.inspire.clubspire_02.list_items.ActivityItem;
 import cz.inspire.clubspire_02.list_items.Day;
 import cz.inspire.clubspire_02.list_items.TermItem;
 
@@ -83,17 +79,20 @@ public class Reservation02Activity extends AbstractBaseActivity {
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         List<SpinnerItem> list = populateSpinnerList();
 
-        /*
+
         ArrayAdapter<SpinnerItem> dataAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_spinner_item,list);
-        */
+
+        /*
         ArrayAdapter<SpinnerItem> dataAdapter = new ArrayAdapter<>
                 (this, R.layout.simple_spinner_item,list);
+        */
 
         //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //dataAdapter.setDropDownViewResource(R.layout.spinner_item);
 
-        dataAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //dataAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
         spinner1.setAdapter(dataAdapter);
         spinner1.setSelection(1);
@@ -156,6 +155,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
             }
 
+            termList.clear();
             populateTermList();
             populateTermListView();
             registerTermClickCallback();
@@ -222,47 +222,76 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
                         //t.setDate(df.parse(new JSONObject(dayJSON.get(i).toString()).getString("date")));
-                        Calendar cal = Calendar.getInstance();
-                        Date day = cal.getTime();
-                        t.setDate(day);
 
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd'.'MM'.'");
+                        Calendar cal = Calendar.getInstance();
+                        cal.clear();
+                        cal.set(Calendar.YEAR, 2015);
+                        cal.setFirstDayOfWeek(Calendar.MONDAY);
+                        cal.set(Calendar.WEEK_OF_YEAR, getActualWeek());
+                        System.out.println("actual week = " + getActualWeek());
+
+                        t.setCalendar(getActualWeek(), 2015);
 
                         //day
                         switch (i){
                             case 0:
                                 t.setDay(Day.PO);
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                                t.setCalendarDay(Calendar.MONDAY);
                                 break;
                             case 1:
                                 t.setDay(Day.ÚT);
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                                t.setCalendarDay(Calendar.TUESDAY);
                                 break;
                             case 2:
                                 t.setDay(Day.ST);
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                                t.setCalendarDay(Calendar.WEDNESDAY);
                                 break;
                             case 3:
                                 t.setDay(Day.ČT);
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                                t.setCalendarDay(Calendar.THURSDAY);
                                 break;
                             case 4:
                                 t.setDay(Day.PÁ);
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                                t.setCalendarDay(Calendar.FRIDAY);
                                 break;
                             case 5:
                                 t.setDay(Day.SO);
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                                t.setCalendarDay(Calendar.SATURDAY);
                                 break;
                             case 6:
                                 t.setDay(Day.NE);
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                                t.setCalendarDay(Calendar.SUNDAY);
                                 break;
                             default:
                                 t.setDay(Day.PO);
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                                t.setCalendarDay(Calendar.MONDAY);
                                 break;
                         }
+
+                        //date
+                        System.out.println("cal getTime = " + cal.getTime());
+                        System.out.println("date is: " + sdf.format(cal.getTime()));
+
+                        Date day = sdf.parse(sdf.format(cal.getTime()));
+                        t.setDate(day);
+                        System.out.println("set date = " + t.getDate());
+                        System.out.println("set date = " + t.getDateString());
 
                         //available
                         t.setAvailable(true);
 
-                        //start
-                        //System.out.println("--------------");
-                        //System.out.println(termJSON.get(j).toString());
-                        //System.out.println("--------------");
 
+                        //start
                         String startString = new JSONObject(termJSON.get(j).toString()).getString("startHour");
                         System.out.println("start hour = " + startString);
                         int startInt = Integer.parseInt(startString);
@@ -271,7 +300,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
                         t.setStart(startTime);
 
                         //end
-
                         String endString = new JSONObject(termJSON.get(j).toString()).getString("endHour");
                         System.out.println("end hour = " + endString);
                         int endInt = Integer.parseInt(endString);
@@ -282,21 +310,13 @@ public class Reservation02Activity extends AbstractBaseActivity {
                         termList.add(t);
 
                         if(i<10){
+                            System.out.println("****item" + i + "****");
                             System.out.println(t.getDay());
-                            //System.out.println(t.getDateString());
+                            System.out.println(t.getDateString());
                             System.out.println(t.getStartString());
                             System.out.println(t.getEndString());
                         }
                     }
-
-
-                    /*
-
-
-
-                    */
-
-
 
 
                 }
@@ -403,29 +423,23 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         //TODO: use getActualWeek
 
-        Date from1 = new Date(2015,5,4);
-        Date from2 = new Date(2015,5,11);
-        Date from3 = new Date(2015,5,18);
-        Date from4 = new Date(2015,5,26);
-        Date from5 = new Date(2015,6,3);
+        Date from1 = new Date(2015,5,11);
+        Date from2 = new Date(2015,5,18);
+        Date from3 = new Date(2015,5,25);
+        Date from4 = new Date(2015,5,1);
+        Date from5 = new Date(2015,6,8);
 
-        Date to1 = new Date(2015,5,11);
-        Date to2 = new Date(2015,5,18);
-        Date to3 = new Date(2015,5,25);
-        Date to4 = new Date(2015,5,3);
-        Date to5 = new Date(2015,6,10);
+        Date to1 = new Date(2015,5,17);
+        Date to2 = new Date(2015,5,24);
+        Date to3 = new Date(2015,5,31);
+        Date to4 = new Date(2015,6,7);
+        Date to5 = new Date(2015,6,14);
 
         out.add(new SpinnerItem(20,from1,to1));
         out.add(new SpinnerItem(21,from2,to2));
         out.add(new SpinnerItem(22,from3,to3));
         out.add(new SpinnerItem(23,from4,to4));
         out.add(new SpinnerItem(25,from5,to5));
-        out.add(new SpinnerItem(26));
-        out.add(new SpinnerItem(27));
-        out.add(new SpinnerItem(28));
-        out.add(new SpinnerItem(29));
-        out.add(new SpinnerItem(29));
-        out.add(new SpinnerItem(29));
 
         return out;
     }
@@ -440,7 +454,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
     private int getActualWeek(){
         //TODO not implemented yet
-        return 23;
+        return getWeekFromSelection();
     }
 
     private int getWeekFromSelection(){
@@ -449,6 +463,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
     public void updateTerm(){
         //fill term list
+        termList.clear();
+
         populateTermList();
 
         populateTermListView();
@@ -461,6 +477,45 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            List<NameValuePair> requestParams = new ArrayList<>();
+            int newWeekNum = ((SpinnerItem)(spinner1.getSelectedItem())).getWeekNum();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.clear();
+            calendar.setFirstDayOfWeek(Calendar.MONDAY);
+            calendar.set(Calendar.WEEK_OF_YEAR, newWeekNum);
+            calendar.set(Calendar.YEAR, 2015);
+
+            // Now get the first day of week.
+            Date date = calendar.getTime();
+            System.out.println("new date = " + date.toString());
+            System.out.println("new date == " + date.getDate());
+            String newDateString = "2015" + "-" + date.getMonth() + "-" + date.getDate();
+            System.out.println("new date is " + newDateString);
+
+            //TODO: napojit atribut date na nejaky den z vybraneho tyzdna
+            requestParams.add(new BasicNameValuePair("date", newDateString));
+            //atribut date API ignoruje: robilo problemy aj pri testovani/ stale vracia aktualny tyzden
+            requestParams.add(new BasicNameValuePair("history", "false"));
+            requestParams.add(new BasicNameValuePair("matchesFilter", "true"));
+            requestParams.add(new BasicNameValuePair("lessonStarted", "false"));
+            requestParams.add(new BasicNameValuePair("clickable", "true"));
+            requestParams.add(new BasicNameValuePair("substitute", "false"));
+            requestParams.add(new BasicNameValuePair("activityId", ReservationHolder.getReservationActivityId()));
+
+
+            https://api.clubspire.com/api/timeline/week?
+            // date=2015-06-20&
+            // history=false&
+            // matchesFilter=true&
+            // lessonStarted=false&
+            // lessonFinished=false&
+            // clickable=true&substitute=false&
+            // activityId=639b1d5cac1303f00011cd38b40e36c0
+            //API loader initialization
+            new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/timeline/week", HttpMethod.GET);
+            //continues in onPostExecute
 
             //Toast.makeText(parent.getContext(), parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
             updateTerm();

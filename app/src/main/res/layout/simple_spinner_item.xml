@@ -9,7 +9,7 @@
     android:singleLine="true"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/menu_item_height"
-    android:text="Tyden 20 (4dvdv0 - XvvdX )"
+    android:text="Tyden 20 (4dvdv0 ------- XvvdX )"
 
     android:paddingLeft="15dp"
     android:paddingRight="15dp"

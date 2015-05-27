@@ -2,6 +2,8 @@ package cz.inspire.clubspire_02.list_items;
 
 import android.text.format.Time;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,8 +16,12 @@ public class TermItem {
     private Time end;
     private int weekNumber;
     private boolean available;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd'.'MM'.'");
+    Calendar cal ;
 
-    public TermItem(){};
+    public TermItem(){
+
+    };
 
     public TermItem(Date date, Day day, Time start, Time end, int weekNumber, boolean available) {
         this.date = date;
@@ -24,6 +30,23 @@ public class TermItem {
         this.end = end;
         this.weekNumber = weekNumber;
         this.available = available;
+
+        cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(Calendar.YEAR, 2015);
+        cal.set(Calendar.WEEK_OF_MONTH,weekNumber);
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+    }
+
+    public void setCalendar(int weekNumber, int yearNumber){
+        cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(Calendar.YEAR, yearNumber);
+        cal.set(Calendar.WEEK_OF_MONTH,weekNumber);
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+    }
+    public void setCalendarDay(int dayOfWeek){
+        cal.set(Calendar.DAY_OF_WEEK, dayOfWeek);
     }
 
     public Date getDate() {
@@ -35,7 +58,7 @@ public class TermItem {
     }
 
     public String getDateString() {
-        return date.getDay() + "." + date.getMonth() + ".";
+        return sdf.format(cal.getTime());
     }
 
     public Day getDay() {
