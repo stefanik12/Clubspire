@@ -63,7 +63,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            activityName = extras.getString("EXTRA_ACTIVITY_NAME");
+            activityName = ReservationHolder.getReservationActivityName();
             date = extras.getString("EXTRA_DATE");
             start = extras.getString("EXTRA_START");
             end = extras.getString("EXTRA_END");

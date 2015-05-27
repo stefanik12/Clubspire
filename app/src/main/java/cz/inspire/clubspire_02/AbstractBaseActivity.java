@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -22,10 +21,8 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,11 +115,13 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
     //API network services:
     protected class AsyncAPIRequest extends AsyncTask<Void, Void, Void> {
+        //now supports GET and POST methods
 
         //holds name-value pairs to be sent to the API server
         private List<NameValuePair> nameValuePairs = new ArrayList<>();
         private String plainRequest;
         private HttpMethod requestMethod;
+        private HttpURLConnection urlConnection = null;
 
         protected void execute(String s, HttpMethod requestMethod) {
             suffix = s;
@@ -143,19 +142,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             //HttpURLConnection implementation-universal for all GET/POST/PUT methods:
-            URL url = null;
             int responseCode = 0;
-            try {
-                url = new URL(RESTconfiq.BASE_URL + suffix);
-            } catch (MalformedURLException e) {
-                Log.e("wrong URL", RESTconfiq.BASE_URL + suffix);
-                e.printStackTrace();
-            }
-            Log.d("doInBackground url", url.getPath());
 
-            HttpURLConnection urlConnection = null;
             try {
-
                 if (TokenHolder.getTokenObject() == null) {
 
                     //token request:
@@ -175,7 +164,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                 if (TokenHolder.getTokenObject().isValid()) {
                     Log.d("token used", TokenHolder.getTokenObject().getAccessToken());
 
-                    if (requestMethod.equals(requestMethod.POST) && plainRequest != null) {
+                    if (requestMethod.equals(HttpMethod.POST) && plainRequest != null) {
 
                         //sending plainRequest content using POSt - when creating new reservation
                         HttpClient httpclient = new DefaultHttpClient();
@@ -200,22 +189,37 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
                         resultContent = handler.handleResponse(response);
 
-                    } else {
+                    } else if (requestMethod.equals(HttpMethod.GET)){
                         //retrieving content
-                        //set GET/POST/PUT:
 
-                        urlConnection = (HttpURLConnection) url.openConnection();
+                        //set parameters to GET:
+                        StringBuilder requestURL = new StringBuilder();
+                        requestURL.append(RESTconfiq.BASE_URL);
+                        requestURL.append(suffix);
+
+                        if(nameValuePairs.size()>0){
+                            requestURL.append("?");
+                        }
+                        for (NameValuePair pair : nameValuePairs) {
+                            requestURL.append(pair.getName());
+                            requestURL.append("=");
+                            requestURL.append(pair.getValue());
+                            requestURL.append("&&");
+                        }
+                        if(nameValuePairs.size()>0){
+                            requestURL.delete(requestURL.length() - 2, requestURL.length());
+                        }
+
+                        Log.d("requested URL", requestURL.toString());
+
+                        HttpURLConnection urlConnection = (HttpURLConnection) new URL(requestURL.toString()).openConnection();
+                        urlConnection.setRequestMethod(requestMethod.name());
 
                         //set auth header:
                         urlConnection.setRequestProperty("Authorization", "Bearer " + TokenHolder.getTokenObject().getAccessToken());
                         urlConnection.setRequestProperty("Content-Type", "application/json");
-
                         urlConnection.setRequestMethod(requestMethod.name());
 
-                        //set parameters to GET/POST/PUT
-                        for (NameValuePair pair : nameValuePairs) {
-                            urlConnection.setRequestProperty(pair.getName(), pair.getValue());
-                        }
                         responseCode = urlConnection.getResponseCode();
 
                         InputStream in = new BufferedInputStream(urlConnection.getInputStream());
