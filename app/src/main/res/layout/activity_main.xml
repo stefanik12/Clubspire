@@ -37,6 +37,7 @@
         //login
 
         <EditText
+            android:textColorHint="@color/secondary_color"
             android:textColor="@color/secondary_color"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -53,6 +54,7 @@
         //password
 
         <EditText
+            android:textColorHint="@color/secondary_color"
             android:textColor="@color/secondary_color"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

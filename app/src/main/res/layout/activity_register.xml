@@ -19,6 +19,7 @@
         //jmeno
 
         <EditText
+            android:textColorHint="@color/secondary_color"
             android:textColor="@color/secondary_color"
             android:id="@+id/textfield_name"
             android:layout_width="fill_parent"
@@ -37,6 +38,7 @@
         //prijmeni
 
         <EditText
+            android:textColorHint="@color/secondary_color"
             android:textColor="@color/secondary_color"
             android:id="@+id/textfield_surname"
             android:layout_width="fill_parent"
@@ -56,6 +58,7 @@
         //login
 
         <EditText
+            android:textColorHint="@color/secondary_color"
             android:textColor="@color/secondary_color"
             android:id="@+id/textfield_login"
             android:layout_width="fill_parent"
@@ -75,6 +78,7 @@
         //password
 
         <EditText
+            android:textColorHint="@color/secondary_color"
             android:textColor="@color/secondary_color"
             android:id="@+id/textfield_password"
             android:layout_width="fill_parent"
@@ -94,6 +98,7 @@
         //email
 
         <EditText
+            android:textColorHint="@color/secondary_color"
             android:textColor="@color/secondary_color"
             android:id="@+id/textfield_email"
             android:layout_width="fill_parent"

@@ -1,12 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name= "android:theme">@android:style/Theme.NoTitleBar</item>
-        <item name= "android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/primary_color</item>
+
         <!--<item name="android:background">@color/background_color</item>  totálně to zesere ??????????  -->
         <!-- CO S TIM??????? <item name= "android:theme">@android:style/Theme.NoTitleBar.Fullscreen</item>-->
     </style>
@@ -19,6 +19,23 @@
     <style name="MyDarkToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">@color/secondary_color</item>
         <item name="android:textColor">@color/primary_color</item>
+    </style>
+
+
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:background">@drawable/button_gray</item>
+
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:background">@drawable/spinner_item</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:checkMark">@drawable/abc_btn_radio_material</item>
+
     </style>
 
 
