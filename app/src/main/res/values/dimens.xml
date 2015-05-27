@@ -13,4 +13,5 @@
     <dimen name="menu_padding">50dp</dimen>
     <dimen name="text_corners">5dp</dimen>
     <dimen name="text_corners_in">2dp</dimen>
+    <dimen name="menu_button_width">200dp</dimen>
 </resources>

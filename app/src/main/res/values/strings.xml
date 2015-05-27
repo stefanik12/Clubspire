@@ -29,6 +29,7 @@
     <string name="text_reservation_complete">Rezervace vytvořena</string>
     <string name="text_available">volno</string>
     <string name="text_unavailable">obsazeno</string>
+    <string name="string_login">Přihlášení</string>
 
 
 </resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spinner_menu"
+    style="@style/spinnerItemStyle"
+    android:gravity="center"
+
+    android:singleLine="true"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/menu_item_height"
+    android:text="Tyden 20 (4dvdv0 - XvvdX )"
+
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+
+    android:ellipsize="marquee"
+    android:layout_centerHorizontal="true" />
+
+
+
