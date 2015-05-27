@@ -67,20 +67,18 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
-            iconId = extras.getInt("EXTRA_ICON_ID");
-            activityName = extras.getString("EXTRA_ACTIVITY_NAME");
+        iconId = ReservationHolder.getIconId();
+        activityName = ReservationHolder.getReservationActivityName();
 
-            View selectedActivity = findViewById(R.id.selectedActivity);
-            // icon
-            ImageView activityIcon = (ImageView)selectedActivity.findViewById(R.id.item_icon);
-            activityIcon.setImageResource(iconId);
+        View selectedActivity = findViewById(R.id.selectedActivity);
+        // icon
+        ImageView activityIcon = (ImageView)selectedActivity.findViewById(R.id.item_icon);
+        activityIcon.setImageResource(iconId);
 
-            // name:
-            TextView textViewActivityName = (TextView) selectedActivity.findViewById(R.id.item_txtName);
-            textViewActivityName .setText(activityName+"");
+        // name:
+        TextView textViewActivityName = (TextView) selectedActivity.findViewById(R.id.item_txtName);
+        textViewActivityName.setText(activityName + "");
 
-        }
 
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         List<SpinnerItem> list = populateSpinnerList();
