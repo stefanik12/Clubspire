@@ -39,8 +39,6 @@ public class MainActivity extends AbstractBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         toolbarMenuPresent = false;
 
-        //setTitle("Pøihlášení");
-
         super.onCreate(savedInstanceState);
 
         setTitle(getString(R.string.string_login));

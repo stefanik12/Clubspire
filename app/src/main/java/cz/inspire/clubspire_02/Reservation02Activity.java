@@ -279,13 +279,18 @@ public class Reservation02Activity extends AbstractBaseActivity {
                         }
 
                         //date
+                        /*
                         System.out.println("cal getTime = " + cal.getTime());
                         System.out.println("date is: " + sdf.format(cal.getTime()));
+                        */
+
 
                         Date day = sdf.parse(sdf.format(cal.getTime()));
                         t.setDate(day);
+                        /*
                         System.out.println("set date = " + t.getDate());
                         System.out.println("set date = " + t.getDateString());
+                        */
 
                         //available
                         t.setAvailable(true);

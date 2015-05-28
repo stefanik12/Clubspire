@@ -14,7 +14,7 @@
     <string name="password">Heslo</string>
     <string name="email">Email</string>
     <string name="register">Registrovat</string>
-    <string name="default_attendants">2</string>
+    <string name="default_attendants">1</string>
     <string name="text_logout">Odhlásit</string>
 
     <string name="text_tyden">Týden</string>

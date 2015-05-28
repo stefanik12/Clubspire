@@ -181,11 +181,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         ResponseHandler<String> handler = new BasicResponseHandler();
 
                         responseCode = response.getStatusLine().getStatusCode();
-                        Log.d("response code ", String.valueOf(responseCode));
                         if(responseCode != 200) {
                             //TODO now what?
                         }
-                        Log.d("response message ", response.getStatusLine().getReasonPhrase());
 
                         resultContent = handler.handleResponse(response);
 

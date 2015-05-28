@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
@@ -95,26 +96,25 @@ public class Reservation03Activity extends AbstractBaseActivity {
 
                 Gson gson = new Gson();
                 String sentText = gson.toJson(reservation);
-                /*
-                FUNKCNY REQUEST:
+
+                //FUNKCNY REQUEST:
                 sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
                         "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
                         "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
                         "\"note\":\"poznamka z RESTu\",\n" +
                         "\"personCount\":1,\n" +
                         "\"startTime\":\"2015-06-19T15:30:00.000+0200\",\n" +
-                        "\"endTime\":\"2015-09-19T16:20:00.000+0200\",\n" +
+                        "\"endTime\":\"2015-06-19T16:20:00.000+0200\",\n" +
                         "\"emailNotificationBeforeMinutes\":120,\n" +
                         "\"smsNotificationBeforeMinutes\":60}";
-                */
+
 
 
                 Log.d("serialized registration", sentText);
-                //na ziskanie instructorId, sportId, ?objectId treba dalsi request na /api/actviity/{ID}
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
 
-                new LocalAsyncAPIRequestExtension().execute("/api/activities/" + ReservationHolder.getReservationActivityId(), HttpMethod.GET);;
+                new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/api/reservations", HttpMethod.POST);
             }
         });
 
@@ -160,14 +160,34 @@ public class Reservation03Activity extends AbstractBaseActivity {
             Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
             Log.d("loaded content:", resultContent);
 
-            //next activity initialization
-            Intent intent = new Intent(getApplicationContext(), Reservation02Activity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("EXTRA_ICON_ID", iconId);
-            intent.putExtra("EXTRA_ACTIVITY_NAME", activityName);
+            if(!resultContent.equals("")) {
+                try {
+                    JSONObject baseJSON = new JSONObject(resultContent);
+                    int status = baseJSON.getJSONObject("message").getInt("httpStatus");
+
+                    if(status == 200){
+
+                        //next activity initialization
+                        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                        startActivity(intent);
+                    } else {
+                        String userMessage = baseJSON.getJSONObject("message").getString("clientMessage");
+
+                        Toast.makeText(getApplicationContext(), userMessage, Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (JSONException e) {
+                    Log.e("Reservation03Activity:", "JSON parsing failed");
+                    e.printStackTrace();
+                }
+            }
+
+
 
             progressBar.setVisibility(View.INVISIBLE);
-            startActivity(intent);
+
         }
     }
 
