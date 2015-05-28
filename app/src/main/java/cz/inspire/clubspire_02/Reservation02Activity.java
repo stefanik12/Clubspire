@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,170 +168,105 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
     private void populateTermList() {
 
-            //TODO: sparsovat resultContent a nahadzat nove prvky do termList
-            //TODO: asi bude treba najskor spravit getActualWeek
-            //"2015-06-15T00:00:00.000+0200
+        //TODO: sparsovat resultContent a nahadzat nove prvky do termList
+        //TODO: asi bude treba najskor spravit getActualWeek
+        //"2015-06-15T00:00:00.000+0200
         if(!resultContent.equals("")) {
             try {
-
-                //JSONObject json = (JSONObject) JSONSerializer.toJSON(s);
-
                 JsonObject obj = new JsonParser().parse(resultContent).getAsJsonObject();
                 System.out.println("objekt = " + obj.toString());
-
-
-                //JSONObject baseJSON = new JSONObject();
-                //JsonObject baseJSON = new JsonParser().parse(resultContent).getAsJsonObject();
-                //Object obj=JSONValue.parse(s);
 
                 JSONObject baseJSON = new JSONObject(resultContent);
 
                 Log.d("base","getting base");
-                System.out.println("result content = " + resultContent);
-                System.out.println("base = " + baseJSON.toString());
 
                 JSONArray dataJSON = baseJSON.getJSONArray("data");
-                Log.d("data", "getting data");
-                System.out.println("data = " + dataJSON.toString());
 
-                JSONObject dataObj = dataJSON.getJSONObject(0);
-                System.out.println("dataObj[0]:" + dataObj.toString());
+                for(int d = 0; d<dataJSON.length();d++){
 
-                JSONArray dayJSON = dataObj.getJSONArray("days");
-                Log.d("day","getting day");
+                    JSONObject dataObj = dataJSON.getJSONObject(d);
 
-                System.out.println("days length = " + dayJSON.length());
-
-                for(int i = 0;i<dayJSON.length(); i++){
+                    JSONArray dayJSON = dataObj.getJSONArray("days");
 
 
+                    for(int i = 0;i<dayJSON.length(); i++) {
 
 
+                        JSONObject dayObj = (JSONObject) dayJSON.get(i);
 
-                    JSONObject dayObj = (JSONObject)dayJSON.get(i);
-                    System.out.println("dayObj[" + i + "]:" + dayObj.toString());
+                        JSONArray termJSON = dayObj.getJSONArray("dayTabs");
 
-                    JSONArray termJSON = dayObj.getJSONArray("dayTabs");
-                    System.out.println(i + " - terms length = " + termJSON.length());
-                    for(int j = 0; j<termJSON.length();j++){
-                        TermItem t = new TermItem();
+                        for (int j = 0; j < termJSON.length(); j++) {
+                            TermItem t = new TermItem();
 
-                        //date
-                        //TODO
-                        //JSONObject jo = dayObj.getJSONObject("date");
-                        //System.out.println(i + " : date = " + jo.toString());
+                            //date
+                            String termDate = dayObj.getString("date");
 
-                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
-                        //t.setDate(df.parse(new JSONObject(dayJSON.get(i).toString()).getString("date")));
+                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
+
+                            t.setDate(df.parse(termDate));
+
+                            //day
+                            switch (i) {
+                                case 0:
+                                    t.setDay(Day.PO);
+                                    break;
+                                case 1:
+                                    t.setDay(Day.ÚT);
+                                    break;
+                                case 2:
+                                    t.setDay(Day.ST);
+                                    break;
+                                case 3:
+                                    t.setDay(Day.ČT);
+                                    break;
+                                case 4:
+                                    t.setDay(Day.PÁ);
+                                    break;
+                                case 5:
+                                    t.setDay(Day.SO);
+                                    break;
+                                case 6:
+                                    t.setDay(Day.NE);
+                                    break;
+                                default:
+                                    t.setDay(Day.PO);
+                                    break;
+                            }
 
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd'.'MM'.'");
-                        Calendar cal = Calendar.getInstance();
-                        cal.clear();
-                        cal.set(Calendar.YEAR, 2015);
-                        cal.setFirstDayOfWeek(Calendar.MONDAY);
-                        cal.set(Calendar.WEEK_OF_YEAR, getActualWeek());
-                        System.out.println("actual week = " + getActualWeek());
+                            //available
+                            t.setAvailable(true);
 
-                        t.setCalendar(getActualWeek(), 2015);
 
-                        //day
-                        switch (i){
-                            case 0:
-                                t.setDay(Day.PO);
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-                                t.setCalendarDay(Calendar.MONDAY);
-                                break;
-                            case 1:
-                                t.setDay(Day.ÚT);
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-                                t.setCalendarDay(Calendar.TUESDAY);
-                                break;
-                            case 2:
-                                t.setDay(Day.ST);
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-                                t.setCalendarDay(Calendar.WEDNESDAY);
-                                break;
-                            case 3:
-                                t.setDay(Day.ČT);
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-                                t.setCalendarDay(Calendar.THURSDAY);
-                                break;
-                            case 4:
-                                t.setDay(Day.PÁ);
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-                                t.setCalendarDay(Calendar.FRIDAY);
-                                break;
-                            case 5:
-                                t.setDay(Day.SO);
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-                                t.setCalendarDay(Calendar.SATURDAY);
-                                break;
-                            case 6:
-                                t.setDay(Day.NE);
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-                                t.setCalendarDay(Calendar.SUNDAY);
-                                break;
-                            default:
-                                t.setDay(Day.PO);
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-                                t.setCalendarDay(Calendar.MONDAY);
-                                break;
+                            //start
+                            String startString = new JSONObject(termJSON.get(j).toString()).getString("startHour");
+                            int startInt = Integer.parseInt(startString);
+                            Time startTime = new Time();
+                            startTime.set(0, 0, startInt, 0, 0, 0);
+                            t.setStart(startTime);
+
+                            //end
+                            String endString = new JSONObject(termJSON.get(j).toString()).getString("endHour");
+                            int endInt = Integer.parseInt(endString);
+                            Time endTime = new Time();
+                            endTime.set(0, 0, endInt, 0, 0, 0);
+                            t.setEnd(endTime);
+
+                            termList.add(t);
+
                         }
 
-                        //date
-                        /*
-                        System.out.println("cal getTime = " + cal.getTime());
-                        System.out.println("date is: " + sdf.format(cal.getTime()));
-                        */
-
-
-                        Date day = sdf.parse(sdf.format(cal.getTime()));
-                        t.setDate(day);
-                        /*
-                        System.out.println("set date = " + t.getDate());
-                        System.out.println("set date = " + t.getDateString());
-                        */
-
-                        //available
-                        t.setAvailable(true);
-
-
-                        //start
-                        String startString = new JSONObject(termJSON.get(j).toString()).getString("startHour");
-                        System.out.println("start hour = " + startString);
-                        int startInt = Integer.parseInt(startString);
-                        Time startTime = new Time();
-                        startTime.set(0,0,startInt,0,0,0);
-                        t.setStart(startTime);
-
-                        //end
-                        String endString = new JSONObject(termJSON.get(j).toString()).getString("endHour");
-                        System.out.println("end hour = " + endString);
-                        int endInt = Integer.parseInt(endString);
-                        Time endTime = new Time();
-                        endTime.set(0,0,endInt,0,0,0);
-                        t.setEnd(endTime);
-
-                        termList.add(t);
-
-                        if(i<10){
-                            System.out.println("****item" + i + "****");
-                            System.out.println(t.getDay());
-                            System.out.println(t.getDateString());
-                            System.out.println(t.getStartString());
-                            System.out.println(t.getEndString());
-                        }
-                    }
+                }
 
 
                 }
 
             } catch (JSONException e) {
-                Log.e("Reservation02Activity:", "JSON  fail");
+                Log.e("Reservation02Activity:", "JSON  fail" + e);
                 e.printStackTrace();
             }catch (Exception e) {
-                Log.e("Reservation02Activity:", "JSON parsing failed");
+                Log.e("Reservation02Activity:", "JSON parsing failed" + e);
                 e.printStackTrace();
             }Log.d("Reservation01Activity: ", resultContent);
         } else {
@@ -344,10 +280,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
         Calendar cal = Calendar.getInstance();
         Time start = new Time();
         Time end = new Time();
-
         switch (getWeekFromSelection()){
             case 20:
-
                 cal.set(Calendar.HOUR_OF_DAY,17);
                 cal.set(Calendar.MINUTE,30);
                 cal.set(Calendar.SECOND,0);
@@ -358,12 +292,10 @@ public class Reservation02Activity extends AbstractBaseActivity {
                 day = cal.getTime();
                 start.set(0,30,15,24,12,2015);
                 end.set(0,00,14,24,12,2015);
-
                 termList.add(new TermItem(day, Day.PO, start, end, 20, true));
                 termList.add(new TermItem(day, Day.ÚT, start, end, 20, false));
                 termList.add(new TermItem(day, Day.ST, start, end, 20, true));
                 break;
-
             default:
                 cal.set(Calendar.HOUR_OF_DAY,7);
                 cal.set(Calendar.MINUTE,301);
@@ -375,13 +307,10 @@ public class Reservation02Activity extends AbstractBaseActivity {
                 day = cal.getTime();
                 start.set(0,30,13,24,12,2015);
                 end.set(0,30,14,24,12,2015);
-
                 termList.add(new TermItem(day, Day.ST, start, end, 15, false));
                 termList.add(new TermItem(day, Day.ČT, start, end, 23, true));
                 termList.add(new TermItem(day, Day.PÁ, start, end, 10, true));
                 break;
-
-
         }
         */
 

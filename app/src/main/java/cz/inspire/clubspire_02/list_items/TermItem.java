@@ -16,8 +16,8 @@ public class TermItem {
     private Time end;
     private int weekNumber;
     private boolean available;
-    SimpleDateFormat sdf = new SimpleDateFormat("dd'.'MM'.'");
-    Calendar cal ;
+    //SimpleDateFormat sdf = new SimpleDateFormat("dd'.'MM'.'");
+    //Calendar cal ;
 
     public TermItem(){
 
@@ -31,12 +31,17 @@ public class TermItem {
         this.weekNumber = weekNumber;
         this.available = available;
 
+        /*
         cal = Calendar.getInstance();
         cal.clear();
         cal.set(Calendar.YEAR, 2015);
         cal.set(Calendar.WEEK_OF_MONTH,weekNumber);
         cal.setFirstDayOfWeek(Calendar.MONDAY);
+        */
     }
+
+    /*
+    was just for manual determining of date..soon to be deleted
 
     public void setCalendar(int weekNumber, int yearNumber){
         cal = Calendar.getInstance();
@@ -49,6 +54,7 @@ public class TermItem {
         cal.set(Calendar.DAY_OF_WEEK, dayOfWeek);
     }
 
+    */
     public Date getDate() {
         return date;
     }
@@ -58,7 +64,8 @@ public class TermItem {
     }
 
     public String getDateString() {
-        return sdf.format(cal.getTime());
+        //return sdf.format(cal.getTime());
+        return date.getDate() + "." + date.getMonth() + ".";
     }
 
     public Day getDay() {
