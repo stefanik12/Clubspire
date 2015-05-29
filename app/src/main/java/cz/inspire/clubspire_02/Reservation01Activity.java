@@ -123,6 +123,8 @@ public class Reservation01Activity extends AbstractBaseActivity {
                 ReservationHolder.setReservationActivityName(clickedItem.getName());
                 ReservationHolder.setIconId(clickedItem.getIconID());
 
+                System.out.println("content in step 1 = " + resultContent);
+
                 startActivity(intent);
 
                 //startActivity(new Intent(getApplicationContext(), Reservation02Activity.class));

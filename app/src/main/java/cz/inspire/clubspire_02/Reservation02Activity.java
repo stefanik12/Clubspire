@@ -144,6 +144,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
             // Spinner item selection Listener
             addListenerOnSpinnerItemSelection();
 
+
             Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
             Log.d("loaded content:", resultContent);
 
@@ -158,10 +159,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
             }
 
-            termList.clear();
-            populateTermList();
-            populateTermListView();
-            registerTermClickCallback();
+            updateTerm();
 
         }
     }
@@ -176,7 +174,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
         if(!resultContent.equals("")) {
             try {
                 JsonObject obj = new JsonParser().parse(resultContent).getAsJsonObject();
-                System.out.println("objekt = " + obj.toString());
+                //System.out.println("objekt = " + obj.toString());
 
                 JSONObject baseJSON = new JSONObject(resultContent);
 
@@ -229,10 +227,11 @@ public class Reservation02Activity extends AbstractBaseActivity {
                             JSONArray sportsJSON = ((JSONObject)dayTabsJSON.get(j)).getJSONArray("sports");
                             for(int s=0; s<sportsJSON.length();s++){
                                 TermItem t = new TermItem();
+                                Boolean termOk = true;
 
                                 //date
                                 t.setDate(dateFormat.parse(termDate));
-                                System.out.println("date = " + termDate.toString());
+                                //System.out.println("date = " + termDate.toString());
 
                                 //available
                                 //TODO clickable atribut
@@ -242,51 +241,64 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                 String activityId = ((JSONObject)sportsJSON.get(s)).getString("activityId");
                                 //TODO activityId not in holder
 
-                                System.out.println("getting attributes");
+                                //System.out.println("getting attributes");
+
                                 try {
-                                    System.out.println("getting sportId");
+                                    //System.out.println("getting sportId");
                                     String sportId = ((JSONObject) sportsJSON.get(s)).getString("sportId");
-                                    ReservationHolder.getReservation().setSportId(sportId);
-                                    System.out.println("sportiId = " + sportId);
+                                    //ReservationHolder.getReservation().setSportId(sportId);
+                                    t.setSportId(sportId);
+                                    //System.out.println("sportiId = " + sportId);
 
-                                    System.out.println("getting startTime");
+                                    //System.out.println("getting startTime");
                                     String startTime = ((JSONObject) sportsJSON.get(s)).getString("startTime");
-                                    //int startInt = Integer.parseInt(startTime);
-                                    //Time startHour = new Time();
-                                    //startHour.set(0, 0, startInt, 0, 0, 0);
-                                    //t.setStart(startHour);
 
-                                    System.out.println("parsing");
-                                    Date startTimeDF = dateFormat.parse(startTime);
-                                    System.out.println("parsed");
+                                    //System.out.println("startTime = " + startTime);
+                                    //System.out.println("parsing");
+                                    Date startTimeDF = new Date();
+                                    if(startTime != null) {
+                                        startTimeDF = dateFormat.parse(startTime);
+                                    }else{
+                                        startTimeDF = null;
+                                    }
+                                    //System.out.println("parsed");
 
-                                    ReservationHolder.getReservation().setStartTime(startTimeDF);
-                                    System.out.println("startTime = " + startTime);
+                                    Time startHour = new Time();
+                                    startHour.set(0, startTimeDF.getMinutes(), startTimeDF.getHours(), 0, 0, 0);
+                                    t.setStart(startHour);
 
-                                    ///
+                                    //ReservationHolder.getReservation().setStartTime(startTimeDF);
+                                    t.setStartTime(startTimeDF);
 
 
-                                    //TODO po přidání tohoto bodu to začalo padat...
-                                    System.out.println("getting endTime");
+
+                                    //endTime
+                                    //System.out.println("getting endTime");
                                     String endTime = ((JSONObject) sportsJSON.get(s)).getString("endTime");
-                                    //int endInt = Integer.parseInt(endTime);
-                                    //Time endHour = new Time();
-                                    //endHour.set(0, 0, endInt, 0, 0, 0);
-                                    //t.setEnd(endHour);
 
-                                    System.out.println("parsing");
+
+                                    //System.out.println("endTime = " + endTime);
+                                    //System.out.println("parsing");
                                     Date endTimeDF = dateFormat.parse(endTime);
-                                    System.out.println("parsed");
+                                    //System.out.println("parsed");
 
-                                    ReservationHolder.getReservation().setEndTime(endTimeDF);
-                                    System.out.println("endTimeDF = " + endTimeDF);
+                                    Time endHour = new Time();
+                                    endHour.set(0, endTimeDF.getMinutes(), endTimeDF.getHours(), 0, 0, 0);
+                                    t.setEnd(endHour);
+
+                                    //ReservationHolder.getReservation().setEndTime(endTimeDF);
+                                    t.setEndTime(endTimeDF);
+
 
 
                                 }catch(NullPointerException|NumberFormatException e){
                                     Log.d("null attribute", "some attribute is null!" + e);
+                                    termOk = false;
                                 }catch (ParseException p){
                                     Log.d("parse","parse exc " + p);
+                                    termOk = false;
                                 }
+
 
 
                                 switch (i) {
@@ -316,10 +328,13 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         break;
                                 }
 
-                                if(ReservationHolder.getReservation().getSportId() != null &&
-                                ReservationHolder.getReservation().getStartTime() != null &&
-                                ReservationHolder.getReservation().getEndTime() != null)
+                                if(termOk)
                                 {
+                                    //System.out.println(s + ": term is ok");
+                                    //System.out.println("date = " + t.getDateString());
+                                    //System.out.println("start = " + t.getStartString());
+                                    //System.out.println("end = " + t.getEndString());
+
                                     termList.add(t);
                                 }else{
                                     Log.d("null attribute", "term not added");
@@ -421,6 +436,10 @@ public class Reservation02Activity extends AbstractBaseActivity {
                     intent.putExtra("EXTRA_START", clickedTerm.getStartString());
                     intent.putExtra("EXTRA_END", clickedTerm.getEndString());
 
+                    ReservationHolder.getReservation().setSportId(clickedTerm.getSportId());
+                    ReservationHolder.getReservation().setStartTime(clickedTerm.getStartTime());
+                    ReservationHolder.getReservation().setEndTime(clickedTerm.getEndTime());
+
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "termín obsazen", Toast.LENGTH_SHORT).show();
@@ -435,23 +454,23 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         //TODO: use getActualWeek
 
-        Date from1 = new Date(2015,5,11);
-        Date from2 = new Date(2015,5,18);
-        Date from3 = new Date(2015,5,25);
-        Date from4 = new Date(2015,5,1);
-        Date from5 = new Date(2015,6,8);
+        Date from1 = new Date(2015,6,15);
+        Date from2 = new Date(2015,6,22);
+        Date from3 = new Date(2015,6,29);
+        Date from4 = new Date(2015,6,6);
+        Date from5 = new Date(2015,6,13);
 
-        Date to1 = new Date(2015,5,17);
-        Date to2 = new Date(2015,5,24);
-        Date to3 = new Date(2015,5,31);
-        Date to4 = new Date(2015,6,7);
-        Date to5 = new Date(2015,6,14);
+        Date to1 = new Date(2015,6,21);
+        Date to2 = new Date(2015,6,28);
+        Date to3 = new Date(2015,6,5);
+        Date to4 = new Date(2015,6,12);
+        Date to5 = new Date(2015,6,19);
 
-        out.add(new SpinnerItem(20,from1,to1));
-        out.add(new SpinnerItem(21,from2,to2));
-        out.add(new SpinnerItem(22,from3,to3));
-        out.add(new SpinnerItem(23,from4,to4));
-        out.add(new SpinnerItem(25,from5,to5));
+        out.add(new SpinnerItem(25,from1,to1));
+        out.add(new SpinnerItem(26,from2,to2));
+        out.add(new SpinnerItem(27,from3,to3));
+        out.add(new SpinnerItem(28,from4,to4));
+        out.add(new SpinnerItem(29,from5,to5));
 
         return out;
     }
@@ -492,6 +511,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
             List<NameValuePair> requestParams = new ArrayList<>();
             int newWeekNum = ((SpinnerItem)(spinner1.getSelectedItem())).getWeekNum();
+            //System.out.println("new week = " + newWeekNum);
 
             Calendar calendar = Calendar.getInstance();
             calendar.clear();
@@ -501,12 +521,31 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
             // Now get the first day of week.
             Date date = calendar.getTime();
-            System.out.println("new date = " + date.toString());
-            System.out.println("new date == " + date.getDate());
-            String newDateString = "2015" + "-" + date.getMonth() + "-" + date.getDate();
-            System.out.println("new date is " + newDateString);
+            //we dont want months to be counted from 0
+            date.setMonth(date.getMonth() + 1);
+            //System.out.println("new date = " + date.toString());
+            //System.out.println("new date == " + date.getDate());
+            //System.out.println("new month == " + date.getMonth());
+            //newDateString has to be in speciffic format
+            String monthString;
+            if((""+date.getMonth()).length() == 1){
+                monthString = "0" + date.getMonth();
+            }else{
+                monthString = "" + date.getMonth();
+            }
+            String dateString;
+            if((""+date.getDate()).length() == 1){
+                dateString = "0" + date.getDate();
+            }else{
+                dateString = "" + date.getDate();
+            }
+
+            String newDateString = "2015" + "-" + monthString + "-" + dateString;
+            //System.out.println("new date is " + newDateString);
 
             //TODO: napojit atribut date na nejaky den z vybraneho tyzdna
+            requestParams.clear();
+            Log.d("clearParams","request params cleared");
             requestParams.add(new BasicNameValuePair("date", newDateString));
             //atribut date API ignoruje: robilo problemy aj pri testovani/ stale vracia aktualny tyzden
             requestParams.add(new BasicNameValuePair("history", "false"));
@@ -530,7 +569,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
             //continues in onPostExecute
 
             //Toast.makeText(parent.getContext(), parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
-            updateTerm();
 
         }
 

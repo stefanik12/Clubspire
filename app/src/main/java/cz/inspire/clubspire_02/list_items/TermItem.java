@@ -1,6 +1,7 @@
 package cz.inspire.clubspire_02.list_items;
 
 import android.text.format.Time;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,12 +17,48 @@ public class TermItem {
     private Time end;
     private int weekNumber;
     private boolean available;
+
+
+
+    private Date startTime;
+    private Date endTime;
+    private String sportId;
+
     //SimpleDateFormat sdf = new SimpleDateFormat("dd'.'MM'.'");
     //Calendar cal ;
+
+    //activityId
+    //sportId
+    //startTime
+    //endTime
 
     public TermItem(){
 
     };
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public String getSportId() {
+        return sportId;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setSportId(String sportId) {
+        this.sportId = sportId;
+    }
 
     public TermItem(Date date, Day day, Time start, Time end, int weekNumber, boolean available) {
         this.date = date;
@@ -83,10 +120,15 @@ public class TermItem {
     }
 
     public String getStartString() {
-        if(start.minute == 0)
-            return start.hour + ":00" ;
-        else
-            return start.hour + ":" + start.minute;
+        try {
+            if (start.minute == 0)
+                return start.hour + ":00";
+            else
+                return start.hour + ":" + start.minute;
+        }catch (NullPointerException e){
+            Log.d("start", "start hour is null");
+            return "XX:XX";
+        }
     }
 
     public void setStart(Time start) {
@@ -98,10 +140,15 @@ public class TermItem {
     }
 
     public String getEndString() {
-        if(end.minute == 0)
-            return end.hour + ":00" ;
-        else
-            return end.hour + ":" + end.minute;
+        try {
+            if (end.minute == 0)
+                return end.hour + ":00";
+            else
+                return end.hour + ":" + end.minute;
+        }catch (NullPointerException e){
+            Log.d("end", "end hour is null");
+            return "YY:YY";
+        }
     }
 
     public void setEnd(Time end) {
