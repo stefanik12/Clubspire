@@ -1,6 +1,7 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
+import android.nfc.FormatException;
 import android.support.v7.widget.Toolbar;
 
 
@@ -24,8 +25,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.RESTconfiq;
@@ -94,10 +98,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 //este neviem co ma byt objectId
 
 
-                Gson gson = new Gson();
-                String sentText = gson.toJson(reservation);
 
-                Log.d("serialized registration", sentText);
 
                 //FUNKCNY REQUEST:
                 /*
@@ -112,12 +113,48 @@ public class Reservation03Activity extends AbstractBaseActivity {
                         "\"smsNotificationBeforeMinutes\":60}";
 */
 
+                ReservationHolder.getReservation().setPersonCount(1);
+                ReservationHolder.getReservation().setSmsNotificationBeforeMinutes(30);
+                ReservationHolder.getReservation().setEmailNotificationBeforeMinutes(30);
+
+                System.out.println("reservation toStr = " + reservation.toString());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
+                String parsedStartTime = "";
+                String parsedEndTime = "";
+                try {
+                    //String parsedStartTime = sdf.parse((String)(reservation.getStartTime().toString()));
+
+                    parsedStartTime = sdf.format(reservation.getStartTime().toString());
+                    parsedEndTime = sdf.format(reservation.getEndTime().toString());
+
+                }catch (Exception e){
+                    Log.d("startTime", "startTime fail " + e);
+                }
+
+                String mySentText =
+                        "{instructorId: " + reservation.getInstructorId() + ",\n" +
+                        "sportId : " + reservation.getSportId() +  ",\n" +
+                        "objectId :" + reservation.getObjectId() + ",\n" +
+                        "note: " + reservation.getNote() +  ",\n" +
+                        "personCount: " + reservation.getPersonCount() + "\n" +
+                        "startTime: " + parsedStartTime + ",\n" +
+                        "endTime: " + parsedEndTime + "\n" +
+                        "emailNotificationBeforeMinutes: " + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
+                        "smsNotificationBeforeMinutes:" + reservation.getSmsNotificationBeforeMinutes() +  "}";
+
+                System.out.println("my parsed sentText = " + mySentText);
+
+                Gson gson = new Gson();
+                String sentText = gson.toJson(reservation);
+
+                Log.d("serialized registration", sentText);
 
 
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
 
-                new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/api/reservations", HttpMethod.POST);
+                //new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/api/reservations", HttpMethod.POST);
+                new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/api/reservations", HttpMethod.POST);
             }
         });
 

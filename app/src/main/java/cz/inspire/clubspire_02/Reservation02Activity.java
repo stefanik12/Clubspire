@@ -25,6 +25,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.widget.Toast;
 
@@ -243,8 +245,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                 //System.out.println("date = " + termDate.toString());
 
                                 //available
-                                //TODO clickable atribut
-
+                                //TODO no unavailable terms to check
                                 System.out.println("getting free places");
                                 try {
                                     int freePlaces = ((JSONObject) sportsJSON.get(s)).getInt("freePlaces");
@@ -259,6 +260,45 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                     t.setAvailable(false);
                                 }
 
+                                //objectId
+                                //TODO is cuurent time ok as objectId?
+                                //DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                //get current date time with Date()
+                                try {
+                                    Date date = new Date();
+                                    System.out.println(dateFormat.format(date));
+
+                                    //get current date time with Calendar()
+                                    Calendar cal = Calendar.getInstance();
+                                    System.out.println("today is " + dateFormat.format(cal.getTime()));
+                                    String objectId = dateFormat.format(cal.getTime());
+                                    ReservationHolder.getReservation().setObjectId(objectId);
+                                }catch (Exception e){
+                                    Log.d("objectId","objectId failed " + e);
+                                }
+
+                                /*
+                                //objectId in newReservationUrl is not unique
+                                System.out.println("getting newReservationUrl");
+                                try{
+                                    String newReservationUrl = ((JSONObject) sportsJSON.get(s)).getString("newReservationUrl");
+                                    System.out.println("newReservationUrl = " + newReservationUrl);
+                                    String patternString = "(.*objectId=)(\\d+)(sportId.*)";
+                                    Pattern pattern = Pattern.compile(patternString);
+                                    Matcher m = pattern.matcher(newReservationUrl);
+                                    System.out.println("found 0: " + m.group(0));
+                                    System.out.println("found 1: " + m.group(1));
+                                    System.out.println("found 2: " + m.group(2));
+                                    System.out.println("found 3: " + m.group(3));
+
+
+                                }catch (JSONException|IllegalStateException e){
+                                    Log.d("newReservationUrl", "newReservationUrl failed: " + e);
+                                }
+                                */
+
+
+
 
 
                                 String activityId = ((JSONObject)sportsJSON.get(s)).getString("activityId");
@@ -267,11 +307,26 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                 //System.out.println("getting attributes");
 
                                 try {
+                                    //sportiId
                                     //System.out.println("getting sportId");
                                     String sportId = ((JSONObject) sportsJSON.get(s)).getString("sportId");
                                     //ReservationHolder.getReservation().setSportId(sportId);
                                     t.setSportId(sportId);
                                     //System.out.println("sportiId = " + sportId);
+
+                                    //instructorId
+                                    System.out.println("getting instructor");
+                                    try {
+                                        JSONObject instructorJSON = ((JSONObject) sportsJSON.get(s)).getJSONObject("instructor");
+                                        String instructorId = instructorJSON.getString("id");
+                                        System.out.println("instructorId = " + instructorId);
+                                        ReservationHolder.getReservation().setInstructorId(instructorId);
+                                    }catch (JSONException e){
+                                        Log.d("instructorId", "instructorId is null");
+                                        //termOk = false; //instructor is not required
+                                    }
+
+
 
                                     //System.out.println("getting startTime");
                                     String startTime = ((JSONObject) sportsJSON.get(s)).getString("startTime");
@@ -460,8 +515,9 @@ public class Reservation02Activity extends AbstractBaseActivity {
                     intent.putExtra("EXTRA_END", clickedTerm.getEndString());
 
                     ReservationHolder.getReservation().setSportId(clickedTerm.getSportId());
-                    ReservationHolder.getReservation().setStartTime(clickedTerm.getStartTime());
-                    ReservationHolder.getReservation().setEndTime(clickedTerm.getEndTime());
+                    //ReservationHolder.getReservation().setStartTime(clickedTerm.getStartTime());
+                    //ReservationHolder.getReservation().setEndTime(clickedTerm.getEndTime());
+
 
                     startActivity(intent);
                 } else {
