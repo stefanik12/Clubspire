@@ -1,6 +1,7 @@
 package cz.inspire.clubspire_02.POJO;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by michal on 5/22/15.
@@ -11,8 +12,8 @@ public class Reservation {
     private String objectId;
     private String note;
     private int personCount;
-    private SimpleDateFormat startTime;
-    private SimpleDateFormat endTime;
+    private Date startTime; //TODO check if Date is ok..was SimpleDateFormat
+    private Date endTime;
     private int emailNotificationBeforeMinutes;
     private int smsNotificationBeforeMinutes;
 
@@ -61,20 +62,20 @@ public class Reservation {
         return this;
     }
 
-    public SimpleDateFormat getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public Reservation setStartTime(SimpleDateFormat startTime) {
+    public Reservation setStartTime(Date startTime) {
         this.startTime = startTime;
         return this;
     }
 
-    public SimpleDateFormat getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public Reservation setEndTime(SimpleDateFormat endTime) {
+    public Reservation setEndTime(Date endTime) {
         this.endTime = endTime;
         return this;
     }

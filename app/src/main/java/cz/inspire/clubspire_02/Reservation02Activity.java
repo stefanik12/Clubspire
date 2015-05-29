@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -38,6 +39,7 @@ import org.json.JSONObject;
 
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.ReservationHolder;
+import cz.inspire.clubspire_02.POJO.Reservation;
 import cz.inspire.clubspire_02.array_adapter.TermListAdapter;
 import cz.inspire.clubspire_02.list_items.Day;
 import cz.inspire.clubspire_02.list_items.TermItem;
@@ -194,66 +196,142 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
                         JSONObject dayObj = (JSONObject) dayJSON.get(i);
 
-                        JSONArray termJSON = dayObj.getJSONArray("dayTabs");
+                        JSONArray dayTabsJSON = dayObj.getJSONArray("dayTabs");
 
-                        for (int j = 0; j < termJSON.length(); j++) {
-                            TermItem t = new TermItem();
+                        for (int j = 0; j < dayTabsJSON.length(); j++) {
+
+
+
 
                             //date
+                            //TODO get normal SimpleDateFormat pattern
                             String termDate = dayObj.getString("date");
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
 
-                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
-
-                            t.setDate(df.parse(termDate));
-
-                            //day
-                            switch (i) {
-                                case 0:
-                                    t.setDay(Day.PO);
-                                    break;
-                                case 1:
-                                    t.setDay(Day.ÚT);
-                                    break;
-                                case 2:
-                                    t.setDay(Day.ST);
-                                    break;
-                                case 3:
-                                    t.setDay(Day.ČT);
-                                    break;
-                                case 4:
-                                    t.setDay(Day.PÁ);
-                                    break;
-                                case 5:
-                                    t.setDay(Day.SO);
-                                    break;
-                                case 6:
-                                    t.setDay(Day.NE);
-                                    break;
-                                default:
-                                    t.setDay(Day.PO);
-                                    break;
-                            }
-
-
-                            //available
-                            t.setAvailable(true);
-
-
-                            //start
+                            //start - badone
+                            /*
                             String startString = new JSONObject(termJSON.get(j).toString()).getString("startHour");
                             int startInt = Integer.parseInt(startString);
-                            Time startTime = new Time();
-                            startTime.set(0, 0, startInt, 0, 0, 0);
-                            t.setStart(startTime);
+                            Time startHour = new Time();
+                            startHour.set(0, 0, startInt, 0, 0, 0);
+                            t.setStart(startHour);
+                            */
 
-                            //end
+                            //end badone
+                            /*
                             String endString = new JSONObject(termJSON.get(j).toString()).getString("endHour");
                             int endInt = Integer.parseInt(endString);
-                            Time endTime = new Time();
-                            endTime.set(0, 0, endInt, 0, 0, 0);
-                            t.setEnd(endTime);
+                            Time endHour = new Time();
+                            endHour.set(0, 0, endInt, 0, 0, 0);
+                            t.setEnd(endHour);
+                            */
 
-                            termList.add(t);
+                            JSONArray sportsJSON = ((JSONObject)dayTabsJSON.get(j)).getJSONArray("sports");
+                            for(int s=0; s<sportsJSON.length();s++){
+                                TermItem t = new TermItem();
+
+                                //date
+                                t.setDate(dateFormat.parse(termDate));
+                                System.out.println("date = " + termDate.toString());
+
+                                //available
+                                //TODO clickable atribut
+                                t.setAvailable(true);
+
+
+                                String activityId = ((JSONObject)sportsJSON.get(s)).getString("activityId");
+                                //TODO activityId not in holder
+
+                                System.out.println("getting attributes");
+                                try {
+                                    System.out.println("getting sportId");
+                                    String sportId = ((JSONObject) sportsJSON.get(s)).getString("sportId");
+                                    ReservationHolder.getReservation().setSportId(sportId);
+                                    System.out.println("sportiId = " + sportId);
+
+                                    System.out.println("getting startTime");
+                                    String startTime = ((JSONObject) sportsJSON.get(s)).getString("startTime");
+                                    //int startInt = Integer.parseInt(startTime);
+                                    //Time startHour = new Time();
+                                    //startHour.set(0, 0, startInt, 0, 0, 0);
+                                    //t.setStart(startHour);
+
+                                    System.out.println("parsing");
+                                    Date startTimeDF = dateFormat.parse(startTime);
+                                    System.out.println("parsed");
+
+                                    ReservationHolder.getReservation().setStartTime(startTimeDF);
+                                    System.out.println("startTime = " + startTime);
+
+                                    ///
+
+
+                                    //TODO po přidání tohoto bodu to začalo padat...
+                                    System.out.println("getting endTime");
+                                    String endTime = ((JSONObject) sportsJSON.get(s)).getString("endTime");
+                                    //int endInt = Integer.parseInt(endTime);
+                                    //Time endHour = new Time();
+                                    //endHour.set(0, 0, endInt, 0, 0, 0);
+                                    //t.setEnd(endHour);
+
+                                    System.out.println("parsing");
+                                    Date endTimeDF = dateFormat.parse(endTime);
+                                    System.out.println("parsed");
+
+                                    ReservationHolder.getReservation().setEndTime(endTimeDF);
+                                    System.out.println("endTimeDF = " + endTimeDF);
+
+
+                                }catch(NullPointerException|NumberFormatException e){
+                                    Log.d("null attribute", "some attribute is null!" + e);
+                                }catch (ParseException p){
+                                    Log.d("parse","parse exc " + p);
+                                }
+
+
+                                switch (i) {
+                                    case 0:
+                                        t.setDay(Day.PO);
+                                        break;
+                                    case 1:
+                                        t.setDay(Day.ÚT);
+                                        break;
+                                    case 2:
+                                        t.setDay(Day.ST);
+                                        break;
+                                    case 3:
+                                        t.setDay(Day.ČT);
+                                        break;
+                                    case 4:
+                                        t.setDay(Day.PÁ);
+                                        break;
+                                    case 5:
+                                        t.setDay(Day.SO);
+                                        break;
+                                    case 6:
+                                        t.setDay(Day.NE);
+                                        break;
+                                    default:
+                                        t.setDay(Day.PO);
+                                        break;
+                                }
+
+                                if(ReservationHolder.getReservation().getSportId() != null &&
+                                ReservationHolder.getReservation().getStartTime() != null &&
+                                ReservationHolder.getReservation().getEndTime() != null)
+                                {
+                                    termList.add(t);
+                                }else{
+                                    Log.d("null attribute", "term not added");
+                                }
+                            }
+
+                            //activityId
+                            //sportId
+                            //startTime
+                            //endTime
+
+
 
                         }
 
