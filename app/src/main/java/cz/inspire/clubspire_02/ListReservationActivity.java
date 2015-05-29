@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -102,7 +103,6 @@ public class ListReservationActivity extends AbstractBaseActivity {
         }
 
         private void populateReservationList() {
-            //TODO: sparsovat resultContent do zoznamu aktivit:
 
             reservationList.clear();
             Date day;
@@ -124,6 +124,20 @@ public class ListReservationActivity extends AbstractBaseActivity {
             reservationList.add(new ReservationListItem(R.drawable.a_02_b, "Volejbal", day, Day.PO, start, end));
             reservationList.add(new ReservationListItem(R.drawable.a_01_b, "Posilovna", day, Day.PO, start, end));
             reservationList.add(new ReservationListItem(R.drawable.a_02_b, "Plavání", day, Day.PO, start, end));
+
+            //TODO: sparsovat resultContent do zoznamu aktivit:
+            try {
+                JSONObject baseJSON = new JSONObject(resultContent);
+                JSONArray reservations = baseJSON.getJSONArray("data");
+                for(int i = 0;i<reservations.length();i++){
+                    String sport = reservations.getJSONObject(i).getJSONObject("sport").getJSONObject("activity").getString("name");
+
+                    reservationList.add(new ReservationListItem(R.drawable.a_01_b, sport, day, Day.PO, start, end));
+                }
+            } catch (JSONException e) {
+                Log.e("ListReservation", "parsing failed");
+                e.printStackTrace();
+            }
         }
 
         private void populateListView() {
