@@ -502,8 +502,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
                     intent.putExtra("EXTRA_END", clickedTerm.getEndString());
 
                     ReservationHolder.getReservation().setSportId(clickedTerm.getSportId());
-                    //ReservationHolder.getReservation().setStartTime(clickedTerm.getStartTime());
-                    //ReservationHolder.getReservation().setEndTime(clickedTerm.getEndTime());
+                    ReservationHolder.getReservation().setStartTime(clickedTerm.getStartTime());
+                    ReservationHolder.getReservation().setEndTime(clickedTerm.getEndTime());
 
 
                     startActivity(intent);

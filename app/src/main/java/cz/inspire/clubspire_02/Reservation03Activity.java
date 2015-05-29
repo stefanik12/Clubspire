@@ -101,8 +101,8 @@ public class Reservation03Activity extends AbstractBaseActivity {
 
 
                 //FUNKCNY REQUEST:
-                /*
-                sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
+
+                String sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
                         "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
                         "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
                         "\"note\":\"poznamka z RESTu\",\n" +
@@ -111,7 +111,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                         "\"endTime\":\"2015-06-19T16:20:00.000+0200\",\n" +
                         "\"emailNotificationBeforeMinutes\":120,\n" +
                         "\"smsNotificationBeforeMinutes\":60}";
-*/
+
 
                 ReservationHolder.getReservation().setPersonCount(1);
                 ReservationHolder.getReservation().setSmsNotificationBeforeMinutes(30);
@@ -122,38 +122,41 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 String parsedStartTime = "";
                 String parsedEndTime = "";
                 try {
-                    //String parsedStartTime = sdf.parse((String)(reservation.getStartTime().toString()));
-
-                    parsedStartTime = sdf.format(reservation.getStartTime().toString());
-                    parsedEndTime = sdf.format(reservation.getEndTime().toString());
+                    parsedStartTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'").format(reservation.getStartTime());
+                    System.out.println(parsedStartTime);
+                    parsedEndTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'").format(reservation.getEndTime());
+                    System.out.println(parsedEndTime);
 
                 }catch (Exception e){
                     Log.d("startTime", "startTime fail " + e);
                 }
 
                 String mySentText =
-                        "{instructorId: " + reservation.getInstructorId() + ",\n" +
-                        "sportId : " + reservation.getSportId() +  ",\n" +
-                        "objectId :" + reservation.getObjectId() + ",\n" +
-                        "note: " + reservation.getNote() +  ",\n" +
-                        "personCount: " + reservation.getPersonCount() + "\n" +
-                        "startTime: " + parsedStartTime + ",\n" +
-                        "endTime: " + parsedEndTime + "\n" +
-                        "emailNotificationBeforeMinutes: " + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
-                        "smsNotificationBeforeMinutes:" + reservation.getSmsNotificationBeforeMinutes() +  "}";
+                        "{\"instructorId\":\"" + reservation.getInstructorId() + "\",\n" +
+                        "\"sportId\":\"" + reservation.getSportId() +  "\",\n" +
+                        "\"objectId\":\"" + "67bbccf3ac1303f000c13e2f9f3d55d2" + "\",\n" +  //TODO that objectId...
+                        "\"note\":\"" + reservation.getNote() +  "\",\n" +
+                        "\"personCount\": " + reservation.getPersonCount() + ",\n" +
+                        "\"startTime\":\"" + parsedStartTime + "\",\n" +
+                        "\"endTime\":\"" + parsedEndTime+ "\",\n" +
+                        "\"emailNotificationBeforeMinutes\": " + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
+                        "\"smsNotificationBeforeMinutes\": " + reservation.getSmsNotificationBeforeMinutes() +  "}";
 
                 System.out.println("my parsed sentText = " + mySentText);
 
+                //TODO try to fix startTime format so we can use Gson
                 Gson gson = new Gson();
-                String sentText = gson.toJson(reservation);
+                //String sentText = gson.toJson(reservation);
 
                 Log.d("serialized registration", sentText);
+
+                Log.d("MY serialized reg", mySentText);
 
 
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
 
-                //new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/api/reservations", HttpMethod.POST);
+                //new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/api/reservations", HttpMethod.POST); //hlásí "požadovaný zdroj nebyl nalezen", jednou to zafungovalo a vytvoøilo rezervaci
                 new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/api/reservations", HttpMethod.POST);
             }
         });
