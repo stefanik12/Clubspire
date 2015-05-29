@@ -235,7 +235,21 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
                                 //available
                                 //TODO clickable atribut
-                                t.setAvailable(true);
+
+                                System.out.println("getting free places");
+                                try {
+                                    int freePlaces = ((JSONObject) sportsJSON.get(s)).getInt("freePlaces");
+                                    System.out.println("free places = " + freePlaces);
+                                    if (freePlaces > 0) {
+                                        t.setAvailable(true);
+                                    } else {
+                                        t.setAvailable(false);
+                                    }
+                                }catch (JSONException e){
+                                    Log.d("freePlaces", "freePlaces failed");
+                                    t.setAvailable(false);
+                                }
+
 
 
                                 String activityId = ((JSONObject)sportsJSON.get(s)).getString("activityId");

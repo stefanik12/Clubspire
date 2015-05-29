@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="false"
-        android:text="Day XX"
+        android:text="PO 29.5.@"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_centerInParent="true"
         android:layout_alignParentLeft="true"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="Time XX-XX"
+        android:text="16:30 - 17:20@"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_centerInParent="true"
         android:padding="10dp"
@@ -43,8 +43,10 @@
         android:text="default"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_centerInParent="true"
-        android:padding="10dp"
-        android:textColor="@color/primary_color" />
+        android:textColor="@color/primary_color"
+        android:layout_toRightOf="@+id/item_txtDay"
+        android:layout_toLeftOf="@+id/item_txtTime"
+        android:gravity="center" />
 
     <!--
     <Button
