@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -53,6 +54,16 @@ public class Reservation01Activity extends AbstractBaseActivity {
     }
 
     protected class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {
+
+        private ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar1);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //make loader visible:
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
         @Override
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
@@ -67,6 +78,8 @@ public class Reservation01Activity extends AbstractBaseActivity {
             populateActivityList();
             populateListView();
             registerClickCallback();
+
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 

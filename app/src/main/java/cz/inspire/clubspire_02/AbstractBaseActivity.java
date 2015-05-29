@@ -143,6 +143,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         protected Void doInBackground(Void... voids) {
             //HttpURLConnection implementation-universal for all GET/POST/PUT methods:
             int responseCode = 0;
+            Log.d("API request", " on "+RESTconfiq.BASE_URL + suffix);
 
             try {
                 if (TokenHolder.getTokenObject() == null) {

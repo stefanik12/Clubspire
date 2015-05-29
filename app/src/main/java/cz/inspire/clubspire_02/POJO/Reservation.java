@@ -97,4 +97,11 @@ public class Reservation {
         this.smsNotificationBeforeMinutes = smsNotificationBeforeMinutes;
         return this;
     }
+
+    public String deserialize(){
+        StringBuilder out = new StringBuilder();
+        //out.append();
+
+        return out.toString();
+    }
 }

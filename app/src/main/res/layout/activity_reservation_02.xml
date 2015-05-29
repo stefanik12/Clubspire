@@ -35,13 +35,28 @@
         </RelativeLayout>
 
     //term list
-    <ListView
-        android:id="@+id/termListView"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    </ListView>
+        <ListView
+            android:id="@+id/termListView"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
 
+        </ListView>
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            android:visibility="invisible"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/item_marginTop"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:indeterminateOnly="true"
+            android:keepScreenOn="true"
+            />
+    </RelativeLayout>
 
 </LinearLayout>

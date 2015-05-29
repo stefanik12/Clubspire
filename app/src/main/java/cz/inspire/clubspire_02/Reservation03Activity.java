@@ -97,7 +97,10 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 Gson gson = new Gson();
                 String sentText = gson.toJson(reservation);
 
+                Log.d("serialized registration", sentText);
+
                 //FUNKCNY REQUEST:
+                /*
                 sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
                         "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
                         "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
@@ -107,10 +110,10 @@ public class Reservation03Activity extends AbstractBaseActivity {
                         "\"endTime\":\"2015-06-19T16:20:00.000+0200\",\n" +
                         "\"emailNotificationBeforeMinutes\":120,\n" +
                         "\"smsNotificationBeforeMinutes\":60}";
+*/
 
 
 
-                Log.d("serialized registration", sentText);
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
 
@@ -165,16 +168,17 @@ public class Reservation03Activity extends AbstractBaseActivity {
                     JSONObject baseJSON = new JSONObject(resultContent);
                     int status = baseJSON.getJSONObject("message").getInt("httpStatus");
 
+                    String userMessage = baseJSON.getJSONObject("message").getString("clientMessage");
+
                     if(status == 200){
 
                         //next activity initialization
                         Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("lastReservationStatus", userMessage);
 
                         startActivity(intent);
                     } else {
-                        String userMessage = baseJSON.getJSONObject("message").getString("clientMessage");
-
                         Toast.makeText(getApplicationContext(), userMessage, Toast.LENGTH_LONG).show();
                     }
 

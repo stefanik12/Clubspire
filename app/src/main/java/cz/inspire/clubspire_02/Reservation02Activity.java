@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -137,6 +138,15 @@ public class Reservation02Activity extends AbstractBaseActivity {
     }
 
     protected class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {
+
+        private ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //make loader visible:
+            progressBar.setVisibility(View.VISIBLE);
+        }
         @Override
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
@@ -160,7 +170,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
             }
 
             updateTerm();
-
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -169,7 +179,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
     private void populateTermList() {
 
         //TODO: sparsovat resultContent a nahadzat nove prvky do termList
-        //TODO: asi bude treba najskor spravit getActualWeek
         //"2015-06-15T00:00:00.000+0200
         if(!resultContent.equals("")) {
             try {
