@@ -115,22 +115,9 @@ public class Reservation02Activity extends AbstractBaseActivity {
         //TODO: napojit atribut date na nejaky den z vybraneho tyzdna
         requestParams.add(new BasicNameValuePair("date", "2015-06-20"));
         //atribut date API ignoruje: robilo problemy aj pri testovani/ stale vracia aktualny tyzden
-        requestParams.add(new BasicNameValuePair("history", "false"));
-        requestParams.add(new BasicNameValuePair("matchesFilter", "true"));
-        requestParams.add(new BasicNameValuePair("lessonStarted", "false"));
-        requestParams.add(new BasicNameValuePair("clickable", "true"));
-        requestParams.add(new BasicNameValuePair("substitute", "false"));
         requestParams.add(new BasicNameValuePair("activityId", ReservationHolder.getReservationActivityId()));
 
 
-        https://api.clubspire.com/api/timeline/week?
-        // date=2015-06-20&
-        // history=false&
-        // matchesFilter=true&
-        // lessonStarted=false&
-        // lessonFinished=false&
-        // clickable=true&substitute=false&
-        // activityId=639b1d5cac1303f00011cd38b40e36c0
         //API loader initialization
         new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/timeline/week", HttpMethod.GET);
         //continues in onPostExecute
