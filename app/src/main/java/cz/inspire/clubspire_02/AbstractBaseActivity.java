@@ -12,7 +12,6 @@ import android.view.View;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -20,22 +19,22 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.inspire.clubspire_02.APIResources.AccessTokenObject;
+import cz.inspire.clubspire_02.APIResources.AuthenticationHolder;
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.RESTconfiq;
-import cz.inspire.clubspire_02.APIResources.TokenHolder;
 
 /**
  * Created by michal on 5/3/15.
@@ -65,7 +64,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            TokenHolder.setTokenObject(null);
+            AuthenticationHolder.setTokenObject(null);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -152,15 +151,15 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             Log.d("API request", " on "+RESTconfiq.BASE_URL + suffix);
 
             try {
-                if (TokenHolder.getTokenObject() == null || ! TokenHolder.getTokenObject().isValid()) {
+                if (AuthenticationHolder.getTokenObject() == null || ! AuthenticationHolder.getTokenObject().isValid()) {
 
-                    //token request: requests token from server, and if everything is ok, fills retrieved token to TokenHolder
-                    requestToken();
+                    //token request: requests token from server, and if everything is ok, fills retrieved token to AuthenticationHolder
+                    requestToken("fimuni","123456");
 
                     return null;
                 }
-                if (TokenHolder.getTokenObject().isValid()) {
-                    Log.d("token used", TokenHolder.getTokenObject().getAccessToken());
+                if (AuthenticationHolder.getTokenObject().isValid()) {
+                    Log.d("token used", AuthenticationHolder.getTokenObject().getAccessToken());
 
                     if (requestMethod.equals(HttpMethod.POST) && plainRequest != null) {
 
@@ -170,7 +169,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         Log.d("onCreate: ", "before httppost: request: " + RESTconfiq.BASE_URL + suffix);
 
                         //set auth header:
-                        httppost.addHeader("Authorization", "Bearer " + TokenHolder.getTokenObject().getAccessToken());
+                        httppost.addHeader("Authorization", "Bearer " + AuthenticationHolder.getTokenObject().getAccessToken());
                         httppost.addHeader("Content-Type", "application/json");
 
                         httppost.setEntity(new StringEntity(plainRequest));
@@ -181,7 +180,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         responseCode = response.getStatusLine().getStatusCode();
                         if(responseCode == 401) {
                             // auth token expired
-                            requestToken();
+                            requestToken("fimuni","123456");
                         }
 
                         resultContent = handler.handleResponse(response);
@@ -213,7 +212,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         urlConnection.setRequestMethod(requestMethod.name());
 
                         //set auth header:
-                        urlConnection.setRequestProperty("Authorization", "Bearer " + TokenHolder.getTokenObject().getAccessToken());
+                        urlConnection.setRequestProperty("Authorization", "Bearer " + AuthenticationHolder.getTokenObject().getAccessToken());
                         urlConnection.setRequestProperty("Content-Type", "application/json");
                         urlConnection.setRequestMethod(requestMethod.name());
 
@@ -253,7 +252,15 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             //TODO: if needed, use static singleton for passing retrieved data between activities
         }
 
-        private boolean requestToken(){
+        private boolean requestToken(String username, String password){
+            List<NameValuePair> requestParams = new ArrayList<>();
+            requestParams.add(new BasicNameValuePair("grant_type", "password"));
+            requestParams.add(new BasicNameValuePair("client_id", RESTconfiq.CLIENT_ID));
+            requestParams.add(new BasicNameValuePair("client_secret", RESTconfiq.CLIENT_SECRET));
+            requestParams.add(new BasicNameValuePair("username", AuthenticationHolder.getUsername()));
+            requestParams.add(new BasicNameValuePair("password", AuthenticationHolder.getPassword()));
+            requestParams.add(new BasicNameValuePair("scope", "write"));
+
             Log.d("AsyncAPIRequest", "Token request");
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
@@ -278,15 +285,15 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                             .setScope(jsonHeader.get("scope").toString())
                             .setTokenType(jsonHeader.get("token_type").toString());
 
-                    TokenHolder.setTokenObject(tokenObject);
-                    Log.d("AbstractBase", "retrieved token: "+TokenHolder.getTokenObject().getAccessToken());
+                    AuthenticationHolder.setTokenObject(tokenObject);
+                    Log.d("AsyncAPIRequest", "retrieved token: "+ AuthenticationHolder.getTokenObject().getAccessToken());
                 } catch (JSONException e) {
-                    Log.e("loadToken:", "retrieved tokenObject was not serializable");
+                    Log.e("AsyncAPIRequest:", "retrieved tokenObject was not serializable");
                     e.printStackTrace();
                     return false;
                 }
             } else {
-                Log.e("OnPostExecute", "invalid request for token");
+                Log.e("AsyncAPIRequest", "invalid request for token");
                 return false;
             }
             return true;

@@ -6,34 +6,18 @@ import android.support.v7.widget.Toolbar;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import cz.inspire.clubspire_02.APIResources.AccessTokenObject;
+import cz.inspire.clubspire_02.APIResources.AuthenticationHolder;
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
-import cz.inspire.clubspire_02.APIResources.RESTconfiq;
-import cz.inspire.clubspire_02.APIResources.TokenHolder;
 
 
 public class MainActivity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
-
-    // you should either define client id and secret as constants or in string resources
-    private final String username = "fimuni";
-    private final String password = "123456";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +33,10 @@ public class MainActivity extends AbstractBaseActivity {
         Button buttonLogin = (Button) findViewById(R.id.btn_MenuLogin);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                List<NameValuePair> requestParams = new ArrayList<>();
-                requestParams.add(new BasicNameValuePair("grant_type", "password"));
-                requestParams.add(new BasicNameValuePair("client_id", RESTconfiq.CLIENT_ID));
-                requestParams.add(new BasicNameValuePair("client_secret", RESTconfiq.CLIENT_SECRET));
-                requestParams.add(new BasicNameValuePair("username", username));
-                requestParams.add(new BasicNameValuePair("password", password));
-                requestParams.add(new BasicNameValuePair("scope", "write"));
+                AuthenticationHolder.setPassword("123456");
+                AuthenticationHolder.setUsername("fimuni");
 
-                new AsyncAuthentization().setParameters(requestParams).execute("/oauth/token", HttpMethod.POST);
+                new AsyncAuthentization().execute("/oauth/token", HttpMethod.POST);
             }
         });
 
@@ -90,7 +69,7 @@ public class MainActivity extends AbstractBaseActivity {
             super.onPostExecute(v);
             progressBar.setVisibility(View.INVISIBLE);
 
-            if (TokenHolder.getTokenObject() != null) {
+            if (AuthenticationHolder.getTokenObject() != null) {
                 Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

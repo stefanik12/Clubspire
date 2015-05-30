@@ -69,12 +69,6 @@ public class Reservation01Activity extends AbstractBaseActivity {
             super.onPostExecute(v);
             Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
 
-            //TODO Reservation: dostat z jsonobject-u vsetko relevantne pre novovytvorenu rezervaciu:
-            if(!resultContent.equals("")) {
-                //vid populateActivityList
-
-            }
-
             populateActivityList();
             populateListView();
             registerClickCallback();
