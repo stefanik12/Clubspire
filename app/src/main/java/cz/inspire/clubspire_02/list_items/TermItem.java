@@ -60,38 +60,6 @@ public class TermItem {
         this.sportId = sportId;
     }
 
-    public TermItem(Date date, Day day, Time start, Time end, int weekNumber, boolean available) {
-        this.date = date;
-        this.day = day;
-        this.start = start;
-        this.end = end;
-        this.weekNumber = weekNumber;
-        this.available = available;
-
-        /*
-        cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(Calendar.YEAR, 2015);
-        cal.set(Calendar.WEEK_OF_MONTH,weekNumber);
-        cal.setFirstDayOfWeek(Calendar.MONDAY);
-        */
-    }
-
-    /*
-    was just for manual determining of date..soon to be deleted
-
-    public void setCalendar(int weekNumber, int yearNumber){
-        cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(Calendar.YEAR, yearNumber);
-        cal.set(Calendar.WEEK_OF_MONTH,weekNumber);
-        cal.setFirstDayOfWeek(Calendar.MONDAY);
-    }
-    public void setCalendarDay(int dayOfWeek){
-        cal.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-    }
-
-    */
     public Date getDate() {
         return date;
     }

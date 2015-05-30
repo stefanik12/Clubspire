@@ -8,26 +8,65 @@ import java.util.Date;
  * Created by Vukmir on 27.4.2015.
  */
 public class ReservationListItem {
+    private String id;
     private int iconId;
     private String activityName;
-    private Date date;
+    private Date startDate;
     private Day day;
     private Time start;
     private Time end;
+    private String activityId;
 
-    public ReservationListItem(int iconId, String activityName, Date date, Day day, Time start, Time end) {
-        this.iconId = iconId;
-        this.activityName = activityName;
-        this.date = date;
-        this.day = day;
-        this.start = start;
-        this.end = end;
+    public String getId() {
+        return id;
     }
 
+    public ReservationListItem setId(String id) {
+        this.id = id;
+        return this;
+    }
 
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public ReservationListItem setActivityId(String activityId) {
+        this.activityId = activityId;
+        return this;
+    }
+
+    public ReservationListItem setIconId(int iconId) {
+        this.iconId = iconId;
+        return this;
+    }
+
+    public ReservationListItem setActivityName(String activityName) {
+        this.activityName = activityName;
+        return this;
+    }
+
+    public ReservationListItem setStartDate(Date startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public ReservationListItem setDay(Day day) {
+        this.day = day;
+        return this;
+    }
+
+    public ReservationListItem setStart(Time start) {
+        this.start = start;
+        return this;
+    }
+
+    public ReservationListItem setEnd(Time end) {
+        this.end = end;
+        return this;
+    }
 
     public String getDateString() {
-        return date.getDay() + "." + date.getMonth() + ".";
+        return startDate.getDate() + "." + (startDate.getMonth()+1) + ".";
     }
 
     public String getStartString() {
@@ -46,8 +85,8 @@ public class ReservationListItem {
         return activityName;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
     public Day getDay() {
@@ -60,5 +99,11 @@ public class ReservationListItem {
 
     public Time getEnd() {
         return end;
+    }
+
+    public String getFormedDateTime(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(day.toString()).append(" ").append(getDateString()).append("  (").append(getStartString()).append("-").append(getEndString()).append(")");
+        return builder.toString();
     }
 }

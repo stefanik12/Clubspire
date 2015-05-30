@@ -142,7 +142,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                         "\"emailNotificationBeforeMinutes\": " + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
                         "\"smsNotificationBeforeMinutes\": " + reservation.getSmsNotificationBeforeMinutes() +  "}";
 
-                System.out.println("my parsed sentText = " + mySentText);
+                Log.d("my parsed sentText" , mySentText);
 
                 //TODO try to fix startTime format so we can use Gson
                 Gson gson = new Gson();
@@ -156,7 +156,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
 
-                //new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/api/reservations", HttpMethod.POST); //hlásí "požadovaný zdroj nebyl nalezen", jednou to zafungovalo a vytvoøilo rezervaci
+                //new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/api/reservations", HttpMethod.POST); //hlï¿½sï¿½ "poï¿½adovanï¿½ zdroj nebyl nalezen", jednou to zafungovalo a vytvoï¿½ilo rezervaci
                 new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/api/reservations", HttpMethod.POST);
             }
         });

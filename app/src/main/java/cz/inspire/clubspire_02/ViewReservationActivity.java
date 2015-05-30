@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.View.OnClickListener;
 
 import android.content.Intent;
@@ -11,18 +12,24 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.inspire.clubspire_02.APIResources.HttpMethod;
+import cz.inspire.clubspire_02.APIResources.ReservationHolder;
 import cz.inspire.clubspire_02.list_items.ReservationItem;
 
 /**
  * Created by Michal on 27. 4. 2015.
  */
-public class ViewReservationActivity  extends AbstractBaseActivity {
+public class ViewReservationActivity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
     private final String USER = "Vukmir";
@@ -60,7 +67,7 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
             end = extras.getString("EXTRA_END");
             iconId = extras.getInt("EXTRA_ICON_ID");
 
-        }else{
+        } else {
             activityName = "EXTRA_ACTIVITY_NAME";
             date = "EXTRA_DATE";
             start = "EXTRA_START";
@@ -75,27 +82,38 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
         Button btnConfirm = (Button) findViewById(R.id.btnViewReservationConfirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Rezervace upravena", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), ListReservationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
         //set BACK button size
-        int scrWidth  = getWindowManager().getDefaultDisplay().getWidth();
         int scrHeight = getWindowManager().getDefaultDisplay().getHeight();
-        //btnConfirm.setWidth(scrWidth/2);
-        btnConfirm.setHeight(scrHeight/10);
+        btnConfirm.setHeight(scrHeight / 10);
 
         //set CANCEL button listener
-
-
         Button btnDelete = (Button) findViewById(R.id.btnViewReservationCancel);
+
+        //delete confirmation listener
+        final DialogInterface.OnClickListener deleteListener = new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(context, ListReservationActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                //start async request for deleting the reservation
+                new LocalAsyncAPIRequestExtension().execute("/api/reservations/" + ReservationHolder.getReservationId() + "/cancel", HttpMethod.PUT);
+
+                dialog.dismiss();
+            }
+        };
+
         btnDelete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //Dialog d = onCreateDialog(0);
-                Dialog d = CustomDialog.createDialog(0, context, ListReservationActivity.class, getString(R.string.text_cancel_reservation),getString(R.string.text_cancel_reservation_question),
-                        getString(R.string.text_no),getString(R.string.text_yes),getString(R.string.text_reservation_canceled));
+
+
+                Dialog d = CustomDialog.createDialog(0, context, deleteListener, getString(R.string.text_cancel_reservation), getString(R.string.text_cancel_reservation_question),
+                        getString(R.string.text_no), getString(R.string.text_yes));
                 d.show();
             }
         });
@@ -105,8 +123,49 @@ public class ViewReservationActivity  extends AbstractBaseActivity {
 
     }
 
-    private void setReservationItemsContent(String activityName, String date, String start, String end, String user )
-    {
+    private class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {
+
+        private ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBarViewReservation);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //make loader visible:
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            progressBar.setVisibility(View.INVISIBLE);
+
+            if (resultContent != null) {
+                try {
+                    JSONObject baseJSON = new JSONObject(resultContent);
+
+                    String clientMessage = baseJSON.getJSONObject("message").getString("clientMessage");
+
+                    //if not 200 then continue in this  else stay and toast
+                    if(! baseJSON.getJSONObject("message").getString("httpStatus").equals("200")){
+                        Toast.makeText(getApplicationContext(), clientMessage, Toast.LENGTH_LONG).show();
+                    }
+
+                    Intent intent = new Intent(getApplicationContext(), ListReservationActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("lastReservationStatus", clientMessage);
+                    startActivity(intent);
+
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Server request failed", Toast.LENGTH_LONG).show();
+
+                    Log.e("ListReservationActivity", "JSON parsing failed");
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    private void setReservationItemsContent(String activityName, String date, String start, String end, String user) {
         this.activityText = (TextView) findViewById(R.id.txtViewReservationActivityContent);
         activityText.setText(activityName);
 

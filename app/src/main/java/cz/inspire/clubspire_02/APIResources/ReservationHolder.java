@@ -10,13 +10,22 @@ public class ReservationHolder {
     private static Reservation reservation;
     private static String reservationActivityId;
     private static String reservationActivityName;
-    private static int iconId;
+    private static Integer iconId;
+    private static String reservationId;
+
+    public static String getReservationId() {
+        return reservationId;
+    }
+
+    public static void setReservationId(String reservationId) {
+        ReservationHolder.reservationId = reservationId;
+    }
 
     public static int getIconId() {
         return iconId;
     }
 
-    public static void setIconId(int iconId) {
+    public static void setIconId(Integer iconId) {
         ReservationHolder.iconId = iconId;
     }
 

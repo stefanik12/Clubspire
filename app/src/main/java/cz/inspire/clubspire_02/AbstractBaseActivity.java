@@ -188,7 +188,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
                         resultContent = handler.handleResponse(response);
 
-                    } else if (requestMethod.equals(HttpMethod.GET)){
+                    } else if (requestMethod.equals(HttpMethod.GET) || requestMethod.equals(HttpMethod.PUT)){
                         //retrieving content
 
                         //set parameters to GET:
@@ -203,7 +203,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                             requestURL.append(pair.getName());
                             requestURL.append("=");
                             requestURL.append(pair.getValue());
-                            requestURL.append("&&");
+                            requestURL.append("&");
                         }
                         if(nameValuePairs.size()>0){
                             requestURL.delete(requestURL.length() - 2, requestURL.length());
