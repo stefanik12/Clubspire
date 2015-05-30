@@ -240,9 +240,9 @@ public class CustomDialog extends Dialog {
      * Build the desired Dialog
      * CUSTOM or DEFAULT
      */
-    //dialogID 0 = custom, 1 = deffault
-    public static Dialog createDialog(int dialogId, final Context context, final Class nextClass, String text_cancel_reservation, String text_cancel_reservation_question,
-                                      String text_no, String text_yes, final String text_reservation_canceled) {
+    //dialogID 0 = custom, 1 = default
+    public static Dialog createDialog(int dialogId, final Context context, final DialogInterface.OnClickListener onClickListener, String text_cancel_reservation, String text_cancel_reservation_question,
+                                      String text_no, String text_yes) {
         Dialog dialog = null;
         switch (dialogId) {
             case CUSTOM_DIALOG :
@@ -251,20 +251,7 @@ public class CustomDialog extends Dialog {
                 customBuilder.setTitle(text_cancel_reservation)
                         .setMessage(text_cancel_reservation_question)
 
-                        .setPositiveButton(text_yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(context, text_reservation_canceled, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(context, nextClass);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                //Toast.makeText(context,intent.toString(),Toast.LENGTH_SHORT).show();
-                               // Toast.makeText(context,"YES",Toast.LENGTH_SHORT).show();
-
-                                context.startActivity(intent);
-
-                                //finish();
-                                dialog.dismiss();
-                            }
-                        })
+                        .setPositiveButton(text_yes, onClickListener)
 
                         .setNegativeButton(text_no, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

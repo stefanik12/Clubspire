@@ -1,376 +1,408 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:orientation="vertical">
 
     //toolbar
-    <include layout="@layout/toolbar"/>
+
+    <include layout="@layout/toolbar" />
 
 
     //aktivita layout
+
     <RelativeLayout
+        android:id="@+id/activityViewReservationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/activityViewReservationLayout"
         android:layout_marginTop="5dp"
         android:background="@color/primary_item_color"
-        android:paddingRight="20dp"
-        android:paddingLeft="5dp">
+        android:paddingLeft="5dp"
+        android:paddingRight="20dp">
 
         //aktivita
+
         <TextView
+            android:id="@+id/textViewReservationActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Aktivita"
-            android:id="@+id/textViewReservationActivity"
             android:layout_alignParentLeft="true"
-            android:layout_margin="5dp"
-            android:padding="5dp"
             android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="Aktivita"
             android:textColor="@color/secondary_color" />
 
         //aktivita content
+
         <EditText
-            android:text="aktivita XXX"
-            android:textColor="@color/primary_color"
+            android:id="@+id/txtViewReservationActivityContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtViewReservationActivityContent"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentStart="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:enabled="false"
+            android:background="#00000000"
             android:clickable="false"
             android:editable="false"
-            android:layout_alignParentStart="false"
+            android:enabled="false"
             android:padding="5dp"
-            android:layout_marginLeft="20dp"
-            android:background="#00000000" />
+            android:text="aktivita XXX"
+            android:textColor="@color/primary_color" />
     </RelativeLayout>
 
     //datum layout
+
     <RelativeLayout
+        android:id="@+id/dateViewReservationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dateViewReservationLayout"
         android:layout_marginTop="5dp"
         android:background="@color/primary_item_color"
-        android:paddingRight="20dp"
-        android:paddingLeft="5dp">
+        android:paddingLeft="5dp"
+        android:paddingRight="20dp">
 
         //datum
+
         <TextView
+            android:id="@+id/textViewReservationDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Datum"
-            android:id="@+id/textViewReservationDate"
             android:layout_alignParentLeft="true"
-            android:layout_margin="5dp"
-            android:padding="5dp"
             android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="Datum"
             android:textColor="@color/secondary_color" />
 
         //datum content
+
         <EditText
-            android:text="datum XXX"
-            android:textColor="@color/primary_color"
+            android:id="@+id/txtViewReservationDateContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtViewReservationDateContent"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentStart="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:enabled="false"
+            android:background="#00000000"
             android:clickable="false"
             android:editable="false"
-            android:layout_alignParentStart="false"
+            android:enabled="false"
             android:padding="5dp"
-            android:layout_marginLeft="20dp"
-            android:background="#00000000" />
+            android:text="datum XXX"
+            android:textColor="@color/primary_color" />
     </RelativeLayout>
 
     //čas layout
+
     <RelativeLayout
+        android:id="@+id/timeViewReservationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/timeViewReservationLayout"
         android:layout_marginTop="5dp"
         android:background="@color/primary_item_color"
-        android:paddingRight="20dp"
-        android:paddingLeft="5dp">
+        android:paddingLeft="5dp"
+        android:paddingRight="20dp">
 
         //čas
+
         <TextView
+            android:id="@+id/textViewReservationTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Čas"
-            android:id="@+id/textViewReservationTime"
             android:layout_alignParentLeft="true"
-            android:layout_margin="5dp"
-            android:padding="5dp"
             android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="Čas"
             android:textColor="@color/secondary_color" />
 
         //čas content
+
         <EditText
-            android:text="Time XXX"
-            android:textColor="@color/primary_color"
+            android:id="@+id/txtViewReservationTimeContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtViewReservationTimeContent"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentStart="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:enabled="false"
+            android:background="#00000000"
             android:clickable="false"
             android:editable="false"
-            android:layout_alignParentStart="false"
+            android:enabled="false"
             android:padding="5dp"
-            android:layout_marginLeft="20dp"
-            android:background="#00000000" />
+            android:text="Time XXX"
+            android:textColor="@color/primary_color" />
     </RelativeLayout>
 
     //uživatel layout
+
     <RelativeLayout
+        android:id="@+id/userViewReservationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/userViewReservationLayout"
         android:layout_marginTop="5dp"
         android:background="@color/primary_item_color"
-        android:paddingRight="20dp"
-        android:paddingLeft="5dp">
+        android:paddingLeft="5dp"
+        android:paddingRight="20dp">
 
         //uživatel
+
         <TextView
+            android:id="@+id/textViewReservationUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Uživatel"
-            android:id="@+id/textViewReservationUser"
             android:layout_alignParentLeft="true"
-            android:layout_margin="5dp"
-            android:padding="5dp"
             android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="Uživatel"
             android:textColor="@color/secondary_color" />
 
         //uživatel content
+
         <EditText
-            android:text="User XXX"
-            android:textColor="@color/primary_color"
+            android:id="@+id/txtViewReservationUserContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtViewReservationUserContent"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentStart="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:enabled="false"
+            android:background="#00000000"
             android:clickable="false"
             android:editable="false"
-            android:layout_alignParentStart="false"
+            android:enabled="false"
             android:padding="5dp"
-            android:layout_marginLeft="20dp"
-            android:background="#00000000" />
+            android:text="User XXX"
+            android:textColor="@color/primary_color" />
     </RelativeLayout>
-
-
 
 
     //reservation item list
 
     //upozornění
+
     <RelativeLayout
+        android:id="@+id/viewReservationNotificationLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/viewReservationNotificationLayout"
         android:layout_marginTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingLeft="5dp">
+        android:paddingLeft="5dp"
+        android:paddingRight="20dp">
 
         //upozornění text//
 
         <TextView
+            android:id="@+id/textViewReservationNotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upozornění"
-            android:id="@+id/textViewReservationNotification"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:padding="5dp"
-            android:layout_centerVertical="true"
+            android:text="Upozornění"
             android:textColor="@color/secondary_color" />
 
         //mobile notification
+
         <CheckBox
+            android:id="@+id/checkBoxViewReservation_notifyMobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mobil"
-            android:id="@+id/checkBoxViewReservation_notifyMobile"
-            android:checked="true"
-            android:paddingEnd="25dp"
             android:layout_alignParentRight="true"
-            android:textColor="@color/secondary_color"
+            android:checked="true"
             android:enabled="false"
-            />
+            android:paddingEnd="25dp"
+            android:text="mobil"
+            android:textColor="@color/secondary_color" />
 
         //email notification
+
         <CheckBox
+            android:id="@+id/checkBoxViewReservation_notifyEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="e-mail"
-            android:id="@+id/checkBoxViewReservation_notifyEmail"
-            android:checked="true"
             android:layout_alignParentRight="false"
-            android:paddingEnd="25dp"
             android:layout_centerInParent="true"
             android:layout_toStartOf="@id/checkBox_notifyMobile"
-            android:textColor="@color/secondary_color"
+            android:checked="true"
             android:enabled="false"
-            />
+            android:paddingEnd="25dp"
+            android:text="e-mail"
+            android:textColor="@color/secondary_color" />
 
     </RelativeLayout>
 
 
     //účastník
+
     <RelativeLayout
+        android:id="@+id/playerViewReservationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/playerViewReservationLayout"
-        android:weightSum="1"
         android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
         android:paddingRight="10dp"
-        android:paddingLeft="5dp">
+        android:weightSum="1">
 
         //players
+
         <TextView
+            android:id="@+id/textViewReservationPlayers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Počet účastníků"
-            android:id="@+id/textViewReservationPlayers"
             android:layout_alignParentLeft="true"
-            android:layout_margin="5dp"
-            android:padding="5dp"
             android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="Počet účastníků"
             android:textColor="@color/secondary_color" />
 
         //players content
+
         <EditText
-            android:text="@string/default_attendants"
-            android:width="40dp"
-            android:inputType="number"
+            android:id="@+id/editViewReservationPlayersContent"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editViewReservationPlayersContent"
             android:layout_alignParentLeft="false"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentStart="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:width="40dp"
 
             android:background="@color/color_reservation_item"
-
-            android:layout_alignParentStart="false"
-            android:padding="5dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:textColor="@color/secondary_color"
 
             android:clickable="false"
             android:editable="false"
             android:enabled="false"
-            />
+            android:gravity="center"
+            android:inputType="number"
+
+            android:padding="5dp"
+            android:text="@string/default_attendants"
+            android:textColor="@color/secondary_color" />
     </RelativeLayout>
 
     //poznámka
+
     <RelativeLayout
+        android:id="@+id/noteViewReservationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/noteViewReservationLayout"
-        android:weightSum="1"
         android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
         android:paddingRight="10dp"
-        android:paddingLeft="5dp">
+        android:weightSum="1">
 
         //note
+
         <TextView
+            android:id="@+id/textViewReservationNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Poznámka"
-            android:id="@+id/textViewReservationNote"
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
             android:padding="5dp"
+            android:text="Poznámka"
             android:textColor="@color/secondary_color" />
 
         //note content
+
         <EditText
 
+            android:id="@+id/editTextViewReservationNoteContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextViewReservationNoteContent"
+            android:layout_alignParentEnd="false"
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="true"
-            android:background="@color/color_reservation_item"
             android:layout_alignParentStart="false"
-            android:layout_toEndOf="@id/textNote"
             android:layout_marginLeft="5dp"
-            android:minHeight="@dimen/menu_item_height"
-            android:textColor="@color/secondary_color"
+            android:layout_toEndOf="@id/textNote"
+            android:layout_toRightOf="@+id/textViewReservationNote"
+            android:background="@color/color_reservation_item"
 
             android:clickable="false"
             android:editable="false"
             android:enabled="false"
+            android:minHeight="@dimen/menu_item_height"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:layout_alignParentEnd="false"
-            android:layout_toRightOf="@+id/textViewReservationNote"
+            android:textColor="@color/secondary_color"
 
             />
     </RelativeLayout>
 
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        //buttons
+
+        <LinearLayout
+            android:id="@+id/btnViewReservationConfirmLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:weightSum="10">
+
+            //confirm
+
+            <Button
+                android:id="@+id/btnViewReservationConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="5"
+                android:background="@drawable/button_gray"
+                android:text="@string/string_back"
+                android:textColor="@color/primary_color" />
+
+            //cancel
+
+            <Button
+                android:id="@+id/btnViewReservationCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="5"
+                android:background="@drawable/button_red"
+                android:text="@string/string_cancel"
+                android:textColor="@color/primary_color" />
 
 
+        </LinearLayout>
 
-    //buttons
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:id="@+id/btnViewReservationConfirmLayout"
-        android:weightSum="10"
-        android:layout_margin="5dp">
-
-        //confirm
-        <Button
+        <ProgressBar
+            android:id="@+id/progressBarViewReservation"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/btnViewReservationConfirmLayout"
+            android:layout_marginTop="@dimen/item_marginTop"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="@string/string_back"
-            android:id="@+id/btnViewReservationConfirm"
-            android:background="@drawable/button_gray"
-            android:textColor="@color/primary_color"
-            android:layout_weight="5"
-            android:layout_marginRight="5dp" />
-
-        //cancel
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="@string/string_cancel"
-            android:textColor="@color/primary_color"
-            android:id="@+id/btnViewReservationCancel"
-            android:background="@drawable/button_red"
-            android:layout_weight="5"
-            android:layout_gravity="right"
-            android:layout_marginLeft="5dp" />
-
-
-    </LinearLayout>
-
+            android:indeterminateOnly="true"
+            android:keepScreenOn="true"
+            android:visibility="invisible"
+            />
+    </RelativeLayout>
 
 
 </LinearLayout>
