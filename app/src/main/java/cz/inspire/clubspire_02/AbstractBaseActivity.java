@@ -12,6 +12,7 @@ import android.view.View;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -23,7 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -151,34 +154,8 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             try {
                 if (TokenHolder.getTokenObject() == null || ! TokenHolder.getTokenObject().isValid()) {
 
-                    //token request:
-                    Log.d("AsyncAPIRequest", "Token request");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
-
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                    HttpResponse response = httpclient.execute(httppost);
-                    ResponseHandler<String> handler = new BasicResponseHandler();
-                    resultContent = handler.handleResponse(response);
-
-                    //parse response
-                    if(resultContent != null){
-                        try {
-                            JSONObject jsonHeader = new JSONObject(resultContent);
-                            AccessTokenObject tokenObject = new AccessTokenObject().setAccessToken(jsonHeader.get("access_token").toString())
-                                    .setExpires_in(Long.parseLong(jsonHeader.get("expires_in").toString()))
-                                    .setScope(jsonHeader.get("scope").toString())
-                                    .setTokenType(jsonHeader.get("token_type").toString());
-
-                            TokenHolder.setTokenObject(tokenObject);
-                            Log.d("AbstractBase", "retrieved token: "+TokenHolder.getTokenObject().getAccessToken());
-                        } catch (JSONException e) {
-                            Log.e("loadToken:", "retrieved tokenObject was not serializable");
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Log.e("OnPostExecute", "invalid request for token");
-                    }
+                    //token request: requests token from server, and if everything is ok, fills retrieved token to TokenHolder
+                    requestToken();
 
                     return null;
                 }
@@ -202,8 +179,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         ResponseHandler<String> handler = new BasicResponseHandler();
 
                         responseCode = response.getStatusLine().getStatusCode();
-                        if(responseCode != 200) {
-                            //TODO server did not respond correctly
+                        if(responseCode == 401) {
+                            // auth token expired
+                            requestToken();
                         }
 
                         resultContent = handler.handleResponse(response);
@@ -248,11 +226,10 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                 } else {
                     Log.d("AsyncAPIRequest", "Token is not valid - this should never happen");
                 }
-
             } catch (Exception e) {
                 Log.e("doInBackground", "error while retrieving content from " + RESTconfiq.BASE_URL + suffix);
-
                 e.printStackTrace();
+
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
@@ -274,6 +251,45 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             super.onPostExecute(v);
 
             //TODO: if needed, use static singleton for passing retrieved data between activities
+        }
+
+        private boolean requestToken(){
+            Log.d("AsyncAPIRequest", "Token request");
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
+
+            try {
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httppost);
+                ResponseHandler<String> handler = new BasicResponseHandler();
+                resultContent = handler.handleResponse(response);
+            } catch (IOException e) {
+                Log.e("requestToken", "unable to resolve token content from server");
+                e.printStackTrace();
+                return false;
+            }
+
+            //parse response
+            if(resultContent != null){
+                try {
+                    JSONObject jsonHeader = new JSONObject(resultContent);
+                    AccessTokenObject tokenObject = new AccessTokenObject().setAccessToken(jsonHeader.get("access_token").toString())
+                            .setExpires_in(Long.parseLong(jsonHeader.get("expires_in").toString()))
+                            .setScope(jsonHeader.get("scope").toString())
+                            .setTokenType(jsonHeader.get("token_type").toString());
+
+                    TokenHolder.setTokenObject(tokenObject);
+                    Log.d("AbstractBase", "retrieved token: "+TokenHolder.getTokenObject().getAccessToken());
+                } catch (JSONException e) {
+                    Log.e("loadToken:", "retrieved tokenObject was not serializable");
+                    e.printStackTrace();
+                    return false;
+                }
+            } else {
+                Log.e("OnPostExecute", "invalid request for token");
+                return false;
+            }
+            return true;
         }
     }
 }
