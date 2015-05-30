@@ -203,10 +203,10 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                             requestURL.append(pair.getName());
                             requestURL.append("=");
                             requestURL.append(pair.getValue());
-                            requestURL.append("&");
+                            requestURL.append("&&");
                         }
                         if(nameValuePairs.size()>0){
-                            requestURL.delete(requestURL.length() - 2, requestURL.length());
+                            requestURL.delete(requestURL.length() - 1, requestURL.length());
                         }
 
                         Log.d("requested URL", requestURL.toString());
