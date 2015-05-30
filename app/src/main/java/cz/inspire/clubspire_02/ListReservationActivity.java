@@ -139,45 +139,57 @@ public class ListReservationActivity extends AbstractBaseActivity {
         start.set(0, 30, 15, 24, 12, 2015);
         end.set(0, 00, 14, 24, 12, 2015);
 
-        //TODO: sparsovat resultContent do zoznamu aktivit:
         try {
             JSONObject baseJSON = new JSONObject(resultContent);
             JSONArray reservations = baseJSON.getJSONArray("data");
             for(int i = 0;i<reservations.length();i++){
                 JSONObject iteratedItem = reservations.getJSONObject(i);
 
-                String activityName = iteratedItem.getJSONObject("sport").getJSONObject("activity").getString("name");
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
+                //Filter results - show only ones with no state = canceled
+                boolean showItem = true;
+                JSONArray states = iteratedItem.getJSONArray("states");
+                for(int j = 0;j<states.length();j++){
+                    Log.d(this.getLocalClassName(), "found state: "+states.getString(j));
 
-                Date startDate = dateFormat.parse(iteratedItem.getString("startTime"));
-                Time startDateAsTime = new Time();
-                startDateAsTime.set(startDate.getTime());
+                    if(states.getString(j).equals("CANCELED")){
+                        showItem = false;
+                    }
+                }
 
-                Date endDate = dateFormat.parse(iteratedItem.getString("endTime"));
-                Time endDateAsTime = new Time();
-                endDateAsTime.set(endDate.getTime());
+                if(showItem){
+                    String activityName = iteratedItem.getJSONObject("sport").getJSONObject("activity").getString("name");
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
 
-                Calendar c = Calendar.getInstance();
-                c.setTime(startDate);
-                Integer weekDay = c.get(Calendar.DAY_OF_WEEK);
+                    Date startDate = dateFormat.parse(iteratedItem.getString("startTime"));
+                    Time startDateAsTime = new Time();
+                    startDateAsTime.set(startDate.getTime());
 
-                String activityId = iteratedItem.getJSONObject("sport").getJSONObject("activity").getString("id");
+                    Date endDate = dateFormat.parse(iteratedItem.getString("endTime"));
+                    Time endDateAsTime = new Time();
+                    endDateAsTime.set(endDate.getTime());
 
-                String reservationId = iteratedItem.getString("id");
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(startDate);
+                    Integer weekDay = c.get(Calendar.DAY_OF_WEEK);
 
-                ReservationListItem newItem = new ReservationListItem();
-                newItem.setStartDate(startDate)
-                        .setIconId(R.drawable.a_01_b)
-                        .setActivityName(activityName)
-                        .setDay(Day.values()[weekDay-2])
-                        .setStart(startDateAsTime)
-                        .setEnd(endDateAsTime)
-                        .setActivityId(activityId)
-                        .setId(reservationId);
+                    String activityId = iteratedItem.getJSONObject("sport").getJSONObject("activity").getString("id");
 
-                Log.d("ListReservations", "Activity name: " + newItem.getActivityName());
+                    String reservationId = iteratedItem.getString("id");
 
-                reservationList.add(newItem);
+                    ReservationListItem newItem = new ReservationListItem();
+                    newItem.setStartDate(startDate)
+                            .setIconId(R.drawable.a_01_b)
+                            .setActivityName(activityName)
+                            .setDay(Day.values()[weekDay-2])
+                            .setStart(startDateAsTime)
+                            .setEnd(endDateAsTime)
+                            .setActivityId(activityId)
+                            .setId(reservationId);
+
+                    Log.d("ListReservations", "Activity name: " + newItem.getActivityName());
+
+                    reservationList.add(newItem);
+                }
             }
         } catch (JSONException je) {
             Log.e("ListReservation", "parsing failed");
@@ -225,11 +237,6 @@ public class ListReservationActivity extends AbstractBaseActivity {
         });
     }
 
-
-    //TODO:  ListView, resp. adaptery by měly implementovat ViewHolder pattern viz
-    //  http://developer.android.com/training/improving-layouts/smooth-scrolling.html
-    //  nebo http://www.vogella.com/tutorials/AndroidListView/article.html (8.4)
-
     private class MyListAdapter extends ArrayAdapter<ReservationListItem> {
         public MyListAdapter() {
             super(ListReservationActivity.this, R.layout.reservation_item, reservationList);
@@ -254,15 +261,6 @@ public class ListReservationActivity extends AbstractBaseActivity {
             TextView nameText = (TextView) itemView.findViewById(R.id.reservation_item_txtName);
             nameText.setText(currentReservation.getActivityName());
             return itemView;
-        }
-
-        private class ViewHolder {
-            public TextView dateText;
-            public ImageView imageView;
-            public TextView nameText;
-            public ProgressBar progress;
-            public final int position = 0;
-
         }
     }
 }

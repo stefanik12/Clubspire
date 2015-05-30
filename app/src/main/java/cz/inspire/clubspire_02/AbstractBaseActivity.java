@@ -19,6 +19,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -27,6 +29,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.inspire.clubspire_02.APIResources.AccessTokenObject;
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.RESTconfiq;
 import cz.inspire.clubspire_02.APIResources.TokenHolder;
@@ -146,19 +149,36 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             Log.d("API request", " on "+RESTconfiq.BASE_URL + suffix);
 
             try {
-                if (TokenHolder.getTokenObject() == null) {
+                if (TokenHolder.getTokenObject() == null || ! TokenHolder.getTokenObject().isValid()) {
 
                     //token request:
-
                     Log.d("AsyncAPIRequest", "Token request");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + suffix);
-                    Log.d("onCreate: ", "before httppost: request: " + RESTconfiq.BASE_URL + suffix);
+                    HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
 
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                     HttpResponse response = httpclient.execute(httppost);
                     ResponseHandler<String> handler = new BasicResponseHandler();
                     resultContent = handler.handleResponse(response);
+
+                    //parse response
+                    if(resultContent != null){
+                        try {
+                            JSONObject jsonHeader = new JSONObject(resultContent);
+                            AccessTokenObject tokenObject = new AccessTokenObject().setAccessToken(jsonHeader.get("access_token").toString())
+                                    .setExpires_in(Long.parseLong(jsonHeader.get("expires_in").toString()))
+                                    .setScope(jsonHeader.get("scope").toString())
+                                    .setTokenType(jsonHeader.get("token_type").toString());
+
+                            TokenHolder.setTokenObject(tokenObject);
+                            Log.d("AbstractBase", "retrieved token: "+TokenHolder.getTokenObject().getAccessToken());
+                        } catch (JSONException e) {
+                            Log.e("loadToken:", "retrieved tokenObject was not serializable");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Log.e("OnPostExecute", "invalid request for token");
+                    }
 
                     return null;
                 }
@@ -183,7 +203,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
                         responseCode = response.getStatusLine().getStatusCode();
                         if(responseCode != 200) {
-                            //TODO now what?
+                            //TODO server did not respond correctly
                         }
 
                         resultContent = handler.handleResponse(response);
@@ -226,8 +246,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
                     }
                 } else {
-                    //TODO: new token should be requested here
-                    Log.d("AsyncAPIRequest", "Token is not valid");
+                    Log.d("AsyncAPIRequest", "Token is not valid - this should never happen");
                 }
 
             } catch (Exception e) {
@@ -240,7 +259,12 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                 }
             }
             Log.d("response code ",String.valueOf(responseCode));
-            Log.d("content", resultContent);
+            if(resultContent != null){
+                Log.d("result content", resultContent);
+            } else {
+                Log.e("result content", "is null");
+            }
+
 
             return null;
         }

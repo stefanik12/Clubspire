@@ -88,38 +88,16 @@ public class MainActivity extends AbstractBaseActivity {
         @Override
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
-            Log.d("onPostExecute", "tokenObject loading finished");
+            progressBar.setVisibility(View.INVISIBLE);
 
-            AccessTokenObject tokenObject = null;
-            if(resultContent != null){
-                try {
-                    JSONObject jsonHeader = new JSONObject(resultContent);
-                    tokenObject = new AccessTokenObject().setAccessToken(jsonHeader.get("access_token").toString())
-                            .setExpires_in(Long.parseLong(jsonHeader.get("expires_in").toString()))
-                            .setScope(jsonHeader.get("scope").toString())
-                            .setTokenType(jsonHeader.get("token_type").toString());
-                } catch (JSONException e) {
-                    Log.e("loadToken:", "retrieved tokenObject was not serializable");
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e("OnPostExecute", "retrieved content was not valid");
-            }
-
-            if (tokenObject != null) {
-                Log.d("onPostExecute: token:", tokenObject.getAccessToken());
-
-                TokenHolder.setTokenObject(tokenObject);
-
+            if (TokenHolder.getTokenObject() != null) {
                 Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {
-                //zly tokenObject <= chybne prihlasenie TODO: neskor spracovat
-                Toast.makeText(getApplicationContext(), "Prihlasenie zlyhalo", Toast.LENGTH_SHORT).show();
+                //zly tokenObject <= chybne prihlasenie
+                Toast.makeText(getApplicationContext(), "Prihlasenie zlyhalo. Skontrolujte meno a heslo", Toast.LENGTH_LONG).show();
             }
-
-            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
