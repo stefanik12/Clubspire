@@ -101,7 +101,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
         //dataAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
         spinner1.setAdapter(dataAdapter);
-        spinner1.setSelection(1);
+        spinner1.setSelection(0);
 
         //set actionbar button listener
         Toolbar buttonToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -170,263 +170,325 @@ public class Reservation02Activity extends AbstractBaseActivity {
         //TODO: sparsovat resultContent a nahadzat nove prvky do termList
         //"2015-06-15T00:00:00.000+0200
         if(!resultContent.equals("")) {
+            JSONArray dataJSON = new JSONArray();
             try {
-                JsonObject obj = new JsonParser().parse(resultContent).getAsJsonObject();
-                //System.out.println("objekt = " + obj.toString());
-
                 JSONObject baseJSON = new JSONObject(resultContent);
-
+                System.out.println("baseJSON: " + baseJSON);
                 Log.d("base","getting base");
-
-                JSONArray dataJSON = baseJSON.getJSONArray("data");
-
-                for(int d = 0; d<dataJSON.length();d++){
-
-                    JSONObject dataObj = dataJSON.getJSONObject(d);
-
-                    JSONArray dayJSON = dataObj.getJSONArray("days");
-
-
-                    for(int i = 0;i<dayJSON.length(); i++) {
-
-
-                        JSONObject dayObj = (JSONObject) dayJSON.get(i);
-
-                        JSONArray dayTabsJSON = dayObj.getJSONArray("dayTabs");
-
-                        for (int j = 0; j < dayTabsJSON.length(); j++) {
-
-
-
-
-                            //date
-                            //TODO get normal SimpleDateFormat pattern
-                            String termDate = dayObj.getString("date");
-                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
-
-                            //start - badone
-                            /*
-                            String startString = new JSONObject(termJSON.get(j).toString()).getString("startHour");
-                            int startInt = Integer.parseInt(startString);
-                            Time startHour = new Time();
-                            startHour.set(0, 0, startInt, 0, 0, 0);
-                            t.setStart(startHour);
-                            */
-
-                            //end badone
-                            /*
-                            String endString = new JSONObject(termJSON.get(j).toString()).getString("endHour");
-                            int endInt = Integer.parseInt(endString);
-                            Time endHour = new Time();
-                            endHour.set(0, 0, endInt, 0, 0, 0);
-                            t.setEnd(endHour);
-                            */
-
-                            JSONArray sportsJSON = ((JSONObject)dayTabsJSON.get(j)).getJSONArray("sports");
-                            for(int s=0; s<sportsJSON.length();s++){
-                                TermItem t = new TermItem();
-                                Boolean termOk = true;
-
-                                //date
-                                t.setDate(dateFormat.parse(termDate));
-                                //System.out.println("date = " + termDate.toString());
-
-                                //available
-                                //TODO no unavailable terms to check
-                                System.out.println("getting free places");
-                                try {
-                                    int freePlaces = ((JSONObject) sportsJSON.get(s)).getInt("freePlaces");
-                                    System.out.println("free places = " + freePlaces);
-                                    if (freePlaces > 0) {
-                                        t.setAvailable(true);
-                                    } else {
-                                        t.setAvailable(false);
-                                    }
-                                }catch (JSONException e){
-                                    Log.d("freePlaces", "freePlaces failed");
-                                    t.setAvailable(false);
-                                }
-
-                                //objectId
-                                //TODO is cuurent time ok as objectId?
-                                //DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                                //get current date time with Date()
-                                try {
-                                    Date date = new Date();
-                                    System.out.println(dateFormat.format(date));
-
-                                    //get current date time with Calendar()
-                                    Calendar cal = Calendar.getInstance();
-                                    System.out.println("today is " + dateFormat.format(cal.getTime()));
-                                    String objectId = dateFormat.format(cal.getTime());
-                                    ReservationHolder.getReservation().setObjectId(objectId);
-                                }catch (Exception e){
-                                    Log.d("objectId","objectId failed " + e);
-                                }
-
-                                /*
-                                //objectId in newReservationUrl is not unique
-                                System.out.println("getting newReservationUrl");
-                                try{
-                                    String newReservationUrl = ((JSONObject) sportsJSON.get(s)).getString("newReservationUrl");
-                                    System.out.println("newReservationUrl = " + newReservationUrl);
-                                    String patternString = "(.*objectId=)(\\d+)(sportId.*)";
-                                    Pattern pattern = Pattern.compile(patternString);
-                                    Matcher m = pattern.matcher(newReservationUrl);
-                                    System.out.println("found 0: " + m.group(0));
-                                    System.out.println("found 1: " + m.group(1));
-                                    System.out.println("found 2: " + m.group(2));
-                                    System.out.println("found 3: " + m.group(3));
-
-
-                                }catch (JSONException|IllegalStateException e){
-                                    Log.d("newReservationUrl", "newReservationUrl failed: " + e);
-                                }
-                                */
-
-
-
-
-
-                                String activityId = ((JSONObject)sportsJSON.get(s)).getString("activityId");
-                                //TODO activityId not in holder
-
-                                //System.out.println("getting attributes");
-
-                                try {
-                                    //sportiId
-                                    //System.out.println("getting sportId");
-                                    String sportId = ((JSONObject) sportsJSON.get(s)).getString("sportId");
-                                    //ReservationHolder.getReservation().setSportId(sportId);
-                                    t.setSportId(sportId);
-                                    //System.out.println("sportiId = " + sportId);
-
-                                    //instructorId
-                                    System.out.println("getting instructor");
-                                    try {
-                                        JSONObject instructorJSON = ((JSONObject) sportsJSON.get(s)).getJSONObject("instructor");
-                                        String instructorId = instructorJSON.getString("id");
-                                        System.out.println("instructorId = " + instructorId);
-                                        ReservationHolder.getReservation().setInstructorId(instructorId);
-                                    }catch (JSONException e){
-                                        Log.d("instructorId", "instructorId is null");
-                                        //termOk = false; //instructor is not required
-                                    }
-
-
-
-                                    //System.out.println("getting startTime");
-                                    String startTime = ((JSONObject) sportsJSON.get(s)).getString("startTime");
-
-                                    //System.out.println("startTime = " + startTime);
-                                    //System.out.println("parsing");
-                                    Date startTimeDF = new Date();
-                                    if(startTime != null) {
-                                        startTimeDF = dateFormat.parse(startTime);
-                                    }else{
-                                        startTimeDF = null;
-                                    }
-                                    //System.out.println("parsed");
-
-                                    Time startHour = new Time();
-                                    startHour.set(0, startTimeDF.getMinutes(), startTimeDF.getHours(), 0, 0, 0);
-                                    t.setStart(startHour);
-
-                                    //ReservationHolder.getReservation().setStartTime(startTimeDF);
-                                    t.setStartTime(startTimeDF);
-
-
-
-                                    //endTime
-                                    //System.out.println("getting endTime");
-                                    String endTime = ((JSONObject) sportsJSON.get(s)).getString("endTime");
-
-
-                                    //System.out.println("endTime = " + endTime);
-                                    //System.out.println("parsing");
-                                    Date endTimeDF = dateFormat.parse(endTime);
-                                    //System.out.println("parsed");
-
-                                    Time endHour = new Time();
-                                    endHour.set(0, endTimeDF.getMinutes(), endTimeDF.getHours(), 0, 0, 0);
-                                    t.setEnd(endHour);
-
-                                    //ReservationHolder.getReservation().setEndTime(endTimeDF);
-                                    t.setEndTime(endTimeDF);
-
-
-
-                                }catch(NullPointerException|NumberFormatException e){
-                                    Log.d("null attribute", "some attribute is null!" + e);
-                                    termOk = false;
-                                }catch (ParseException p){
-                                    Log.d("parse","parse exc " + p);
-                                    termOk = false;
-                                }
-
-
-
-                                switch (i) {
-                                    case 0:
-                                        t.setDay(Day.PO);
-                                        break;
-                                    case 1:
-                                        t.setDay(Day.ÚT);
-                                        break;
-                                    case 2:
-                                        t.setDay(Day.ST);
-                                        break;
-                                    case 3:
-                                        t.setDay(Day.ČT);
-                                        break;
-                                    case 4:
-                                        t.setDay(Day.PÁ);
-                                        break;
-                                    case 5:
-                                        t.setDay(Day.SO);
-                                        break;
-                                    case 6:
-                                        t.setDay(Day.NE);
-                                        break;
-                                    default:
-                                        t.setDay(Day.PO);
-                                        break;
-                                }
-
-                                if(termOk)
-                                {
-                                    //System.out.println(s + ": term is ok");
-                                    //System.out.println("date = " + t.getDateString());
-                                    //System.out.println("start = " + t.getStartString());
-                                    //System.out.println("end = " + t.getEndString());
-
-                                    termList.add(t);
-                                }else{
-                                    Log.d("null attribute", "term not added");
-                                }
-                            }
-
-                            //activityId
-                            //sportId
-                            //startTime
-                            //endTime
-
-
-
-                        }
-
-                }
-
-
-                }
+                dataJSON = baseJSON.getJSONArray("data");
+                System.out.println("dataJSON: " + dataJSON);
 
             } catch (JSONException e) {
-                Log.e("Reservation02Activity:", "JSON  fail" + e);
-                e.printStackTrace();
-            }catch (Exception e) {
-                Log.e("Reservation02Activity:", "JSON parsing failed" + e);
-                e.printStackTrace();
-            }Log.d("Reservation01Activity: ", resultContent);
+                Log.e("base:", "baseJSON  fail:" + e);
+                //e.printStackTrace();
+            }
+
+            for(int d = 0; d<dataJSON.length();d++){
+                JSONObject dataObj = new JSONObject();
+
+                try {
+                    dataObj = dataJSON.getJSONObject(d);
+                    //System.out.println("dataObj = " + dataObj);
+                }catch (JSONException e) {
+                    Log.e("dataObj:", "dataObj  fail:" + e);
+                    //e.printStackTrace();
+                }
+                JSONArray dayJSON = new JSONArray();
+                try {
+                    dayJSON = dataObj.getJSONArray("days");
+                    //System.out.println("dayJSON = " + dayJSON);
+                }catch (JSONException e) {
+                    //Log.e("dayJSON:", "dayJSON  fail:" + e);
+                    //e.printStackTrace();
+                }
+
+
+                for(int i = 0;i<dayJSON.length(); i++) {
+
+                    JSONObject dayObj = new JSONObject();
+
+
+                    try {
+                        dayObj = (JSONObject) dayJSON.get(i);
+                        //System.out.println("dayObj = " + dayObj);
+                    }catch (JSONException e) {
+                        //Log.e("dayObj:", "dayObj  fail:" + e);
+                        ////e.printStackTrace();
+                    }
+
+                    Boolean daysHistory = true;
+                    try {
+                        daysHistory = dayObj.getBoolean("history");
+                        //System.out.println("daysHistory = " + daysHistory);
+                    }catch (JSONException e) {
+                        //Log.e("daysHistory:", "daysHistory  fail:" + e);
+                        ////e.printStackTrace();
+                    }
+
+                    //if day has history => skip it
+                    if(!daysHistory){
+                        JSONArray dayTabsJSON = new JSONArray();
+                        try {
+                            dayTabsJSON = dayObj.getJSONArray("dayTabs");
+                            //System.out.println("dayTabsJSON = " + dayTabsJSON);
+                        }catch (JSONException e) {
+                            //Log.e("dayTabsJSON:", "dayTabsJSON  fail:" + e);
+                            //e.printStackTrace();
+                        }
+
+                        for (int j = 0; j < dayTabsJSON.length(); j++) {
+                            JSONObject dayTabJSON = new JSONObject();
+                            try {
+                                dayTabJSON = (JSONObject) dayTabsJSON.get(j);
+                                //System.out.println("day tab " + j + ": " + dayTabJSON);
+                            } catch (JSONException e) {
+                                //System.out.println("daytab fail");
+                            }
+                            Boolean dayTabHistory = true;
+                            try {
+                                dayTabHistory = dayTabJSON.getBoolean("history");
+                                //System.out.println("dayTabHistory = " + dayTabHistory);
+                            }catch (JSONException e) {
+                                //Log.e("daysHistory:", "daysHistory  fail:" + e);
+                                ////e.printStackTrace();
+                            }
+                            if(!dayTabHistory) {
+
+
+                                //date - will be set for each sport separately
+                                //TODO get normal SimpleDateFormat pattern
+                                String termDate = "";
+                                try {
+                                    termDate = dayObj.getString("date");
+                                    //System.out.println("termDate = " + termDate);
+                                } catch (JSONException e) {
+                                    //Log.e("termDate:", "termDate  fail:" + e);
+                                    //e.printStackTrace();
+                                }
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
+
+                                JSONArray sportsJSON = new JSONArray();
+                                try {
+                                    sportsJSON = ((JSONObject) dayTabsJSON.get(j)).getJSONArray("sports");
+                                    //System.out.println("sportsJSON: " + sportsJSON);
+                                } catch (JSONException e) {
+                                    //Log.e("sportsJSON:", "sportsJSON  fail:" + e);
+                                    //e.printStackTrace();
+                                }
+
+                                for (int s = 0; s < sportsJSON.length(); s++) {
+                                    JSONObject sportJSON = new JSONObject();
+                                    try {
+                                        sportJSON = (JSONObject) sportsJSON.get(s);
+                                        //System.out.println("sport " + s + ": " + sportJSON);
+                                    } catch (JSONException e) {
+
+                                    }
+                                    Boolean emptySpace = true;
+                                    Boolean matchesFilter = false;
+                                    Boolean lessonStarted = true;
+                                    Boolean lessonFinished = true;
+                                    Boolean clickable = false;
+                                    Boolean substitute = true;
+                                    try {
+                                        emptySpace = sportJSON.getBoolean("emptySpace");
+                                        //System.out.println("emptySpace = " + emptySpace);
+                                        matchesFilter = sportJSON.getBoolean("matchesFilter");
+                                        //System.out.println("matchesFilter = " + matchesFilter);
+                                        lessonStarted = sportJSON.getBoolean("lessonStarted");
+                                        //System.out.println("lessonStarted = " + lessonStarted);
+                                        lessonFinished = sportJSON.getBoolean("lessonFinished");
+                                        //System.out.println("lessonFinished = " + lessonFinished);
+                                        clickable = sportJSON.getBoolean("clickable");
+                                        //System.out.println("clickable = " + clickable);
+                                        substitute = sportJSON.getBoolean("substitute");
+                                        //System.out.println("substitute = " + substitute);
+                                    }catch (JSONException e) {
+                                        System.out.println("some parameter failed");
+                                        //Log.e("daysHistory:", "daysHistory  fail:" + e);
+                                        ////e.printStackTrace();
+                                    }
+                                    //System.out.println("***");
+                                    //System.out.println(emptySpace + ","+matchesFilter+ ","+lessonStarted+ ","+lessonFinished+ ","+clickable+ ","+substitute );
+                                    if(!emptySpace && matchesFilter && !lessonStarted && !lessonFinished && clickable && !substitute)
+                                        Log.d("termParams","term not added, some params does not match");
+                                    //System.out.println("***");
+                                    if(!emptySpace && matchesFilter && !lessonStarted && !lessonFinished && clickable && !substitute) {
+                                        System.out.println("obj " + s + " params ok");
+
+                                        TermItem t = new TermItem();
+                                        Boolean termOk = true; //to check if some attribute is not null
+
+                                        //date
+                                        try {
+                                            t.setDate(dateFormat.parse(termDate));
+                                        } catch (ParseException e) {
+                                            //Log.e("setDate:", "setDate parse fail:" + e);
+                                            //e.printStackTrace();
+                                            termOk = false;
+                                        }
+
+                                        //available
+                                        //TODO no unavailable terms to check
+                                        int freePlaces = 0;
+                                        try {
+                                            freePlaces = ((JSONObject) sportJSON).getInt("freePlaces");
+                                        } catch (JSONException e) {
+                                            //Log.e("freePlaces:", "freePlaces  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+                                        if (freePlaces > 0) {
+                                            t.setAvailable(true);
+                                        } else {
+                                            t.setAvailable(false);
+                                        }
+
+
+                                        //objectId
+                                        //TODO we have to get it from newReservationUrl which is stupid
+                                        String newReservationUrl = "";
+                                        try {
+                                            newReservationUrl = ((JSONObject) sportJSON).getString("newReservationUrl");
+                                        } catch (JSONException e) {
+                                            //Log.e("newReservationUrl:", "newReservationUrl  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+                                        int indexObjectId = newReservationUrl.indexOf("objectId");
+                                        int indexSportId = newReservationUrl.indexOf("&sportId");
+                                        String objectId = newReservationUrl.substring(indexObjectId + "objectId=".length(), indexSportId);
+                                        System.out.println("objectId = " + objectId);
+
+
+                                        ReservationHolder.getReservation().setObjectId(objectId);
+
+
+                                        String activityId = "";
+                                        try {
+                                            activityId = ((JSONObject) sportsJSON.get(s)).getString("activityId");
+                                        } catch (JSONException e) {
+                                            //Log.e("activityId:", "activityId  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+                                        //TODO activityId not in holder
+
+                                        //sportiId
+                                        String sportId = "";
+                                        try {
+                                            sportId = ((JSONObject) sportsJSON.get(s)).getString("sportId");
+                                            t.setSportId(sportId);
+                                        } catch (JSONException e) {
+                                            //Log.e("activityId:", "activityId  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+
+                                        //instructorId
+                                        JSONObject instructorJSON = new JSONObject();
+                                        try {
+                                            instructorJSON = ((JSONObject) sportsJSON.get(s)).getJSONObject("instructor");
+                                            String instructorId = instructorJSON.getString("id");
+                                            ReservationHolder.getReservation().setInstructorId(instructorId);
+                                        } catch (JSONException e) {
+                                            //Log.e("instructorJSON:", "instructorJSON  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+
+
+                                        String startTime = "";
+                                        try {
+                                            startTime = ((JSONObject) sportsJSON.get(s)).getString("startTime");
+                                        } catch (JSONException e) {
+                                            //Log.e("startTime:", "startTime  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+
+                                        Date startTimeDF = new Date();
+                                        try {
+                                            if (startTime != null) {
+                                                startTimeDF = dateFormat.parse(startTime);
+                                            } else {
+                                                startTimeDF = null;
+                                            }
+                                        } catch (ParseException e) {
+                                            //Log.e("startTimeDF:", "startTimeDF  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+
+                                        Time startHour = new Time();
+                                        startHour.set(0, startTimeDF.getMinutes(), startTimeDF.getHours(), 0, 0, 0);
+                                        t.setStart(startHour);
+
+                                        t.setStartTime(startTimeDF);
+
+
+                                        //endTime
+                                        String endTime = "";
+                                        try {
+                                            endTime = ((JSONObject) sportsJSON.get(s)).getString("endTime");
+                                        } catch (JSONException e) {
+                                            //Log.e("endTime:", "endTime  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+                                        Date endTimeDF = new Date();
+                                        try {
+                                            if (endTime != null) {
+                                                endTimeDF = dateFormat.parse(endTime);
+                                            } else {
+                                                endTimeDF = null;
+                                            }
+                                        } catch (ParseException e) {
+                                            //Log.e("endTimeDF:", "endTimeDF  fail:" + e);
+                                            //e.printStackTrace();
+                                        }
+
+                                        Time endHour = new Time();
+                                        endHour.set(0, endTimeDF.getMinutes(), endTimeDF.getHours(), 0, 0, 0);
+                                        t.setEnd(endHour);
+
+                                        t.setEndTime(endTimeDF);
+
+                                        //setDay for TermItem
+                                        switch (i) {
+                                            case 0:
+                                                t.setDay(Day.PO);
+                                                break;
+                                            case 1:
+                                                t.setDay(Day.ÚT);
+                                                break;
+                                            case 2:
+                                                t.setDay(Day.ST);
+                                                break;
+                                            case 3:
+                                                t.setDay(Day.ČT);
+                                                break;
+                                            case 4:
+                                                t.setDay(Day.PÁ);
+                                                break;
+                                            case 5:
+                                                t.setDay(Day.SO);
+                                                break;
+                                            case 6:
+                                                t.setDay(Day.NE);
+                                                break;
+                                            default:
+                                                t.setDay(Day.PO);
+                                                break;
+                                        }
+
+                                        if (termOk) {
+                                            termList.add(t);
+                                        } else {
+                                            Log.d("null attribute", "term not added");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            Log.d("Reservation02Activity: ", resultContent);
         } else {
             Toast.makeText(getApplicationContext(), "Failed to load a list of terms", Toast.LENGTH_SHORT).show();
             Log.e("Reservation02Activity", "resultContent was empty");
@@ -520,17 +582,26 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         //TODO: use getActualWeek
 
+        Date from0 = new Date(2015,6,1);
+        Date from00 = new Date(2015,6,8);
+
         Date from1 = new Date(2015,6,15);
         Date from2 = new Date(2015,6,22);
         Date from3 = new Date(2015,6,29);
-        Date from4 = new Date(2015,6,6);
-        Date from5 = new Date(2015,6,13);
+        Date from4 = new Date(2015,7,6);
+        Date from5 = new Date(2015,7,13);
+
+        Date to0 = new Date(2015,6,7);
+        Date to00 = new Date(2015,6,14);
 
         Date to1 = new Date(2015,6,21);
         Date to2 = new Date(2015,6,28);
-        Date to3 = new Date(2015,6,5);
-        Date to4 = new Date(2015,6,12);
-        Date to5 = new Date(2015,6,19);
+        Date to3 = new Date(2015,7,5);
+        Date to4 = new Date(2015,7,12);
+        Date to5 = new Date(2015,7,19);
+
+        out.add(new SpinnerItem(23,from0,to0));
+        out.add(new SpinnerItem(24,from00,to00));
 
         out.add(new SpinnerItem(25,from1,to1));
         out.add(new SpinnerItem(26,from2,to2));
@@ -640,7 +711,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-            adapterView.setSelection(1);
+            adapterView.setSelection(0);
         }
 
 

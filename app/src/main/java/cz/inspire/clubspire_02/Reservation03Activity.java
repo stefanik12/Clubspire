@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -101,7 +102,6 @@ public class Reservation03Activity extends AbstractBaseActivity {
 
 
                 //FUNKCNY REQUEST:
-
                 String sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
                         "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
                         "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
@@ -113,34 +113,47 @@ public class Reservation03Activity extends AbstractBaseActivity {
                         "\"smsNotificationBeforeMinutes\":60}";
 
 
-                ReservationHolder.getReservation().setPersonCount(1);
-                ReservationHolder.getReservation().setSmsNotificationBeforeMinutes(30);
-                ReservationHolder.getReservation().setEmailNotificationBeforeMinutes(30);
+                //parse information from EditText
+                int personCount = Integer.parseInt(((EditText) findViewById(R.id.editPlayersContent)).getText().toString());
+                ReservationHolder.getReservation().setPersonCount(personCount);
+                Boolean smsNotification = ((CheckBox)findViewById(R.id.checkBox_notifyMobile)).isChecked();
+                //TODO get default length for notification
+                if(smsNotification)
+                    ReservationHolder.getReservation().setSmsNotificationBeforeMinutes(30);
+                else
+                    ReservationHolder.getReservation().setSmsNotificationBeforeMinutes(0);//how to set NULL..as no notification???
+                Boolean emailNotification = ((CheckBox)findViewById(R.id.checkBox_notifyEmail)).isChecked();
+                //TODO get default length for notification
+                if(emailNotification)
+                    ReservationHolder.getReservation().setEmailNotificationBeforeMinutes(30);
+                else
+                    ReservationHolder.getReservation().setEmailNotificationBeforeMinutes(0);//how to set NULL..as no notification???
 
                 System.out.println("reservation toStr = " + reservation.toString());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
                 String parsedStartTime = "";
                 String parsedEndTime = "";
                 try {
-                    parsedStartTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'").format(reservation.getStartTime());
-                    System.out.println(parsedStartTime);
-                    parsedEndTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'").format(reservation.getEndTime());
-                    System.out.println(parsedEndTime);
+                    parsedStartTime = sdf.format(reservation.getStartTime());
+                    //System.out.println(parsedStartTime);
+                    parsedEndTime = sdf.format(reservation.getEndTime());
+                    //System.out.println(parsedEndTime);
 
                 }catch (Exception e){
                     Log.d("startTime", "startTime fail " + e);
                 }
 
+                //for now we use manually written format
                 String mySentText =
                         "{\"instructorId\":\"" + reservation.getInstructorId() + "\",\n" +
                         "\"sportId\":\"" + reservation.getSportId() +  "\",\n" +
-                        "\"objectId\":\"" + "67bbccf3ac1303f000c13e2f9f3d55d2" + "\",\n" +  //TODO that objectId...
+                        "\"objectId\":\"" + reservation.getObjectId() + "\",\n" +  //TODO that objectId...
                         "\"note\":\"" + reservation.getNote() +  "\",\n" +
-                        "\"personCount\": " + reservation.getPersonCount() + ",\n" +
+                        "\"personCount\":" + reservation.getPersonCount() + ",\n" +
                         "\"startTime\":\"" + parsedStartTime + "\",\n" +
                         "\"endTime\":\"" + parsedEndTime+ "\",\n" +
-                        "\"emailNotificationBeforeMinutes\": " + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
-                        "\"smsNotificationBeforeMinutes\": " + reservation.getSmsNotificationBeforeMinutes() +  "}";
+                        "\"emailNotificationBeforeMinutes\":" + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
+                        "\"smsNotificationBeforeMinutes\":" + reservation.getSmsNotificationBeforeMinutes() +  "}";
 
                 System.out.println("my parsed sentText = " + mySentText);
 
@@ -152,11 +165,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
 
                 Log.d("MY serialized reg", mySentText);
 
-
-
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
-
-                //new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/api/reservations", HttpMethod.POST); //hlásí "požadovaný zdroj nebyl nalezen", jednou to zafungovalo a vytvoøilo rezervaci
                 new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/api/reservations", HttpMethod.POST);
             }
         });

@@ -102,7 +102,7 @@ public class TermItem {
 
     public String getDateString() {
         //return sdf.format(cal.getTime());
-        return date.getDate() + "." + date.getMonth() + ".";
+        return date.getDate() + "." + ((Integer)(date.getMonth())+1) + "."; //+1 because Months are counted from 0
     }
 
     public Day getDay() {
