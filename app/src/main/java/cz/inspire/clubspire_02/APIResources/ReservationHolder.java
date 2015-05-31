@@ -53,6 +53,12 @@ public class ReservationHolder {
         ReservationHolder.reservation = reservation;
     }
 
-
+    public static void clear(){
+        reservation = null;
+        reservationActivityId = null;
+        reservationActivityName = null;
+        iconId = null;
+        reservationId = null;
+    }
 
 }

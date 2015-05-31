@@ -35,6 +35,7 @@ import cz.inspire.clubspire_02.APIResources.AccessTokenObject;
 import cz.inspire.clubspire_02.APIResources.AuthenticationHolder;
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.RESTconfiq;
+import cz.inspire.clubspire_02.APIResources.ReservationHolder;
 
 /**
  * Created by michal on 5/3/15.
@@ -64,7 +65,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            AuthenticationHolder.setTokenObject(null);
+            AuthenticationHolder.clear();
+            ReservationHolder.clear();
+
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -154,7 +157,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                 if (AuthenticationHolder.getTokenObject() == null || ! AuthenticationHolder.getTokenObject().isValid()) {
 
                     //token request: requests token from server, and if everything is ok, fills retrieved token to AuthenticationHolder
-                    requestToken("fimuni","123456");
+                    requestToken();
 
                     return null;
                 }
@@ -180,7 +183,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         responseCode = response.getStatusLine().getStatusCode();
                         if(responseCode == 401) {
                             // auth token expired
-                            requestToken("fimuni","123456");
+                            requestToken();
                         }
 
                         resultContent = handler.handleResponse(response);
@@ -188,22 +191,24 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                     } else if (requestMethod.equals(HttpMethod.GET) || requestMethod.equals(HttpMethod.PUT)){
                         //retrieving content
 
-                        //set parameters to GET:
                         StringBuilder requestURL = new StringBuilder();
                         requestURL.append(RESTconfiq.BASE_URL);
                         requestURL.append(suffix);
 
-                        if(nameValuePairs.size()>0){
-                            requestURL.append("?");
-                        }
-                        for (NameValuePair pair : nameValuePairs) {
-                            requestURL.append(pair.getName());
-                            requestURL.append("=");
-                            requestURL.append(pair.getValue());
-                            requestURL.append("&&");
-                        }
-                        if(nameValuePairs.size()>0){
-                            requestURL.delete(requestURL.length() - 1, requestURL.length());
+                        if(requestMethod.equals(HttpMethod.GET)){
+                            //set parameters to GET:
+                            if(nameValuePairs.size()>0){
+                                requestURL.append("?");
+                            }
+                            for (NameValuePair pair : nameValuePairs) {
+                                requestURL.append(pair.getName());
+                                requestURL.append("=");
+                                requestURL.append(pair.getValue());
+                                requestURL.append("&");
+                            }
+                            if(nameValuePairs.size()>0){
+                                requestURL.delete(requestURL.length() - 1, requestURL.length());
+                            }
                         }
 
                         Log.d("requested URL", requestURL.toString());
@@ -211,6 +216,12 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         HttpURLConnection urlConnection = (HttpURLConnection) new URL(requestURL.toString()).openConnection();
                         urlConnection.setRequestMethod(requestMethod.name());
 
+                        if(requestMethod.equals(HttpMethod.PUT)){
+                            for (NameValuePair pair : nameValuePairs) {
+                                //this part needs to be tested - no PUT method with parameters needed yet
+                                urlConnection.addRequestProperty(pair.getName(),pair.getValue());
+                            }
+                        }
                         //set auth header:
                         urlConnection.setRequestProperty("Authorization", "Bearer " + AuthenticationHolder.getTokenObject().getAccessToken());
                         urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -252,7 +263,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             //TODO: if needed, use static singleton for passing retrieved data between activities
         }
 
-        private boolean requestToken(String username, String password){
+        private boolean requestToken(){
+            Log.d("AsyncAPIRequest", "Token request");
+
             List<NameValuePair> requestParams = new ArrayList<>();
             requestParams.add(new BasicNameValuePair("grant_type", "password"));
             requestParams.add(new BasicNameValuePair("client_id", RESTconfiq.CLIENT_ID));
@@ -261,12 +274,13 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             requestParams.add(new BasicNameValuePair("password", AuthenticationHolder.getPassword()));
             requestParams.add(new BasicNameValuePair("scope", "write"));
 
-            Log.d("AsyncAPIRequest", "Token request");
+            Log.d("used username", AuthenticationHolder.getUsername());
+
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
 
             try {
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                httppost.setEntity(new UrlEncodedFormEntity(requestParams));
                 HttpResponse response = httpclient.execute(httppost);
                 ResponseHandler<String> handler = new BasicResponseHandler();
                 resultContent = handler.handleResponse(response);

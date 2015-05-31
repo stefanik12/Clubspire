@@ -23,6 +23,9 @@ public class MainActivity extends AbstractBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         toolbarMenuPresent = false;
 
+        AuthenticationHolder.setPassword("123456");
+        AuthenticationHolder.setUsername("fimuni");
+
         super.onCreate(savedInstanceState);
 
         setTitle(getString(R.string.string_login));
@@ -33,9 +36,6 @@ public class MainActivity extends AbstractBaseActivity {
         Button buttonLogin = (Button) findViewById(R.id.btn_MenuLogin);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AuthenticationHolder.setPassword("123456");
-                AuthenticationHolder.setUsername("fimuni");
-
                 new AsyncAuthentization().execute("/oauth/token", HttpMethod.POST);
             }
         });
