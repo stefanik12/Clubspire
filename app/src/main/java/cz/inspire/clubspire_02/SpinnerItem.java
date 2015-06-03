@@ -1,13 +1,20 @@
 package cz.inspire.clubspire_02;
 
+import android.app.Activity;
+import android.app.Application;
+import android.content.res.Resources;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SpinnerItem {
+import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
+
+public class SpinnerItem{
 
 
-    private final String prefix = "Tyden";
+    private final String prefix = App.getContext().getResources().getString(R.string.weekString);
+
     private int weekNum;
     private Date from;
     private Date to;

@@ -19,6 +19,25 @@
             android:layout_marginLeft="5dp"
             android:textColor="@color/primary_color" />
 
+    //activity icon
+    <ImageView
+        android:id="@+id/reservation_item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/a_01_b"
+        android:layout_weight="1"
+        android:layout_alignParentRight="false"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="false"
+        android:paddingRight="5dp"
+        android:paddingLeft="50dp"
+        android:layout_centerHorizontal="true"
+
+
+
+        />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,34 +58,12 @@
             android:layout_centerVertical="true"
             android:paddingRight="5dp"
             android:textColor="@color/primary_color" />
-        //activity icon
-        <ImageView
-            android:id="@+id/reservation_item_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/a_01_b"
-            android:layout_weight="1"
-            android:layout_alignParentRight="false"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="false"
-            android:paddingRight="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toLeftOf="@+id/reservation_item_txtName" /> <!-- pozor zálkeží na pořadí itemů; -->
+         <!--
+             android:layout_toLeftOf="@+id/reservation_item_txtName"
+             pozor zálkeží na pořadí itemů; -->
 
 
 
-        //delete button
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Zrušit"
-            android:id="@+id/btnDeleteReservation"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:padding="5dp"
-            android:visibility="invisible"
-            android:layout_alignStart="@id/reservation_item_icon" />
 
 
         </RelativeLayout>

@@ -7,8 +7,13 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:textColor">@color/primary_color</item>
 
-        <!--<item name="android:background">@color/background_color</item>  totálně to zesere ??????????  -->
-        <!-- CO S TIM??????? <item name= "android:theme">@android:style/Theme.NoTitleBar.Fullscreen</item>-->
+
+        <item name="android:spinnerItemStyle">@style/spinnerSign</item>
+        <item name="android:spinnerStyle">@style/spinnerStyle</item>
+
+        <item name="android:spinnerDropDownItemStyle">@style/spinnerDropDownItemStyle</item>
+
+
     </style>
 
     <style name="Toolbar" parent="@style/Widget.AppCompat.Toolbar">
@@ -23,20 +28,41 @@
 
 
 
-    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+
+    <style name="spinnerStyle" parent="@android:style/Widget.Spinner">
         <item name="android:textColor">@color/primary_color</item>
-        <item name="android:background">@drawable/button_gray</item>
+        <item name="android:background">@drawable/spinner_dropdown</item>
 
     </style>
 
-    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+    <style name="spinnerSign">
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="spinnerDropDownItemStyle">
         <item name="android:textColor">@color/primary_color</item>
         <item name="android:background">@drawable/spinner_item</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:padding">10dp</item>
         <item name="android:checkMark">@drawable/abc_btn_radio_material</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">15dp</item>
+
 
     </style>
+
+
+    <!--
+    <style name="SpinnerItem">
+        <item name="android:textColor">#993399</item>
+        <item name="android:background">@drawable/my_rectangle</item>
+    </style>
+    <style name="SpinnerDropDownItem">
+        <item name="android:textColor">#993399</item>
+        <item name="android:background">@drawable/my_rectangle</item>
+    </style>
+
+    -->
 
 
 

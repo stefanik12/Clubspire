@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -19,11 +18,11 @@ import cz.inspire.clubspire_02.R;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 
 
-public class ActivityListAdapter extends ArrayAdapter<ActivityItem> {
+public class ListReservationsAdapter extends ArrayAdapter<ActivityItem> {
     private List<ActivityItem> activityList;
     private Context context;
 
-    public ActivityListAdapter(Activity activity, List<ActivityItem> activityList) {
+    public ListReservationsAdapter(Activity activity, List<ActivityItem> activityList) {
         super(activity, R.layout.activity_item, activityList);
         this.activityList = activityList;
         this.context = activity.getApplicationContext();
@@ -42,11 +41,11 @@ public class ActivityListAdapter extends ArrayAdapter<ActivityItem> {
         ActivityItem currentActivity = activityList.get(position);
 
         // set icon
-        ImageView activityIcon = (ImageView)itemView.findViewById(R.id.item_icon);
+        ImageView activityIcon = (ImageView)itemView.findViewById(R.id.reservation_item_icon);
         Picasso.with(getContext())
                 .load(currentActivity.getIconUrl())
                 .placeholder(R.drawable.loader_icon)
-                .error(R.drawable.a_01_b)
+                .error(R.drawable.error_icon)
                 .resize((int) App.getContext().getResources().getDimension(R.dimen.icon_width),(int)App.getContext().getResources().getDimension(R.dimen.icon_height))
                 .into(activityIcon);
 

@@ -16,32 +16,37 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/weekSwitcherLayout">
+        android:id="@+id/weekSwitcherLayout"
+        android:layout_marginTop="10dp"
+        >
 
 
         //week number
         <Spinner
+
+            style="@style/spinnerStyle"
             android:id="@+id/spinner1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:background="@color/secondary_item_color"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_centerHorizontal="true" />
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="@dimen/spinner_height"
+            android:layout_centerHorizontal="true"
+
+            android:paddingLeft="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            />
+
         </RelativeLayout>
 
     //term list
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
 
         <ListView
             android:id="@+id/termListView"
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content">
 
         </ListView>

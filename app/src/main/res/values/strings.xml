@@ -30,6 +30,7 @@
     <string name="text_available">volno</string>
     <string name="text_unavailable">obsazeno</string>
     <string name="string_login">Přihlášení</string>
+    <string name="weekString">Týden</string>
 
 
 </resources>

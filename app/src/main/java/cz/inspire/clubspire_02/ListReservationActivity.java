@@ -20,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -124,20 +126,6 @@ public class ListReservationActivity extends AbstractBaseActivity {
     private void populateReservationList() {
 
         reservationList.clear();
-        Date day;
-        Calendar cal = Calendar.getInstance();
-        Time start = new Time();
-        Time end = new Time();
-        cal.set(Calendar.HOUR_OF_DAY, 17);
-        cal.set(Calendar.MINUTE, 30);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.set(Calendar.DAY_OF_MONTH, 24);
-        cal.set(Calendar.MONTH, 11);
-        cal.set(Calendar.YEAR, 2014);
-        day = cal.getTime();
-        start.set(0, 30, 15, 24, 12, 2015);
-        end.set(0, 00, 14, 24, 12, 2015);
 
         try {
             JSONObject baseJSON = new JSONObject(resultContent);
@@ -158,7 +146,11 @@ public class ListReservationActivity extends AbstractBaseActivity {
 
                 if(showItem){
                     String activityName = iteratedItem.getJSONObject("sport").getJSONObject("activity").getString("name");
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
+
+                    String iconUrl = iteratedItem.getJSONObject("sport").getJSONObject("activity").getJSONObject("icon").getJSONObject("metaInfo").getString("href");
+                    System.out.println("iconUrl: " + iconUrl);
+
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
 
                     Date startDate = dateFormat.parse(iteratedItem.getString("startTime"));
                     Time startDateAsTime = new Time();
@@ -178,6 +170,7 @@ public class ListReservationActivity extends AbstractBaseActivity {
 
                     ReservationListItem newItem = new ReservationListItem();
                     newItem.setStartDate(startDate)
+                            .setIconUrl(iconUrl)
                             .setIconId(R.drawable.a_01_b)
                             .setActivityName(activityName)
                             .setDay(Day.values()[weekDay-2])
@@ -186,6 +179,7 @@ public class ListReservationActivity extends AbstractBaseActivity {
                             .setActivityId(activityId)
                             .setId(reservationId);
 
+                    //System.out.println("iteratedItem: " + iteratedItem);
                     Log.d("ListReservations", "Activity name: " + newItem.getActivityName());
 
                     reservationList.add(newItem);
@@ -254,9 +248,14 @@ public class ListReservationActivity extends AbstractBaseActivity {
             // Date:
             TextView dateText = (TextView) itemView.findViewById(R.id.reservation_item_txtDate);
             dateText.setText(currentReservation.getFormedDateTime());
-            // Fill the view
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.reservation_item_icon);
-            imageView.setImageResource(currentReservation.getIconId());
+            // set icon
+            ImageView activityIcon = (ImageView)itemView.findViewById(R.id.reservation_item_icon);
+            Picasso.with(getContext())
+                    .load(currentReservation.getIconUrl())//TODO fix
+                    .placeholder(R.drawable.loader_icon)
+                    .error(R.drawable.error_icon)
+                    .resize((int) App.getContext().getResources().getDimension(R.dimen.icon_width),(int)App.getContext().getResources().getDimension(R.dimen.icon_height))
+                    .into(activityIcon);
             // Name:
             TextView nameText = (TextView) itemView.findViewById(R.id.reservation_item_txtName);
             nameText.setText(currentReservation.getActivityName());
