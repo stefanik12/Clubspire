@@ -76,7 +76,7 @@ public class ListReservationActivity extends AbstractBaseActivity {
             }
         });
 
-        new LocalAsyncAPIRequestExtension().execute("/api/1.0/reservations/my/actual", HttpMethod.GET);
+        new LocalAsyncAPIRequestExtension().execute("/reservations/my/actual", HttpMethod.GET);
     }
 
     private class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {

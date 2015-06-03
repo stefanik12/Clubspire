@@ -166,7 +166,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 Log.d("MY serialized reg", mySentText);
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
-                new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/api/1.0/reservations", HttpMethod.POST);
+                new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/reservations", HttpMethod.POST);
             }
         });
 
@@ -212,7 +212,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
             Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
             Log.d("loaded content:", resultContent);
 
-            if(!resultContent.equals("")) {
+            if(resultContent != null) {
                 try {
                     JSONObject baseJSON = new JSONObject(resultContent);
                     int status = baseJSON.getJSONObject("message").getInt("httpStatus");
@@ -235,6 +235,8 @@ public class Reservation03Activity extends AbstractBaseActivity {
                     Log.e("Reservation03Activity:", "JSON parsing failed");
                     e.printStackTrace();
                 }
+            } else {
+                Log.e("Reservation03Activity", "resultContent was null");
             }
 
 

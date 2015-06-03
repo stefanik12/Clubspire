@@ -12,7 +12,6 @@ public class MainMenuActivity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
     private final String mainMenuActionBarText = "Menu";
-    private final String newReservationService = "/api/activities";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

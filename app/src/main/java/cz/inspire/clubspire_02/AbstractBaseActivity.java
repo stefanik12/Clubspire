@@ -131,6 +131,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         private String plainRequest;
         private HttpMethod requestMethod;
         private HttpURLConnection urlConnection = null;
+        private boolean isRegistration = false;
 
         protected void execute(String s, HttpMethod requestMethod) {
             suffix = s;
@@ -148,6 +149,10 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             return this;
         }
 
+        protected AsyncAPIRequest isUserRegistration(boolean value){
+            isRegistration = value;
+            return this;
+        }
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -156,17 +161,24 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             Log.d("API request", " on "+RESTconfiq.BASE_URL + suffix);
 
             try {
-                if (AuthenticationHolder.getTokenObject() == null || ! AuthenticationHolder.getTokenObject().isValid()) {
-
+                if (! AuthenticationHolder.isTokenValid() && ! isRegistration) {
                     //token request: requests token from server, and if everything is ok, fills retrieved token to AuthenticationHolder
                     requestToken();
+                }
 
+                if("/oauth/token".equals(suffix)){
+                    //just a token request - do not continue with other request
                     return null;
                 }
-                if (AuthenticationHolder.getTokenObject().isValid()) {
-                    Log.d("token used", AuthenticationHolder.getTokenObject().getAccessToken());
+                //else - continue on valid token is already retrieved
+
+                if (AuthenticationHolder.isTokenValid() || isRegistration) {
+                    if(AuthenticationHolder.isTokenValid()){
+                        Log.d("token used", AuthenticationHolder.getTokenObject().getAccessToken());
+                    }
 
                     if (requestMethod.equals(HttpMethod.POST) && plainRequest != null) {
+                        Log.d("Request method", "POST");
 
                         //sending plainRequest content using POSt - when creating new reservation
                         HttpClient httpclient = new DefaultHttpClient();
@@ -174,7 +186,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         Log.d("onCreate: ", "before httppost: request: " + RESTconfiq.BASE_URL + suffix);
 
                         //set auth header:
-                        httppost.addHeader("Authorization", "Bearer " + AuthenticationHolder.getTokenObject().getAccessToken());
+                        if(AuthenticationHolder.isTokenValid()){
+                            httppost.addHeader("Authorization", "Bearer " + AuthenticationHolder.getTokenObject().getAccessToken());
+                        }
                         httppost.addHeader("Content-Type", "application/json");
 
                         httppost.setEntity(new StringEntity(plainRequest));
@@ -191,6 +205,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                         resultContent = handler.handleResponse(response);
 
                     } else if (requestMethod.equals(HttpMethod.GET) || requestMethod.equals(HttpMethod.PUT)){
+                        Log.d("Request method", "GET or PUT");
                         //retrieving content
 
                         StringBuilder requestURL = new StringBuilder();
@@ -253,9 +268,6 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             } else {
                 Log.e("result content", "is null");
             }
-
-
-
             return null;
         }
 
@@ -280,7 +292,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             Log.d("used username", AuthenticationHolder.getUsername());
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(RESTconfiq.BASE_URL + "/oauth/token");
+            HttpPost httppost = new HttpPost(RESTconfiq.BASE_TOKEN_URL + "/oauth/token");
 
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(requestParams));

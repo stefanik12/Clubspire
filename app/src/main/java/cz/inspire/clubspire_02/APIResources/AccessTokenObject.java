@@ -17,16 +17,12 @@ public class AccessTokenObject {
     private long expires_in;
     private String scope;
 
-    public AccessTokenObject(){
-        expirationTime = new Timestamp(Calendar.getInstance().getTimeInMillis());
+    public Timestamp getExpirationTime() {
+        return expirationTime;
     }
 
-    public boolean isValid(){
-        Log.d("AccessToken", "expires in "
-                +((expirationTime.getTime()/1000) - (Calendar.getInstance().getTimeInMillis()/1000))
-                +" secs");
-
-        return expirationTime.after(new Timestamp(Calendar.getInstance().getTimeInMillis()/1000));
+    public AccessTokenObject(){
+        expirationTime = new Timestamp(Calendar.getInstance().getTimeInMillis());
     }
 
     public AccessTokenObject setTokenType(String tokenType) {

@@ -122,12 +122,11 @@ public class Reservation02Activity extends AbstractBaseActivity {
         List<NameValuePair> requestParams = new ArrayList<>();
 
         requestParams.add(new BasicNameValuePair("date", "2015-06-20"));
-        //atribut date API ignoruje: robilo problemy aj pri testovani/ stale vracia aktualny tyzden
         requestParams.add(new BasicNameValuePair("activityId", ReservationHolder.getReservationActivityId()));
 
 
         //API loader initialization
-        new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/1.0/timeline/week", HttpMethod.GET);
+        new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/timeline/week", HttpMethod.GET);
         //continues in onPostExecute
 
     }

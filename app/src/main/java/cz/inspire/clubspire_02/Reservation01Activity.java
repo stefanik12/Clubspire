@@ -52,7 +52,7 @@ public class Reservation01Activity extends AbstractBaseActivity {
         setupActionBar();
 
         //download and list content from API:
-        new LocalAsyncAPIRequestExtension().execute("/api/1.0/activities", HttpMethod.GET);
+        new LocalAsyncAPIRequestExtension().execute("/activities", HttpMethod.GET);
 
         //continues on data loading complete (with onPostExecute)
     }
