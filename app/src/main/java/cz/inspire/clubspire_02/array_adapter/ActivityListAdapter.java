@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import cz.inspire.clubspire_02.R;
@@ -38,9 +40,14 @@ public class ActivityListAdapter extends ArrayAdapter<ActivityItem> {
         // Find the ActivityItem to work with.
         ActivityItem currentActivity = activityList.get(position);
 
-        // Fill the view
-        ImageView imageView = (ImageView)itemView.findViewById(R.id.item_icon);
-        imageView.setImageResource(currentActivity.getIconID());
+        // icon
+        ImageView activityIcon = (ImageView)itemView.findViewById(R.id.item_icon);
+        Picasso.with(getContext())
+                .load(currentActivity.getIconUrl())
+                .placeholder(R.drawable.a_01_b)
+                .error(R.drawable.a_01_b)
+                .resize(80,80)
+                .into(activityIcon);
 
         // Condition:
         TextView condionText = (TextView) itemView.findViewById(R.id.item_txtName);

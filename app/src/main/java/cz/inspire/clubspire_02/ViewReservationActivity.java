@@ -101,7 +101,7 @@ public class ViewReservationActivity extends AbstractBaseActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 //start async request for deleting the reservation
-                new LocalAsyncAPIRequestExtension().execute("/api/reservations/" + ReservationHolder.getReservationId() + "/cancel", HttpMethod.PUT);
+                new LocalAsyncAPIRequestExtension().execute("/api/1.0/reservations/" + ReservationHolder.getReservationId() + "/cancel", HttpMethod.PUT);
 
                 dialog.dismiss();
             }

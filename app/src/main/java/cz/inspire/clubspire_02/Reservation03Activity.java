@@ -130,7 +130,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                     ReservationHolder.getReservation().setEmailNotificationBeforeMinutes(0);//how to set NULL..as no notification???
 
                 System.out.println("reservation toStr = " + reservation.toString());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
                 String parsedStartTime = "";
                 String parsedEndTime = "";
                 try {
@@ -166,7 +166,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 Log.d("MY serialized reg", mySentText);
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
-                new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/api/reservations", HttpMethod.POST);
+                new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/api/1.0/reservations", HttpMethod.POST);
             }
         });
 

@@ -1,6 +1,7 @@
 package cz.inspire.clubspire_02;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 
 
@@ -11,9 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +52,7 @@ public class Reservation01Activity extends AbstractBaseActivity {
         setupActionBar();
 
         //download and list content from API:
-        new LocalAsyncAPIRequestExtension().execute("/api/activities", HttpMethod.GET);
+        new LocalAsyncAPIRequestExtension().execute("/api/1.0/activities", HttpMethod.GET);
 
         //continues on data loading complete (with onPostExecute)
     }
@@ -85,13 +89,55 @@ public class Reservation01Activity extends AbstractBaseActivity {
                 JSONObject baseJSON = new JSONObject(resultContent);
                 JSONArray activityJSON = baseJSON.getJSONArray("data");
                 for(int i = 0;i<activityJSON.length(); i++){
+                    //TODO get icon
+                    System.out.println("activityJSON" + i + ": " + activityJSON.get(i));
+                    JSONObject icon = new JSONObject();
+                    try{
+                        icon = ((JSONObject)activityJSON.get(i)).getJSONObject("icon");
+                        System.out.println("icon: " + icon);
+                    }catch (JSONException ex){
+                        Log.d("icon","icon fail");
+                    }
+                    JSONObject metaInfo = new JSONObject();
+                    try{
+                        metaInfo = icon.getJSONObject("metaInfo");
+                        System.out.println("metaInfo: " + metaInfo);
+                    }catch (JSONException ex){
+                        Log.d("metaInfo","metaInfo fail");
+                    }
+                    String href = "";
+                    try{
+                        href = metaInfo.getString("href");
+                        System.out.println("href: " + href);
+                    }catch (JSONException ex){
+                        Log.d("href","href fail");
+                    }
+
+                    /*
+                    ImageView tmpIcon = new ImageView(this);
+
+                    Picasso.with(this)
+                            .load(href)
+                            .placeholder(R.drawable.a_01_b)
+                            .error(R.drawable.a_01_b)
+                            .into(tmpIcon);
+
+                    System.out.println("tmpIcon: " + tmpIcon.getResources().toString());
+                    */
+
                     activityList.add(new ActivityItem()
-                                    .setIconID(R.drawable.a_01_b)
+                                    .setIconUrl(href)
                                     .setId(new JSONObject(activityJSON.get(i).toString()).getString("id"))
                                     .setName(new JSONObject(activityJSON.get(i).toString()).getString("name"))
                                     .setDescription(new JSONObject(activityJSON.get(i).toString()).getString("description"))
                     );
+
+
+
+
                 }
+
+
 
             } catch (JSONException e) {
                 Log.e("Reservation01Activity:", "JSON parsing failed");
@@ -129,6 +175,7 @@ public class Reservation01Activity extends AbstractBaseActivity {
                 ReservationHolder.setReservationActivityId(clickedItem.getId());
                 ReservationHolder.setReservationActivityName(clickedItem.getName());
                 ReservationHolder.setIconId(clickedItem.getIconID());
+                ReservationHolder.setIconUrl(clickedItem.getIconUrl());
 
                 System.out.println("content in step 1 = " + resultContent);
 

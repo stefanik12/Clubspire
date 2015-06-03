@@ -1,10 +1,14 @@
 package cz.inspire.clubspire_02.list_items;
 
+import android.widget.ImageView;
+
 public class ActivityItem {
     private int iconID;
     private String id;
     private String description;
     private String name;
+    private ImageView icon;
+    private String iconUrl;
 
     public ActivityItem(){}
 
@@ -12,6 +16,23 @@ public class ActivityItem {
         super();
         this.iconID = iconID;
         this.name = name;
+    }
+
+    public ActivityItem setIcon(ImageView icon) {
+        this.icon = icon;
+        return this;
+    }
+
+    public ImageView getIcon(){
+        return icon;
+    }
+
+    public ActivityItem setIconUrl(String url){
+        iconUrl = url;
+        return this;
+    }
+    public String getIconUrl(){
+        return iconUrl;
     }
 
     public int getIconID() {

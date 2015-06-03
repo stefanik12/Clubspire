@@ -56,6 +56,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -146,6 +147,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             this.plainRequest = data;
             return this;
         }
+
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -251,6 +253,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             } else {
                 Log.e("result content", "is null");
             }
+
 
 
             return null;

@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -74,8 +75,14 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         View selectedActivity = findViewById(R.id.selectedActivity);
         // icon
+
         ImageView activityIcon = (ImageView)selectedActivity.findViewById(R.id.item_icon);
-        activityIcon.setImageResource(iconId);
+        Picasso.with(this)
+                .load(ReservationHolder.getIconUrl())
+                .placeholder(R.drawable.a_01_b)
+                .error(R.drawable.a_01_b)
+                .resize(80,80)
+                .into(activityIcon);
 
         // name:
         TextView textViewActivityName = (TextView) selectedActivity.findViewById(R.id.item_txtName);
@@ -114,14 +121,13 @@ public class Reservation02Activity extends AbstractBaseActivity {
         //GET attribute pairs:
         List<NameValuePair> requestParams = new ArrayList<>();
 
-        //TODO: napojit atribut date na nejaky den z vybraneho tyzdna
         requestParams.add(new BasicNameValuePair("date", "2015-06-20"));
         //atribut date API ignoruje: robilo problemy aj pri testovani/ stale vracia aktualny tyzden
         requestParams.add(new BasicNameValuePair("activityId", ReservationHolder.getReservationActivityId()));
 
 
         //API loader initialization
-        new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/timeline/week", HttpMethod.GET);
+        new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/1.0/timeline/week", HttpMethod.GET);
         //continues in onPostExecute
 
     }
@@ -254,9 +260,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
                             }
                             if(!dayTabHistory) {
 
-
                                 //date - will be set for each sport separately
-                                //TODO get normal SimpleDateFormat pattern
                                 String termDate = "";
                                 try {
                                     termDate = dayObj.getString("date");
@@ -265,7 +269,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                     //Log.e("termDate:", "termDate  fail:" + e);
                                     //e.printStackTrace();
                                 }
-                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000+0200'", Locale.ENGLISH);
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
 
                                 JSONArray sportsJSON = new JSONArray();
                                 try {
@@ -304,18 +308,17 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         substitute = sportJSON.getBoolean("substitute");
                                         //System.out.println("substitute = " + substitute);
                                     }catch (JSONException e) {
-                                        System.out.println("some parameter failed");
+                                        System.out.println("some parameters are not valid");
                                         //Log.e("daysHistory:", "daysHistory  fail:" + e);
                                         ////e.printStackTrace();
                                     }
                                     //System.out.println("***");
                                     //System.out.println(emptySpace + ","+matchesFilter+ ","+lessonStarted+ ","+lessonFinished+ ","+clickable+ ","+substitute );
                                     if(!emptySpace && matchesFilter && !lessonStarted && !lessonFinished && clickable && !substitute)
-                                        Log.d("termParams","term not added, some params does not match");
+                                        Log.d("termParams","term not added, some parameters are not valid");
                                     //System.out.println("***");
                                     if(!emptySpace && matchesFilter && !lessonStarted && !lessonFinished && clickable && !substitute) {
-                                        System.out.println("obj " + s + " params ok");
-
+                                        //System.out.println("obj " + s + " params ok");
                                         TermItem t = new TermItem();
                                         Boolean termOk = true; //to check if some attribute is not null
 
@@ -327,6 +330,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                             //e.printStackTrace();
                                             termOk = false;
                                         }
+
 
                                         //available
                                         //TODO no unavailable terms to check
@@ -344,11 +348,16 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         }
 
 
+
+
+
                                         //objectId
                                         //TODO we have to get it from newReservationUrl which is stupid
+                                        /*
                                         String newReservationUrl = "";
                                         try {
-                                            newReservationUrl = ((JSONObject) sportJSON).getString("newReservationUrl");
+                                            newReservationUrl = (sportJSON).getString("newReservationUrl");
+                                            System.out.println("url: " + newReservationUrl);
                                         } catch (JSONException e) {
                                             //Log.e("newReservationUrl:", "newReservationUrl  fail:" + e);
                                             //e.printStackTrace();
@@ -358,10 +367,50 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         String objectId = newReservationUrl.substring(indexObjectId + "objectId=".length(), indexSportId);
                                         System.out.println("objectId = " + objectId);
 
+                                        ReservationHolder.getReservation().setObjectId(objectId);
+                                        */
+
+                                        String objectId = "";
+                                        try {
+                                            objectId = (sportJSON).getString("objectId");
+                                            System.out.println("objectId: " + objectId);
+                                        } catch (JSONException e) {
+                                            //Log.e("objectId:", "objectId  fail:" + e);
+                                            //e.printStackTrace();
+                                        };
+                                        System.out.println("objectId = " + objectId);
 
                                         ReservationHolder.getReservation().setObjectId(objectId);
 
 
+                                        ////////////////////////////////////////************************************************////////////////////////////////////////
+
+                                        /*
+                                        System.out.println("getting smthing");
+
+                                        //API loader initialization
+                                        new LocalAsyncAPIRequestExtension().setParameters(urlRequestParams).execute("/api/1.0/timeline/week", HttpMethod.GET);
+                                        */
+
+                                        //TODO how to set GET request
+                                        //TODO how to get result emmediately - on 518 :  Log.d("Reservation02Activity: ", resultContent); resultContent is ok
+                                        /*
+                                        int indexOfAPI10 = newReservationUrl.indexOf("/api/1.0");
+                                        String urlRequest = newReservationUrl.substring(indexOfAPI10, newReservationUrl.length());
+                                        System.out.println("urlRequest: " + urlRequest);
+
+
+                                        AsyncAPIRequest ar = new AsyncAPIRequest();
+                                        ar.execute(urlRequest, HttpMethod.GET);
+                                        System.out.println("content1: " + resultContent);
+
+                                        */
+
+
+
+
+
+                                        ///////////////////////////
                                         String activityId = "";
                                         try {
                                             activityId = ((JSONObject) sportsJSON.get(s)).getString("activityId");
@@ -479,6 +528,9 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         } else {
                                             Log.d("null attribute", "term not added");
                                         }
+
+
+
                                     }
                                 }
                             }
@@ -494,45 +546,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
             Log.e("Reservation02Activity", "resultContent was empty");
         }
 
-        //termList.clear();
-        /*
-        Date day;
-        Calendar cal = Calendar.getInstance();
-        Time start = new Time();
-        Time end = new Time();
-        switch (getWeekFromSelection()){
-            case 20:
-                cal.set(Calendar.HOUR_OF_DAY,17);
-                cal.set(Calendar.MINUTE,30);
-                cal.set(Calendar.SECOND,0);
-                cal.set(Calendar.MILLISECOND,0);
-                cal.set(Calendar.DAY_OF_MONTH,24);
-                cal.set(Calendar.MONTH,11);
-                cal.set(Calendar.YEAR,2014);
-                day = cal.getTime();
-                start.set(0,30,15,24,12,2015);
-                end.set(0,00,14,24,12,2015);
-                termList.add(new TermItem(day, Day.PO, start, end, 20, true));
-                termList.add(new TermItem(day, Day.ÚT, start, end, 20, false));
-                termList.add(new TermItem(day, Day.ST, start, end, 20, true));
-                break;
-            default:
-                cal.set(Calendar.HOUR_OF_DAY,7);
-                cal.set(Calendar.MINUTE,301);
-                cal.set(Calendar.SECOND,05);
-                cal.set(Calendar.MILLISECOND,50);
-                cal.set(Calendar.DAY_OF_MONTH,254);
-                cal.set(Calendar.MONTH,1);
-                cal.set(Calendar.YEAR,2015);
-                day = cal.getTime();
-                start.set(0,30,13,24,12,2015);
-                end.set(0,30,14,24,12,2015);
-                termList.add(new TermItem(day, Day.ST, start, end, 15, false));
-                termList.add(new TermItem(day, Day.ČT, start, end, 23, true));
-                termList.add(new TermItem(day, Day.PÁ, start, end, 10, true));
-                break;
-        }
-        */
 
     }
 
@@ -702,7 +715,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
             // clickable=true&substitute=false&
             // activityId=639b1d5cac1303f00011cd38b40e36c0
             //API loader initialization
-            new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/timeline/week", HttpMethod.GET);
+            new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/1.0/timeline/week", HttpMethod.GET);
             //continues in onPostExecute
 
             //Toast.makeText(parent.getContext(), parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();

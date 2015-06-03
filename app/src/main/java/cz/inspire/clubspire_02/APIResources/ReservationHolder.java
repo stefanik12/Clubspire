@@ -11,6 +11,7 @@ public class ReservationHolder {
     private static String reservationActivityId;
     private static String reservationActivityName;
     private static Integer iconId;
+    private static String iconUrl;
     private static String reservationId;
 
     public static String getReservationId() {
@@ -19,6 +20,14 @@ public class ReservationHolder {
 
     public static void setReservationId(String reservationId) {
         ReservationHolder.reservationId = reservationId;
+    }
+
+    public static void setIconUrl(String iconUrl) {
+        ReservationHolder.iconUrl = iconUrl;
+    }
+
+    public static String getIconUrl() {
+        return iconUrl;
     }
 
     public static int getIconId() {
