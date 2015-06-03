@@ -79,9 +79,9 @@ public class Reservation02Activity extends AbstractBaseActivity {
         ImageView activityIcon = (ImageView)selectedActivity.findViewById(R.id.item_icon);
         Picasso.with(this)
                 .load(ReservationHolder.getIconUrl())
-                .placeholder(R.drawable.a_01_b)
+                .placeholder(R.drawable.loader_icon)
                 .error(R.drawable.a_01_b)
-                .resize(80,80)
+                .resize((int)getResources().getDimension(R.dimen.icon_width),(int)getResources().getDimension(R.dimen.icon_height))
                 .into(activityIcon);
 
         // name:
@@ -173,8 +173,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
     private void populateTermList() {
 
-        //TODO: sparsovat resultContent a nahadzat nove prvky do termList
-        //"2015-06-15T00:00:00.000+0200
+
         if(!resultContent.equals("")) {
             JSONArray dataJSON = new JSONArray();
             try {
@@ -351,25 +350,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
 
 
-                                        //objectId
-                                        //TODO we have to get it from newReservationUrl which is stupid
-                                        /*
-                                        String newReservationUrl = "";
-                                        try {
-                                            newReservationUrl = (sportJSON).getString("newReservationUrl");
-                                            System.out.println("url: " + newReservationUrl);
-                                        } catch (JSONException e) {
-                                            //Log.e("newReservationUrl:", "newReservationUrl  fail:" + e);
-                                            //e.printStackTrace();
-                                        }
-                                        int indexObjectId = newReservationUrl.indexOf("objectId");
-                                        int indexSportId = newReservationUrl.indexOf("&sportId");
-                                        String objectId = newReservationUrl.substring(indexObjectId + "objectId=".length(), indexSportId);
-                                        System.out.println("objectId = " + objectId);
-
-                                        ReservationHolder.getReservation().setObjectId(objectId);
-                                        */
-
                                         String objectId = "";
                                         try {
                                             objectId = (sportJSON).getString("objectId");
@@ -378,7 +358,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                             //Log.e("objectId:", "objectId  fail:" + e);
                                             //e.printStackTrace();
                                         };
-                                        System.out.println("objectId = " + objectId);
 
                                         ReservationHolder.getReservation().setObjectId(objectId);
 
@@ -430,16 +409,19 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                             //e.printStackTrace();
                                         }
 
+                                        System.out.println("sportJSON: " + sportJSON);
+
                                         //instructorId
                                         JSONObject instructorJSON = new JSONObject();
                                         try {
-                                            instructorJSON = ((JSONObject) sportsJSON.get(s)).getJSONObject("instructor");
+                                            instructorJSON = sportJSON.getJSONObject("instructor");
                                             String instructorId = instructorJSON.getString("id");
                                             ReservationHolder.getReservation().setInstructorId(instructorId);
                                         } catch (JSONException e) {
                                             //Log.e("instructorJSON:", "instructorJSON  fail:" + e);
                                             //e.printStackTrace();
                                         }
+                                        //TODO např u Mix Fit je instructorId = -1 a request to nebere
 
 
                                         String startTime = "";

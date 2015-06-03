@@ -13,7 +13,9 @@
         android:description="@string/app_name"
         android:logo="@drawable/icon_clubspire"
         android:theme="@style/AppTheme"
->
+
+        android:name=".App"
+>       //^just to get context from anywhere/
 
         //login activity
         <activity

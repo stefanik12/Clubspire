@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import cz.inspire.clubspire_02.App;
 import cz.inspire.clubspire_02.R;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 
@@ -40,13 +41,13 @@ public class ActivityListAdapter extends ArrayAdapter<ActivityItem> {
         // Find the ActivityItem to work with.
         ActivityItem currentActivity = activityList.get(position);
 
-        // icon
+        // set icon
         ImageView activityIcon = (ImageView)itemView.findViewById(R.id.item_icon);
         Picasso.with(getContext())
                 .load(currentActivity.getIconUrl())
-                .placeholder(R.drawable.a_01_b)
+                .placeholder(R.drawable.loader_icon)
                 .error(R.drawable.a_01_b)
-                .resize(80,80)
+                .resize((int) App.getContext().getResources().getDimension(R.dimen.icon_width),(int)App.getContext().getResources().getDimension(R.dimen.icon_height))
                 .into(activityIcon);
 
         // Condition:

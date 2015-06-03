@@ -1,6 +1,7 @@
 package cz.inspire.clubspire_02.list_items;
 
 import android.text.format.Time;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -16,6 +17,7 @@ public class ReservationListItem {
     private Time start;
     private Time end;
     private String activityId;
+    private String iconUrl;
 
     public String getId() {
         return id;
@@ -23,6 +25,15 @@ public class ReservationListItem {
 
     public ReservationListItem setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public ReservationListItem setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
         return this;
     }
 
@@ -70,11 +81,27 @@ public class ReservationListItem {
     }
 
     public String getStartString() {
-        return start.hour + ":" + start.minute;
+        try {
+            if (start.minute == 0)
+                return start.hour + ":00";
+            else
+                return start.hour + ":" + start.minute;
+        }catch (NullPointerException e){
+            Log.d("start", "start hour is null");
+            return "XX:XX";
+        }
     }
 
     public String getEndString() {
-        return end.hour + ":" + end.minute;
+        try {
+            if (end.minute == 0)
+                return end.hour + ":00";
+            else
+                return end.hour + ":" + end.minute;
+        }catch (NullPointerException e){
+            Log.d("end", "end hour is null");
+            return "YY:YY";
+        }
     }
 
     public int getIconId() {

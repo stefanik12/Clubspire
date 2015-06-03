@@ -9,8 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
+import cz.inspire.clubspire_02.App;
 import cz.inspire.clubspire_02.R;
 import cz.inspire.clubspire_02.list_items.ActivityItem;
 
@@ -37,9 +40,14 @@ public class ListReservationsAdapter extends ArrayAdapter<ActivityItem> {
         // Find the ActivityItem to work with.
         ActivityItem currentActivity = activityList.get(position);
 
-        // Fill the view
-        ImageView imageView = (ImageView)itemView.findViewById(R.id.item_icon);
-        imageView.setImageResource(currentActivity.getIconID());
+        // set icon
+        ImageView activityIcon = (ImageView)itemView.findViewById(R.id.reservation_item_icon);
+        Picasso.with(getContext())
+                .load(currentActivity.getIconUrl())
+                .placeholder(R.drawable.loader_icon)
+                .error(R.drawable.error_icon)
+                .resize((int) App.getContext().getResources().getDimension(R.dimen.icon_width),(int)App.getContext().getResources().getDimension(R.dimen.icon_height))
+                .into(activityIcon);
 
         // Condition:
         TextView condionText = (TextView) itemView.findViewById(R.id.item_txtName);
