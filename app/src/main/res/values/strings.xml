@@ -40,5 +40,7 @@
     <string name="hint05">Nová rezervace</string>
     <string name="hint06">Nová rezervace</string>
 
+    <string name="wrongConnection">Aplikace potřebuje funkčné pŕipojení k internetu</string>
+
 
 </resources>

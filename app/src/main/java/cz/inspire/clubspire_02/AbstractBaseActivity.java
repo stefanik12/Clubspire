@@ -1,6 +1,9 @@
 package cz.inspire.clubspire_02;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -47,6 +51,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
     protected String resultContent;
     public boolean toolbarMenuPresent;
     public Intent parentIntent;
+    protected boolean connectionSuccess = true;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,6 +135,16 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         }
     };
 
+    private boolean isConnected(){
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
+    }
+
     //API network services:
     protected class AsyncAPIRequest extends AsyncTask<Void, Void, Void> {
         //now supports GET and POST methods
@@ -164,6 +179,12 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            //verify internet connection
+            if(!isConnected()){
+                connectionSuccess = false;
+                return null;
+            }
+
             //HttpURLConnection implementation-universal for all GET/POST/PUT methods:
             int responseCode = 0;
             Log.d("API request", " on "+RESTconfiq.BASE_URL + suffix);
@@ -254,6 +275,11 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
                         responseCode = urlConnection.getResponseCode();
 
+                        if(responseCode == 401) {
+                            // auth token expired
+                            requestToken();
+                        }
+
                         InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                         resultContent = IOUtils.toString(in, "UTF-8");
 
@@ -270,7 +296,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                     urlConnection.disconnect();
                 }
             }
-            Log.d("response code ",String.valueOf(responseCode));
+            Log.d("response code ", String.valueOf(responseCode));
             if(resultContent != null){
                 Log.d("result content", resultContent);
             } else {
@@ -282,8 +308,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
-
-            //TODO: if needed, use static singleton for passing retrieved data between activities
+            if(!connectionSuccess){
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.wrongConnection), Toast.LENGTH_LONG).show();
+            }
         }
 
         private boolean requestToken(){

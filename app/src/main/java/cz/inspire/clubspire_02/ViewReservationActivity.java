@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.inspire.clubspire_02.APIResources.AuthenticationHolder;
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.ReservationHolder;
 import cz.inspire.clubspire_02.list_items.ReservationItem;
@@ -32,7 +33,6 @@ import cz.inspire.clubspire_02.list_items.ReservationItem;
 public class ViewReservationActivity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
-    private final String USER = "Vukmir";
     final Context context = this;
     final int CUSTOM_DIALOG = 0;
     final int DEFAULT_DIALOG = 1;
@@ -75,7 +75,7 @@ public class ViewReservationActivity extends AbstractBaseActivity {
             iconId = 1;
         }
         //set items text
-        setReservationItemsContent(activityName, date, start, end, USER);
+        setReservationItemsContent(activityName, date, start, end, AuthenticationHolder.getUsername());
 
 
         //set BACK button listener
@@ -109,9 +109,6 @@ public class ViewReservationActivity extends AbstractBaseActivity {
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //Dialog d = onCreateDialog(0);
-
-
                 Dialog d = CustomDialog.createDialog(0, context, deleteListener, getString(R.string.text_cancel_reservation), getString(R.string.text_cancel_reservation_question),
                         getString(R.string.text_no), getString(R.string.text_yes));
                 d.show();

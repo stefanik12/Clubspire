@@ -74,8 +74,10 @@ public class MainActivity extends AbstractBaseActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {
-                //zly tokenObject <= chybne prihlasenie
-                Toast.makeText(getApplicationContext(), "Prihlasenie zlyhalo. Skontrolujte meno a heslo", Toast.LENGTH_LONG).show();
+                //zly tokenObject <= chybne prihlasenie alebo zle pripojenie
+                if(connectionSuccess){
+                    Toast.makeText(getApplicationContext(), "Prihlasenie zlyhalo. Skontrolujte meno a heslo", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
