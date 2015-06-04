@@ -64,8 +64,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         setupActionBar();
 
-        Bundle extras = getIntent().getExtras();
-
         iconId = ReservationHolder.getIconId();
         activityName = ReservationHolder.getReservationActivityName();
 
@@ -92,16 +90,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
         ArrayAdapter<SpinnerItem> dataAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_spinner_item,list);
 
-        /*
-        ArrayAdapter<SpinnerItem> dataAdapter = new ArrayAdapter<>
-                (this, R.layout.simple_spinner_item,list);
-        */
-
-        //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //dataAdapter.setDropDownViewResource(R.layout.spinner_item);
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //dataAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
         spinner1.setAdapter(dataAdapter);
         spinner1.setSelection(0);
@@ -158,56 +148,47 @@ public class Reservation02Activity extends AbstractBaseActivity {
             JSONArray dataJSON = new JSONArray();
             try {
                 JSONObject baseJSON = new JSONObject(resultContent);
-                System.out.println("baseJSON: " + baseJSON);
                 Log.d("base","getting base");
                 dataJSON = baseJSON.getJSONArray("data");
-                System.out.println("dataJSON: " + dataJSON);
 
             } catch (JSONException e) {
                 Log.e("base:", "baseJSON  fail:" + e);
-                //e.printStackTrace();
+                e.printStackTrace();
             }
 
             for(int d = 0; d<dataJSON.length();d++){
                 JSONObject dataObj = new JSONObject();
-
                 try {
                     dataObj = dataJSON.getJSONObject(d);
-                    //System.out.println("dataObj = " + dataObj);
                 }catch (JSONException e) {
-                    Log.e("dataObj:", "dataObj  fail:" + e);
-                    //e.printStackTrace();
+                    Log.e("dataObj:", "dataObj " + d + " fail:" + e);
+                    e.printStackTrace();
                 }
                 JSONArray dayJSON = new JSONArray();
                 try {
                     dayJSON = dataObj.getJSONArray("days");
-                    //System.out.println("dayJSON = " + dayJSON);
                 }catch (JSONException e) {
-                    //Log.e("dayJSON:", "dayJSON  fail:" + e);
-                    //e.printStackTrace();
+                    Log.e("dayJSON:", "dayJSON  fail:" + e);
+                    e.printStackTrace();
                 }
 
 
                 for(int i = 0;i<dayJSON.length(); i++) {
 
                     JSONObject dayObj = new JSONObject();
-
-
                     try {
                         dayObj = (JSONObject) dayJSON.get(i);
-                        //System.out.println("dayObj = " + dayObj);
                     }catch (JSONException e) {
-                        //Log.e("dayObj:", "dayObj  fail:" + e);
-                        ////e.printStackTrace();
+                        Log.e("dayObj:", "dayObj " + i + " fail:" + e);
+                        e.printStackTrace();
                     }
 
                     Boolean daysHistory = true;
                     try {
                         daysHistory = dayObj.getBoolean("history");
-                        //System.out.println("daysHistory = " + daysHistory);
                     }catch (JSONException e) {
-                        //Log.e("daysHistory:", "daysHistory  fail:" + e);
-                        ////e.printStackTrace();
+                        Log.e("daysHistory:", "daysHistory  fail:" + e);
+                        e.printStackTrace();
                     }
 
                     //if day has history => skip it
@@ -215,57 +196,52 @@ public class Reservation02Activity extends AbstractBaseActivity {
                         JSONArray dayTabsJSON = new JSONArray();
                         try {
                             dayTabsJSON = dayObj.getJSONArray("dayTabs");
-                            //System.out.println("dayTabsJSON = " + dayTabsJSON);
                         }catch (JSONException e) {
-                            //Log.e("dayTabsJSON:", "dayTabsJSON  fail:" + e);
-                            //e.printStackTrace();
+                            Log.e("dayTabsJSON:", "dayTabsJSON  fail:" + e);
+                            e.printStackTrace();
                         }
 
                         for (int j = 0; j < dayTabsJSON.length(); j++) {
                             JSONObject dayTabJSON = new JSONObject();
                             try {
                                 dayTabJSON = (JSONObject) dayTabsJSON.get(j);
-                                //System.out.println("day tab " + j + ": " + dayTabJSON);
                             } catch (JSONException e) {
-                                //System.out.println("daytab fail");
+                                Log.e("dayTabJSON:", "dayTabJSON " + j + " fail:" + e);
+                                e.printStackTrace();
                             }
                             Boolean dayTabHistory = true;
                             try {
                                 dayTabHistory = dayTabJSON.getBoolean("history");
-                                //System.out.println("dayTabHistory = " + dayTabHistory);
                             }catch (JSONException e) {
-                                //Log.e("daysHistory:", "daysHistory  fail:" + e);
-                                ////e.printStackTrace();
+                                Log.e("daysHistory:", "daysHistory  fail:" + e);
+                                e.printStackTrace();
                             }
                             if(!dayTabHistory) {
-
                                 //date - will be set for each sport separately
                                 String termDate = "";
                                 try {
                                     termDate = dayObj.getString("date");
-                                    //System.out.println("termDate = " + termDate);
                                 } catch (JSONException e) {
-                                    //Log.e("termDate:", "termDate  fail:" + e);
-                                    //e.printStackTrace();
+                                    Log.e("termDate:", "termDate  fail:" + e);
+                                    e.printStackTrace();
                                 }
                                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
 
                                 JSONArray sportsJSON = new JSONArray();
                                 try {
                                     sportsJSON = ((JSONObject) dayTabsJSON.get(j)).getJSONArray("sports");
-                                    //System.out.println("sportsJSON: " + sportsJSON);
                                 } catch (JSONException e) {
-                                    //Log.e("sportsJSON:", "sportsJSON  fail:" + e);
-                                    //e.printStackTrace();
+                                    Log.e("sportsJSON:", "sportsJSON  fail:" + e);
+                                    e.printStackTrace();
                                 }
 
                                 for (int s = 0; s < sportsJSON.length(); s++) {
                                     JSONObject sportJSON = new JSONObject();
                                     try {
                                         sportJSON = (JSONObject) sportsJSON.get(s);
-                                        //System.out.println("sport " + s + ": " + sportJSON);
                                     } catch (JSONException e) {
-
+                                        Log.e("sportJSON:", "sportJSON " + s + " fail:" + e);
+                                        e.printStackTrace();
                                     }
                                     Boolean emptySpace = true;
                                     Boolean matchesFilter = false;
@@ -275,50 +251,38 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                     Boolean substitute = true;
                                     try {
                                         emptySpace = sportJSON.getBoolean("emptySpace");
-                                        //System.out.println("emptySpace = " + emptySpace);
                                         matchesFilter = sportJSON.getBoolean("matchesFilter");
-                                        //System.out.println("matchesFilter = " + matchesFilter);
                                         lessonStarted = sportJSON.getBoolean("lessonStarted");
-                                        //System.out.println("lessonStarted = " + lessonStarted);
                                         lessonFinished = sportJSON.getBoolean("lessonFinished");
-                                        //System.out.println("lessonFinished = " + lessonFinished);
                                         clickable = sportJSON.getBoolean("clickable");
-                                        //System.out.println("clickable = " + clickable);
                                         substitute = sportJSON.getBoolean("substitute");
-                                        //System.out.println("substitute = " + substitute);
                                     }catch (JSONException e) {
-                                        System.out.println("some parameters are not valid");
-                                        //Log.e("daysHistory:", "daysHistory  fail:" + e);
-                                        ////e.printStackTrace();
+                                        Log.e("daysHistory:", "daysHistory  fail:" + e);
+                                        e.printStackTrace();
                                     }
-                                    //System.out.println("***");
-                                    //System.out.println(emptySpace + ","+matchesFilter+ ","+lessonStarted+ ","+lessonFinished+ ","+clickable+ ","+substitute );
+
                                     if(!emptySpace && matchesFilter && !lessonStarted && !lessonFinished && clickable && !substitute)
                                         Log.d("termParams","term not added, some parameters are not valid");
-                                    //System.out.println("***");
+
                                     if(!emptySpace && matchesFilter && !lessonStarted && !lessonFinished && clickable && !substitute) {
-                                        //System.out.println("obj " + s + " params ok");
                                         TermItem t = new TermItem();
                                         Boolean termOk = true; //to check if some attribute is not null
-
                                         //date
                                         try {
                                             t.setDate(dateFormat.parse(termDate));
                                         } catch (ParseException e) {
-                                            //Log.e("setDate:", "setDate parse fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("setDate:", "setDate parse fail:" + e);
+                                            e.printStackTrace();
                                             termOk = false;
                                         }
-
-
                                         //available
                                         //TODO no unavailable terms to check
                                         int freePlaces = 0;
                                         try {
-                                            freePlaces = ((JSONObject) sportJSON).getInt("freePlaces");
+                                            freePlaces = sportJSON.getInt("freePlaces");
                                         } catch (JSONException e) {
-                                            //Log.e("freePlaces:", "freePlaces  fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("freePlaces:", "freePlaces  fail:" + e);
+                                            e.printStackTrace();
                                         }
                                         if (freePlaces > 0) {
                                             t.setAvailable(true);
@@ -333,51 +297,13 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         String objectId = "";
                                         try {
                                             objectId = (sportJSON).getString("objectId");
-                                            System.out.println("objectId: " + objectId);
                                         } catch (JSONException e) {
-                                            //Log.e("objectId:", "objectId  fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("objectId:", "objectId  fail:" + e);
+                                            e.printStackTrace();
                                         };
 
                                         ReservationHolder.getReservation().setObjectId(objectId);
 
-
-                                        ////////////////////////////////////////************************************************////////////////////////////////////////
-
-                                        /*
-                                        System.out.println("getting smthing");
-
-                                        //API loader initialization
-                                        new LocalAsyncAPIRequestExtension().setParameters(urlRequestParams).execute("/api/1.0/timeline/week", HttpMethod.GET);
-                                        */
-
-                                        //TODO how to set GET request
-                                        //TODO how to get result emmediately - on 518 :  Log.d("Reservation02Activity: ", resultContent); resultContent is ok
-                                        /*
-                                        int indexOfAPI10 = newReservationUrl.indexOf("/api/1.0");
-                                        String urlRequest = newReservationUrl.substring(indexOfAPI10, newReservationUrl.length());
-                                        System.out.println("urlRequest: " + urlRequest);
-
-
-                                        AsyncAPIRequest ar = new AsyncAPIRequest();
-                                        ar.execute(urlRequest, HttpMethod.GET);
-                                        System.out.println("content1: " + resultContent);
-
-                                        */
-
-
-
-
-
-                                        ///////////////////////////
-                                        String activityId = "";
-                                        try {
-                                            activityId = ((JSONObject) sportsJSON.get(s)).getString("activityId");
-                                        } catch (JSONException e) {
-                                            //Log.e("activityId:", "activityId  fail:" + e);
-                                            //e.printStackTrace();
-                                        }
-                                        //TODO activityId not in holder
 
                                         //sportiId
                                         String sportId = "";
@@ -385,11 +311,9 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                             sportId = ((JSONObject) sportsJSON.get(s)).getString("sportId");
                                             t.setSportId(sportId);
                                         } catch (JSONException e) {
-                                            //Log.e("activityId:", "activityId  fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("activityId:", "activityId  fail:" + e);
+                                            e.printStackTrace();
                                         }
-
-                                        System.out.println("sportJSON: " + sportJSON);
 
                                         //instructorId
                                         JSONObject instructorJSON = new JSONObject();
@@ -398,9 +322,10 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                             String instructorId = instructorJSON.getString("id");
                                             ReservationHolder.getReservation().setInstructorId(instructorId);
                                         } catch (JSONException e) {
-                                            //Log.e("instructorJSON:", "instructorJSON  fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("instructorJSON:", "instructorJSON  fail:" + e);
+                                            e.printStackTrace();
                                         }
+
                                         //TODO např u Mix Fit je instructorId = -1 a request to nebere
 
 
@@ -408,8 +333,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         try {
                                             startTime = ((JSONObject) sportsJSON.get(s)).getString("startTime");
                                         } catch (JSONException e) {
-                                            //Log.e("startTime:", "startTime  fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("startTime:", "startTime  fail:" + e);
+                                            e.printStackTrace();
                                         }
 
                                         Date startTimeDF = new Date();
@@ -420,8 +345,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                                 startTimeDF = null;
                                             }
                                         } catch (ParseException e) {
-                                            //Log.e("startTimeDF:", "startTimeDF  fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("startTimeDF:", "startTimeDF  fail:" + e);
+                                            e.printStackTrace();
                                         }
 
                                         Time startHour = new Time();
@@ -436,8 +361,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         try {
                                             endTime = ((JSONObject) sportsJSON.get(s)).getString("endTime");
                                         } catch (JSONException e) {
-                                            //Log.e("endTime:", "endTime  fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("endTime:", "endTime  fail:" + e);
+                                            e.printStackTrace();
                                         }
                                         Date endTimeDF = new Date();
                                         try {
@@ -447,8 +372,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                                 endTimeDF = null;
                                             }
                                         } catch (ParseException e) {
-                                            //Log.e("endTimeDF:", "endTimeDF  fail:" + e);
-                                            //e.printStackTrace();
+                                            Log.e("endTimeDF:", "endTimeDF  fail:" + e);
+                                            e.printStackTrace();
                                         }
 
                                         Time endHour = new Time();
@@ -488,11 +413,8 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                         if (termOk) {
                                             termList.add(t);
                                         } else {
-                                            Log.d("null attribute", "term not added");
+                                            Log.d("invalid attribute", "term not added");
                                         }
-
-
-
                                     }
                                 }
                             }
@@ -512,7 +434,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
     }
 
     private void populateTermListView() {
-        //ArrayAdapter<TermItem> termAdapter = new MyTermListAdapter();
         TermListAdapter termAdapter = new TermListAdapter(this,termList);
         ListView termListView = (ListView) findViewById(R.id.termListView);
         termListView.setAdapter(termAdapter);
@@ -526,8 +447,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
                                     int position, long id) {
 
                 TermItem clickedTerm = termList.get(position);
-                //String message = "You clicked position " + position;
-                //Toast.makeText(Reservation02Activity.this, message, Toast.LENGTH_SHORT).show();
 
                 if (clickedTerm.isAvailable()) {
                     Intent intent = new Intent(getApplicationContext(), Reservation03Activity.class);
@@ -555,7 +474,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
     public void addListenerOnSpinnerItemSelection(){
 
         spinner1.setOnItemSelectedListener(new SpinnerListener2());
-        // setOnItemSelectedListener calls updateTerm()
     }
 
     private List<SpinnerItem> populateSpinnerList(int noOfWeeks){
@@ -582,9 +500,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
         termList.clear();
 
         populateTermList();
-
         populateTermListView();
-
         registerTermClickCallback();
 
     }

@@ -148,7 +148,6 @@ public class ListReservationActivity extends AbstractBaseActivity {
                     String activityName = iteratedItem.getJSONObject("sport").getJSONObject("activity").getString("name");
 
                     String iconUrl = iteratedItem.getJSONObject("sport").getJSONObject("activity").getJSONObject("icon").getJSONObject("metaInfo").getString("href");
-                    System.out.println("iconUrl: " + iconUrl);
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
 
@@ -179,7 +178,6 @@ public class ListReservationActivity extends AbstractBaseActivity {
                             .setActivityId(activityId)
                             .setId(reservationId);
 
-                    //System.out.println("iteratedItem: " + iteratedItem);
                     Log.d("ListReservations", "Activity name: " + newItem.getActivityName());
 
                     reservationList.add(newItem);

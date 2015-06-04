@@ -129,15 +129,12 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 else
                     ReservationHolder.getReservation().setEmailNotificationBeforeMinutes(0);//how to set NULL..as no notification???
 
-                System.out.println("reservation toStr = " + reservation.toString());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
                 String parsedStartTime = "";
                 String parsedEndTime = "";
                 try {
                     parsedStartTime = sdf.format(reservation.getStartTime());
-                    //System.out.println(parsedStartTime);
                     parsedEndTime = sdf.format(reservation.getEndTime());
-                    //System.out.println(parsedEndTime);
 
                 }catch (Exception e){
                     Log.d("startTime", "startTime fail " + e);
@@ -155,7 +152,6 @@ public class Reservation03Activity extends AbstractBaseActivity {
                         "\"emailNotificationBeforeMinutes\":" + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
                         "\"smsNotificationBeforeMinutes\":" + reservation.getSmsNotificationBeforeMinutes() +  "}";
 
-                System.out.println("my parsed sentText = " + mySentText);
 
                 //TODO try to fix startTime format so we can use Gson
                 Gson gson = new Gson();
