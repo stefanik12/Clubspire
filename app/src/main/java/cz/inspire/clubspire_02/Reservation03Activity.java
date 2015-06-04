@@ -210,9 +210,10 @@ public class Reservation03Activity extends AbstractBaseActivity {
             super.onPostExecute(v);
 
             Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
-            Log.d("loaded content:", resultContent);
 
             if(resultContent != null) {
+                Log.d("loaded content:", resultContent);
+
                 try {
                     JSONObject baseJSON = new JSONObject(resultContent);
                     int status = baseJSON.getJSONObject("message").getInt("httpStatus");
@@ -222,7 +223,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                     if(status == 200){
 
                         //next activity initialization
-                        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ListReservationActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("lastReservationStatus", userMessage);
 

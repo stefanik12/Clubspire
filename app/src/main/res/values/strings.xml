@@ -32,5 +32,7 @@
     <string name="string_login">Přihlášení</string>
     <string name="weekString">Týden</string>
 
+    <string name="wrongConnection">Aplikace potřebuje funkčné pŕipojení k internetu</string>
+
 
 </resources>

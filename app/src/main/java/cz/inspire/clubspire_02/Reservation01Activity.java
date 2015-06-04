@@ -82,9 +82,8 @@ public class Reservation01Activity extends AbstractBaseActivity {
     }
 
     private void populateActivityList() {
-        //TODO: get images, cache them
 
-        if(!resultContent.equals("")) {
+        if(resultContent != null) {
             try {
                 JSONObject baseJSON = new JSONObject(resultContent);
                 JSONArray activityJSON = baseJSON.getJSONArray("data");
