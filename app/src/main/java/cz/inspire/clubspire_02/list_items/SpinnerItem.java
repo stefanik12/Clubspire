@@ -1,4 +1,4 @@
-package cz.inspire.clubspire_02;
+package cz.inspire.clubspire_02.list_items;
 
 import android.app.Activity;
 import android.app.Application;
@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import cz.inspire.clubspire_02.App;
+import cz.inspire.clubspire_02.R;
 import cz.inspire.clubspire_02.array_adapter.ActivityListAdapter;
 
 public class SpinnerItem{
@@ -35,10 +37,13 @@ public class SpinnerItem{
         return weekNum;
     }
 
+    public LocalDate getFrom() {
+        return from;
+    }
+
     public void setWeekNum(int weekNum) {
         this.weekNum = weekNum;
     }
-
 
     public String getFromText(){
         return from.getDayOfMonth() + "." + from.getMonthOfYear() + ".";

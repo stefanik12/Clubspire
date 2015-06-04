@@ -23,24 +23,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,9 +39,9 @@ import org.json.JSONObject;
 
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.ReservationHolder;
-import cz.inspire.clubspire_02.POJO.Reservation;
 import cz.inspire.clubspire_02.array_adapter.TermListAdapter;
 import cz.inspire.clubspire_02.list_items.Day;
+import cz.inspire.clubspire_02.list_items.SpinnerItem;
 import cz.inspire.clubspire_02.list_items.TermItem;
 
 
@@ -122,18 +113,18 @@ public class Reservation02Activity extends AbstractBaseActivity {
                 startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
             }
         });
+        makeRequest();
+    }
 
+    private void makeRequest() {
         //GET attribute pairs:
         List<NameValuePair> requestParams = new ArrayList<>();
 
-        requestParams.add(new BasicNameValuePair("date", "2015-06-20"));
+        requestParams.add(new BasicNameValuePair("date", ((SpinnerItem)spinner1.getSelectedItem()).getFrom().toString()));
         requestParams.add(new BasicNameValuePair("activityId", ReservationHolder.getReservationActivityId()));
-
-
         //API loader initialization
         new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/timeline/week", HttpMethod.GET);
         //continues in onPostExecute
-
     }
 
     protected class LocalAsyncAPIRequestExtension extends AsyncAPIRequest {
@@ -602,75 +593,12 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-
-            List<NameValuePair> requestParams = new ArrayList<>();
-            int newWeekNum = ((SpinnerItem)(spinner1.getSelectedItem())).getWeekNum();
-            //System.out.println("new week = " + newWeekNum);
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.clear();
-            calendar.setFirstDayOfWeek(Calendar.MONDAY);
-            calendar.set(Calendar.WEEK_OF_YEAR, newWeekNum);
-            calendar.set(Calendar.YEAR, 2015);
-
-            // Now get the first day of week.
-            Date date = calendar.getTime();
-            //we dont want months to be counted from 0
-            date.setMonth(date.getMonth() + 1);
-            //System.out.println("new date = " + date.toString());
-            //System.out.println("new date == " + date.getDate());
-            //System.out.println("new month == " + date.getMonth());
-            //newDateString has to be in speciffic format
-            String monthString;
-            if((""+date.getMonth()).length() == 1){
-                monthString = "0" + date.getMonth();
-            }else{
-                monthString = "" + date.getMonth();
-            }
-            String dateString;
-            if((""+date.getDate()).length() == 1){
-                dateString = "0" + date.getDate();
-            }else{
-                dateString = "" + date.getDate();
-            }
-
-            String newDateString = "2015" + "-" + monthString + "-" + dateString;
-            //System.out.println("new date is " + newDateString);
-
-            //TODO: napojit atribut date na nejaky den z vybraneho tyzdna
-            requestParams.clear();
-            Log.d("clearParams","request params cleared");
-            requestParams.add(new BasicNameValuePair("date", newDateString));
-            //atribut date API ignoruje: robilo problemy aj pri testovani/ stale vracia aktualny tyzden
-            requestParams.add(new BasicNameValuePair("history", "false"));
-            requestParams.add(new BasicNameValuePair("matchesFilter", "true"));
-            requestParams.add(new BasicNameValuePair("lessonStarted", "false"));
-            requestParams.add(new BasicNameValuePair("clickable", "true"));
-            requestParams.add(new BasicNameValuePair("substitute", "false"));
-            requestParams.add(new BasicNameValuePair("activityId", ReservationHolder.getReservationActivityId()));
-
-
-            https://api.clubspire.com/api/timeline/week?
-            // date=2015-06-20&
-            // history=false&
-            // matchesFilter=true&
-            // lessonStarted=false&
-            // lessonFinished=false&
-            // clickable=true&substitute=false&
-            // activityId=639b1d5cac1303f00011cd38b40e36c0
-            //API loader initialization
-            new LocalAsyncAPIRequestExtension().setParameters(requestParams).execute("/api/1.0/timeline/week", HttpMethod.GET);
-            //continues in onPostExecute
-
-            //Toast.makeText(parent.getContext(), parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
-
+            makeRequest();
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
             adapterView.setSelection(0);
         }
-
-
     }
 }
