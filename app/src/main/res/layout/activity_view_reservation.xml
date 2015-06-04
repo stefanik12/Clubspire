@@ -342,10 +342,9 @@
             android:editable="false"
             android:enabled="false"
             android:minHeight="@dimen/menu_item_height"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:textColor="@color/secondary_color"
-
+            android:padding="3dp"
+            android:gravity="top"
             />
     </RelativeLayout>
 

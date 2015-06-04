@@ -152,8 +152,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
                 dataJSON = baseJSON.getJSONArray("data");
 
             } catch (JSONException e) {
-                Log.e("base:", "baseJSON  fail:" + e);
-                e.printStackTrace();
+                Log.d("base:", "baseJSON  is emty");
             }
 
             for(int d = 0; d<dataJSON.length();d++){

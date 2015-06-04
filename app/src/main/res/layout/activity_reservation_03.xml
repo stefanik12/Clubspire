@@ -325,7 +325,9 @@
             android:layout_marginLeft="5dp"
             android:minHeight="@dimen/menu_item_height"
             android:textColor="@color/secondary_color"
-            android:layout_toLeftOf="@+id/textNote" />
+            android:layout_toLeftOf="@+id/textNote"
+            android:padding="3dp"
+            />
     </RelativeLayout>
 
 
