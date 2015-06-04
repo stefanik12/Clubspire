@@ -23,8 +23,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +39,9 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,7 +95,7 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
 
         spinner1 = (Spinner) findViewById(R.id.spinner1);
-        List<SpinnerItem> list = populateSpinnerList();
+        List<SpinnerItem> list = populateSpinnerList(8);
 
 
         ArrayAdapter<SpinnerItem> dataAdapter = new ArrayAdapter<>
@@ -147,21 +152,6 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
             // Spinner item selection Listener
             addListenerOnSpinnerItemSelection();
-
-
-            Log.d("onPostExecute", "in LocalAsyncAPIRequestExtension called");
-            Log.d("loaded content:", resultContent);
-
-            //TODO Reservation: dostat z jsonobject-u vsetko relevantne pre novovytvorenu rezervaciu:
-            //activityId
-            //sportId
-            //startTime
-            //endTime
-
-            if(!resultContent.equals("")) {
-                //podobne ako v Reservation01
-
-            }
 
             updateTerm();
             progressBar.setVisibility(View.INVISIBLE);
@@ -571,56 +561,29 @@ public class Reservation02Activity extends AbstractBaseActivity {
         });
     }
 
-    private List<SpinnerItem> populateSpinnerList(){
-        List<SpinnerItem> out = new ArrayList<>();
-
-        //TODO: use getActualWeek
-
-        Date from0 = new Date(2015,6,1);
-        Date from00 = new Date(2015,6,8);
-
-        Date from1 = new Date(2015,6,15);
-        Date from2 = new Date(2015,6,22);
-        Date from3 = new Date(2015,6,29);
-        Date from4 = new Date(2015,7,6);
-        Date from5 = new Date(2015,7,13);
-
-        Date to0 = new Date(2015,6,7);
-        Date to00 = new Date(2015,6,14);
-
-        Date to1 = new Date(2015,6,21);
-        Date to2 = new Date(2015,6,28);
-        Date to3 = new Date(2015,7,5);
-        Date to4 = new Date(2015,7,12);
-        Date to5 = new Date(2015,7,19);
-
-        out.add(new SpinnerItem(23,from0,to0));
-        out.add(new SpinnerItem(24,from00,to00));
-
-        out.add(new SpinnerItem(25,from1,to1));
-        out.add(new SpinnerItem(26,from2,to2));
-        out.add(new SpinnerItem(27,from3,to3));
-        out.add(new SpinnerItem(28,from4,to4));
-        out.add(new SpinnerItem(29,from5,to5));
-
-        return out;
-    }
-
-    // Add spinner data
-
     public void addListenerOnSpinnerItemSelection(){
 
         spinner1.setOnItemSelectedListener(new SpinnerListener2());
-        //TODO setOnItemSelectedListener calls updateTerm()
+        // setOnItemSelectedListener calls updateTerm()
     }
 
-    private int getActualWeek(){
-        //TODO not implemented yet
-        return getWeekFromSelection();
-    }
+    private List<SpinnerItem> populateSpinnerList(int noOfWeeks){
+        LocalDate today = new LocalDate();
+        LocalDate weekStart;
+        LocalDate weekEnd;
 
-    private int getWeekFromSelection(){
-        return ((SpinnerItem)(spinner1.getSelectedItem())).getWeekNum();
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+        List<SpinnerItem> out = new ArrayList<>();
+        for(int i=0;i<noOfWeeks;i++){
+            LocalDate todayPlusSeven = today.plusDays(i*7);
+            weekStart = todayPlusSeven.dayOfWeek().withMinimumValue();
+            weekEnd = todayPlusSeven.dayOfWeek().withMaximumValue();
+
+            out.add(new SpinnerItem(weekStart.getWeekOfWeekyear(), weekStart, weekEnd));
+        }
+        return out;
     }
 
     public void updateTerm(){

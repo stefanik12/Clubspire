@@ -17,17 +17,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.1.1'
     // rest client for http interaction and dependencies
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp:2.2.0'
+//    compile 'com.squareup.retrofit:retrofit:1.9.0'
+//    compile 'com.squareup.okhttp:okhttp:2.2.0'
     compile 'com.google.code.gson:gson:2.3'
     compile 'commons-io:commons-io:2.4'
-    compile 'org.json:json:20141113'
+//    compile 'org.json:json:20141113'
+    compile 'joda-time:joda-time:2.3'
 
-    compile files('libs/picasso-2.5.2.jar')
+//    compile files('libs/picasso-2.5.2.jar')
 }

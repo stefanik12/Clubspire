@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import cz.inspire.clubspire_02.APIResources.AuthenticationHolder;
 import cz.inspire.clubspire_02.APIResources.HttpMethod;
 import cz.inspire.clubspire_02.APIResources.RESTconfiq;
 import cz.inspire.clubspire_02.APIResources.ReservationHolder;
@@ -42,7 +43,6 @@ import cz.inspire.clubspire_02.list_items.ReservationItem;
 public class Reservation03Activity extends AbstractBaseActivity {
 
     private Toolbar mToolbar;
-    private final String USER = "Vukmir";
 
     private List<ReservationItem> reservationList = new ArrayList<>();
     private String activityName;
@@ -79,7 +79,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
             Log.e("onCreate", "one step of reservation was skipped");
         }
         //set items text
-        setReservationItemsContent(activityName, date, start, end, USER);
+        setReservationItemsContent(activityName, date, start, end, AuthenticationHolder.getUsername());
 
         //set CONFIRM button size
         int scrHeight = getWindowManager().getDefaultDisplay().getHeight();
