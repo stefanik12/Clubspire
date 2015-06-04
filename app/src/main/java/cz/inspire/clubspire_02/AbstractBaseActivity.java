@@ -51,6 +51,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
     protected String resultContent;
     public boolean toolbarMenuPresent;
     public Intent parentIntent;
+    protected boolean connectionSuccess = true;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -172,7 +173,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         protected Void doInBackground(Void... voids) {
             //verify internet connection
             if(!isConnected()){
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.wrongConnection), Toast.LENGTH_SHORT).show();
+                connectionSuccess = false;
                 return null;
             }
 
@@ -287,7 +288,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                     urlConnection.disconnect();
                 }
             }
-            Log.d("response code ",String.valueOf(responseCode));
+            Log.d("response code ", String.valueOf(responseCode));
             if(resultContent != null){
                 Log.d("result content", resultContent);
             } else {
@@ -299,8 +300,9 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
-
-            //TODO: if needed, use static singleton for passing retrieved data between activities
+            if(!connectionSuccess){
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.wrongConnection), Toast.LENGTH_LONG).show();
+            }
         }
 
         private boolean requestToken(){

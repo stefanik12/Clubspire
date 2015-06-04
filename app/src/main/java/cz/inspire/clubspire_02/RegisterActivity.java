@@ -86,7 +86,7 @@ public class RegisterActivity extends AbstractBaseActivity {
                         AuthenticationHolder.setUsername(((EditText) findViewById(R.id.textfield_new_login)).getText().toString());
                         AuthenticationHolder.setPassword(((EditText) findViewById(R.id.textfield_password)).getText().toString());
 
-                        //throw success message
+                        //throw connectionSuccess message
                         Toast.makeText(getApplicationContext(), userMessage, Toast.LENGTH_LONG).show();
 
                         Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
