@@ -1,5 +1,11 @@
 # Clubspire
 -********TODO********
+********************************4.6.2015 Adam**************************************************
+Poznámka odsadit
+z kroku 3 na seznam
+v reservation view jsou checkboxy téměř neviditelné
+
+
 ********************************24.5.2015 Adam**************************************************
 zobrazení názvu aplikace v menu
 
