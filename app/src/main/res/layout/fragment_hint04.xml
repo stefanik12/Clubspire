@@ -8,8 +8,8 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/img_step01"
-        android:src="@drawable/step_01"
+        android:id="@+id/img_step04"
+        android:src="@drawable/step_04"
         />
 </LinearLayout>
 

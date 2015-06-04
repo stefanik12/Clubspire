@@ -14,7 +14,7 @@ import java.util.List;
  * Created by michal on 5/3/15.
  */
 public class HintActivity extends AbstractBaseActivity {
-    private static final int SLIDE_STEPS = 3;
+    private static final int SLIDE_STEPS = 9;
     Toolbar mToolbar;
 
     HelpAdapter helpAdapter;
