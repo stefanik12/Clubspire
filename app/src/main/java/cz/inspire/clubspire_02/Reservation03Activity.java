@@ -92,17 +92,6 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 Reservation reservation = ReservationHolder.getReservation();
                 reservation.setNote(((EditText) findViewById(R.id.editTextNoteContent)).getText().toString());
 
-                //FUNKCNY REQUEST:
-                String sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
-                        "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
-                        "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
-                        "\"note\":\"poznamka z RESTu\",\n" +
-                        "\"personCount\":1,\n" +
-                        "\"startTime\":\"2015-06-19T15:30:00.000+0200\",\n" +
-                        "\"endTime\":\"2015-06-19T16:20:00.000+0200\",\n" +
-                        "\"emailNotificationBeforeMinutes\":120,\n" +
-                        "\"smsNotificationBeforeMinutes\":60}";
-
 
                 //parse information from EditText
                 int personCount = Integer.parseInt(((EditText) findViewById(R.id.editPlayersContent)).getText().toString());
@@ -135,7 +124,7 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 }
 
                 //for now we use manually written format
-                String sentText =
+                String mySentText =
                         "{\"instructorId\":\"" + reservation.getInstructorId() + "\",\n" +
                         "\"sportId\":\"" + reservation.getSportId() +  "\",\n" +
                         "\"objectId\":\"" + reservation.getObjectId() + "\",\n" +
@@ -151,12 +140,11 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 Gson gson = new Gson();
                 //String sentText = gson.toJson(reservation);
 
-                Log.d("serialized registration", sentText);
 
                 Log.d("MY serialized reg", mySentText);
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
-                new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/reservations", HttpMethod.POST);
+                new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/reservations", HttpMethod.POST);
             }
         });
 

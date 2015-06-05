@@ -146,13 +146,19 @@ public class Reservation02Activity extends AbstractBaseActivity {
 
         if(!resultContent.equals("")) {
             JSONArray dataJSON = new JSONArray();
+            TextView message = (TextView)findViewById(R.id.step02message);
             try {
                 JSONObject baseJSON = new JSONObject(resultContent);
                 Log.d("base","getting base");
                 dataJSON = baseJSON.getJSONArray("data");
+                message.setVisibility(View.INVISIBLE);
 
             } catch (JSONException e) {
-                Log.d("base:", "baseJSON  is emty");
+                Log.d("base:", "baseJSON  is empty");
+
+                message.setVisibility(View.VISIBLE);
+                message.setText("seznam je prázdný");
+                //Toast.makeText(getApplicationContext(),"")
             }
 
             for(int d = 0; d<dataJSON.length();d++){

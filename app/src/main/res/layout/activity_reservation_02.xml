@@ -60,6 +60,17 @@
             android:indeterminateOnly="true"
             android:keepScreenOn="true"
             />
+
+        <TextView
+            android:text="step 2 message"
+            android:textSize="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/primary_item_color"
+
+            android:layout_marginTop="10dp"
+            android:id="@+id/step02message" />
     </RelativeLayout>
 
 </LinearLayout>
