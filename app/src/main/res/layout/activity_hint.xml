@@ -27,13 +27,14 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/hint_margin_bot">
 
-            <!--
+
+
         <TextView
             android:textColor="@color/secondary_color"
             android:background="@drawable/hint_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nápověda"
+            android:text="@string/hint00"
             android:id="@+id/hint_text"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -41,7 +42,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             />
-            -->
+
 
         </RelativeLayout>
 

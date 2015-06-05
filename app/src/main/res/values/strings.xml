@@ -34,13 +34,15 @@
 
     <string name="hint00">Nová rezervace</string>
     <string name="hint01">vyberte aktivitu</string>
-    <string name="hint02">Nová rezervace</string>
-    <string name="hint03">Nová rezervace</string>
-    <string name="hint04">Nová rezervace</string>
-    <string name="hint05">Nová rezervace</string>
-    <string name="hint06">Nová rezervace</string>
+    <string name="hint02">zvolte týden</string>
+    <string name="hint03">...</string>
+    <string name="hint04">zvolte termín</string>
+    <string name="hint05">upravte údaje a potvrďte</string>
+    <string name="hint06">Zrušení rezervace</string>
+    <string name="hint07">vyberte rezervaci</string>
+    <string name="hint08">zrušte rezervaci</string>
 
-    <string name="wrongConnection">Aplikace potřebuje funkčné pŕipojení k internetu</string>
+    <string name="wrongConnection">Aplikace potřebuje funkční pŕipojení k internetu</string>
 
 
 </resources>

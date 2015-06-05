@@ -32,49 +32,53 @@ public class HintFragment extends Fragment {
     }
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
-                             Bundle savedInstanceState) {
-
-        View v;
+        View view = inflater.inflate(R.layout.activity_hint, container, false);
         int slide = getArguments().getInt("SLIDE_NUMBER");
         //TextView hintText = (TextView) getView().findViewById(R.id.hint_text);
+
+        /*
+        TextView hintText = (TextView) view.findViewById(R.id.hint_text);
+        hintText.setText("Nová NNN");
+        hintText.setHeight(200);
+        */
 
 
         switch (slide){
             case 0:
-                v = inflater.inflate(R.layout.fragment_hint00, container, false);
+                view = inflater.inflate(R.layout.fragment_hint00, container, false);
                 break;
             case 1:
-                v = inflater.inflate(R.layout.fragment_hint01, container, false);
+                view = inflater.inflate(R.layout.fragment_hint01, container, false);
                 break;
             case 2:
-                v = inflater.inflate(R.layout.fragment_hint02, container, false);
+                view = inflater.inflate(R.layout.fragment_hint02, container, false);
                 break;
             case 3:
-                v = inflater.inflate(R.layout.fragment_hint03, container, false);
+                view = inflater.inflate(R.layout.fragment_hint03, container, false);
                 break;
             case 4:
-                v = inflater.inflate(R.layout.fragment_hint04, container, false);
+                view = inflater.inflate(R.layout.fragment_hint04, container, false);
                 break;
             case 5:
-                v = inflater.inflate(R.layout.fragment_hint05, container, false);
+                view = inflater.inflate(R.layout.fragment_hint05, container, false);
                 break;
             case 6:
-                v = inflater.inflate(R.layout.fragment_hint06, container, false);
+                view = inflater.inflate(R.layout.fragment_hint06, container, false);
                 break;
             case 7:
-                v = inflater.inflate(R.layout.fragment_hint07, container, false);
+                view = inflater.inflate(R.layout.fragment_hint07, container, false);
                 break;
             case 8:
-                v = inflater.inflate(R.layout.fragment_hint08, container, false);
+                view = inflater.inflate(R.layout.fragment_hint08, container, false);
                 break;
             default:
-                throw new IllegalArgumentException("Slide number must be between 0 and 2 inclusively");
+                throw new IllegalArgumentException("Slide number must be between 0 and 8 inclusively");
         }
 
         
-        return v;
+        return view;
 
     }
 }
