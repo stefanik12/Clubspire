@@ -14,8 +14,8 @@ public class Reservation {
     private String objectId;
     private String note;
     private int personCount;
-    private Date startTime;
-    private Date endTime;
+    private long startTime;
+    private long endTime;
     private int emailNotificationBeforeMinutes;
     private int smsNotificationBeforeMinutes;
 
@@ -65,19 +65,19 @@ public class Reservation {
     }
 
     public long getStartTime() {
-        return startTime.getTime();
+        return startTime;
     }
 
-    public Reservation setStartTime(Date startTime) {
+    public Reservation setStartTime(long startTime) {
         this.startTime = startTime;
         return this;
     }
 
-    public Date getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public Reservation setEndTime(Date endTime) {
+    public Reservation setEndTime(long endTime) {
         this.endTime = endTime;
         return this;
     }
