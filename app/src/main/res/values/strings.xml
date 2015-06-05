@@ -32,6 +32,14 @@
     <string name="string_login">Přihlášení</string>
     <string name="weekString">Týden</string>
 
+    <string name="hint00">Nová rezervace</string>
+    <string name="hint01">vyberte aktivitu</string>
+    <string name="hint02">Nová rezervace</string>
+    <string name="hint03">Nová rezervace</string>
+    <string name="hint04">Nová rezervace</string>
+    <string name="hint05">Nová rezervace</string>
+    <string name="hint06">Nová rezervace</string>
+
     <string name="wrongConnection">Aplikace potřebuje funkčné pŕipojení k internetu</string>
 
 

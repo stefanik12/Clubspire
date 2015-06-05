@@ -88,40 +88,25 @@ public class Reservation01Activity extends AbstractBaseActivity {
                 JSONObject baseJSON = new JSONObject(resultContent);
                 JSONArray activityJSON = baseJSON.getJSONArray("data");
                 for(int i = 0;i<activityJSON.length(); i++){
-                    System.out.println("activityJSON" + i + ": " + activityJSON.get(i));
                     JSONObject icon = new JSONObject();
                     try{
                         icon = ((JSONObject)activityJSON.get(i)).getJSONObject("icon");
-                        System.out.println("icon: " + icon);
                     }catch (JSONException ex){
                         Log.d("icon","icon fail");
                     }
                     JSONObject metaInfo = new JSONObject();
                     try{
                         metaInfo = icon.getJSONObject("metaInfo");
-                        System.out.println("metaInfo: " + metaInfo);
                     }catch (JSONException ex){
                         Log.d("metaInfo","metaInfo fail");
                     }
                     String href = "";
                     try{
                         href = metaInfo.getString("href");
-                        System.out.println("href: " + href);
                     }catch (JSONException ex){
                         Log.d("href","href fail");
                     }
 
-                    /*
-                    ImageView tmpIcon = new ImageView(this);
-
-                    Picasso.with(this)
-                            .load(href)
-                            .placeholder(R.drawable.a_01_b)
-                            .error(R.drawable.a_01_b)
-                            .into(tmpIcon);
-
-                    System.out.println("tmpIcon: " + tmpIcon.getResources().toString());
-                    */
 
                     activityList.add(new ActivityItem()
                                     .setIconUrl(href)
@@ -174,7 +159,6 @@ public class Reservation01Activity extends AbstractBaseActivity {
                 ReservationHolder.setIconId(clickedItem.getIconID());
                 ReservationHolder.setIconUrl(clickedItem.getIconUrl());
 
-                System.out.println("content in step 1 = " + resultContent);
 
                 startActivity(intent);
 

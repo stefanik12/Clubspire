@@ -99,6 +99,14 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
 
     }
 
+
+    protected void setupActionBarWithoutFeatures(){
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        //mToolbar.setPopupTheme();
+        //mToolbar.setPopupTheme();
+    }
+
     private View.OnClickListener toolbarListener = new View.OnClickListener() {
 
         @Override

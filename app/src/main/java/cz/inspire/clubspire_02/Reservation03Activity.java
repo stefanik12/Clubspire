@@ -93,15 +93,15 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 reservation.setNote(((EditText) findViewById(R.id.editTextNoteContent)).getText().toString());
 
                 //FUNKCNY REQUEST:
-//                String sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
-//                        "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
-//                        "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
-//                        "\"note\":\"poznamka z RESTu\",\n" +
-//                        "\"personCount\":1,\n" +
-//                        "\"startTime\":\"2015-06-19T15:30:00.000+0200\",\n" +
-//                        "\"endTime\":\"2015-06-19T16:20:00.000+0200\",\n" +
-//                        "\"emailNotificationBeforeMinutes\":120,\n" +
-//                        "\"smsNotificationBeforeMinutes\":60}";
+                String sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
+                        "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
+                        "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
+                        "\"note\":\"poznamka z RESTu\",\n" +
+                        "\"personCount\":1,\n" +
+                        "\"startTime\":\"2015-06-19T15:30:00.000+0200\",\n" +
+                        "\"endTime\":\"2015-06-19T16:20:00.000+0200\",\n" +
+                        "\"emailNotificationBeforeMinutes\":120,\n" +
+                        "\"smsNotificationBeforeMinutes\":60}";
 
 
                 //parse information from EditText
@@ -146,13 +146,14 @@ public class Reservation03Activity extends AbstractBaseActivity {
                         "\"emailNotificationBeforeMinutes\":" + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
                         "\"smsNotificationBeforeMinutes\":" + reservation.getSmsNotificationBeforeMinutes() +  "}";
 
+
                 //TODO try to fix startTime format so we can use Gson
-//                Gson gson = new Gson();
-//                String sentText = gson.toJson(reservation);
+                Gson gson = new Gson();
+                //String sentText = gson.toJson(reservation);
 
                 Log.d("serialized registration", sentText);
 
-                Log.d("MY serialized reg", sentText);
+                Log.d("MY serialized reg", mySentText);
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
                 new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/reservations", HttpMethod.POST);
