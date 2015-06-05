@@ -106,9 +106,6 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-
-            //TODO seems to be clearing cache only when pressing the arrow, not menu - WTF?
-            //android.os.Process.killProcess(android.os.Process.myPid());
             finish();
         }
     };
@@ -120,9 +117,6 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             parentIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             startActivity(parentIntent);
-
-            //TODO seems to be clearing cache only when pressing the arrow, not menu - WTF?
-            //android.os.Process.killProcess(android.os.Process.myPid());
             finish();
         }
     };
@@ -175,6 +169,8 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
             if(!isConnected()){
                 connectionSuccess = false;
                 return null;
+            } else {
+                connectionSuccess = true;
             }
 
             //HttpURLConnection implementation-universal for all GET/POST/PUT methods:
@@ -188,7 +184,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
                 }
 
                 if("/oauth/token".equals(suffix)){
-                    //just a token request - do not continue with other request
+                    //just a token request - already done - do not continue with other request
                     return null;
                 }
                 //else - continue on valid token is already retrieved
@@ -301,6 +297,7 @@ public abstract class AbstractBaseActivity extends ActionBarActivity {
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
             if(!connectionSuccess){
+                Log.d("BaseActivity", "connection was not successful");
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.wrongConnection), Toast.LENGTH_LONG).show();
             }
         }

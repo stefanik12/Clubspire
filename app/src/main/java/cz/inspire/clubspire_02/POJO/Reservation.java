@@ -1,5 +1,7 @@
 package cz.inspire.clubspire_02.POJO;
 
+import org.joda.time.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,7 +14,7 @@ public class Reservation {
     private String objectId;
     private String note;
     private int personCount;
-    private Date startTime; //TODO check if Date is ok..was SimpleDateFormat
+    private Date startTime;
     private Date endTime;
     private int emailNotificationBeforeMinutes;
     private int smsNotificationBeforeMinutes;
@@ -62,8 +64,8 @@ public class Reservation {
         return this;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public long getStartTime() {
+        return startTime.getTime();
     }
 
     public Reservation setStartTime(Date startTime) {
@@ -96,13 +98,6 @@ public class Reservation {
     public Reservation setSmsNotificationBeforeMinutes(int smsNotificationBeforeMinutes) {
         this.smsNotificationBeforeMinutes = smsNotificationBeforeMinutes;
         return this;
-    }
-
-    public String deserialize(){
-        StringBuilder out = new StringBuilder();
-        //out.append();
-
-        return out.toString();
     }
 
 }

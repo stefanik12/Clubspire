@@ -118,7 +118,6 @@ public class LoginActivity extends Activity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {
-                //zly token TODO spracuj chybne prihlasenie
                 Toast.makeText(getApplicationContext(), "Prihlasenie zlyhalo", Toast.LENGTH_SHORT).show();
             }
         }

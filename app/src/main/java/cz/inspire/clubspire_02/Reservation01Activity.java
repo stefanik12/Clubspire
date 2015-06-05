@@ -88,7 +88,6 @@ public class Reservation01Activity extends AbstractBaseActivity {
                 JSONObject baseJSON = new JSONObject(resultContent);
                 JSONArray activityJSON = baseJSON.getJSONArray("data");
                 for(int i = 0;i<activityJSON.length(); i++){
-                    //TODO get icon
                     System.out.println("activityJSON" + i + ": " + activityJSON.get(i));
                     JSONObject icon = new JSONObject();
                     try{
@@ -146,8 +145,7 @@ public class Reservation01Activity extends AbstractBaseActivity {
 
 
         } else {
-            Toast.makeText(getApplicationContext(), "Failed to load a list of activities", Toast.LENGTH_SHORT).show();
-            Log.e("Reservation01Activity", "was empty");
+            Log.d("Reservation01Activity", "Failed to load a list of activities");
         }
     }
 

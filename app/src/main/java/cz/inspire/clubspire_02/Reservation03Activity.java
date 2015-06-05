@@ -92,38 +92,29 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 Reservation reservation = ReservationHolder.getReservation();
                 reservation.setNote(((EditText) findViewById(R.id.editTextNoteContent)).getText().toString());
 
-                //TODO Reservation: z layoutu dostat vsetko relevantne pre novovytvorenu rezervaciu - nejako ako ten note hore
-                //upozorneni (ak je zaskrtnuta, tak nejaky default, inak asi =0)
-                //pocet ucastniku
-                //poznamka
-                //este neviem co ma byt objectId
-
-
-
-
                 //FUNKCNY REQUEST:
-                String sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
-                        "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
-                        "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
-                        "\"note\":\"poznamka z RESTu\",\n" +
-                        "\"personCount\":1,\n" +
-                        "\"startTime\":\"2015-06-19T15:30:00.000+0200\",\n" +
-                        "\"endTime\":\"2015-06-19T16:20:00.000+0200\",\n" +
-                        "\"emailNotificationBeforeMinutes\":120,\n" +
-                        "\"smsNotificationBeforeMinutes\":60}";
+//                String sentText = "{\"instructorId\": \"63a194abac1303f0012bd8989a131fa2\",\n" +
+//                        "\"sportId\":\"67b55713ac1303f000b4d50b38bf0a91\",\n" +
+//                        "\"objectId\":\"67bbccf3ac1303f000c13e2f9f3d55d2\",\n" +
+//                        "\"note\":\"poznamka z RESTu\",\n" +
+//                        "\"personCount\":1,\n" +
+//                        "\"startTime\":\"2015-06-19T15:30:00.000+0200\",\n" +
+//                        "\"endTime\":\"2015-06-19T16:20:00.000+0200\",\n" +
+//                        "\"emailNotificationBeforeMinutes\":120,\n" +
+//                        "\"smsNotificationBeforeMinutes\":60}";
 
 
                 //parse information from EditText
                 int personCount = Integer.parseInt(((EditText) findViewById(R.id.editPlayersContent)).getText().toString());
                 ReservationHolder.getReservation().setPersonCount(personCount);
                 Boolean smsNotification = ((CheckBox)findViewById(R.id.checkBox_notifyMobile)).isChecked();
-                //TODO get default length for notification
+                //TODO get length for notification
                 if(smsNotification)
                     ReservationHolder.getReservation().setSmsNotificationBeforeMinutes(30);
                 else
                     ReservationHolder.getReservation().setSmsNotificationBeforeMinutes(0);//how to set NULL..as no notification???
                 Boolean emailNotification = ((CheckBox)findViewById(R.id.checkBox_notifyEmail)).isChecked();
-                //TODO get default length for notification
+                //TODO get length for notification
                 if(emailNotification)
                     ReservationHolder.getReservation().setEmailNotificationBeforeMinutes(30);
                 else
@@ -144,10 +135,10 @@ public class Reservation03Activity extends AbstractBaseActivity {
                 }
 
                 //for now we use manually written format
-                String mySentText =
+                String sentText =
                         "{\"instructorId\":\"" + reservation.getInstructorId() + "\",\n" +
                         "\"sportId\":\"" + reservation.getSportId() +  "\",\n" +
-                        "\"objectId\":\"" + reservation.getObjectId() + "\",\n" +  //TODO that objectId...
+                        "\"objectId\":\"" + reservation.getObjectId() + "\",\n" +
                         "\"note\":\"" + reservation.getNote() +  "\",\n" +
                         "\"personCount\":" + reservation.getPersonCount() + ",\n" +
                         "\"startTime\":\"" + parsedStartTime + "\",\n" +
@@ -155,18 +146,16 @@ public class Reservation03Activity extends AbstractBaseActivity {
                         "\"emailNotificationBeforeMinutes\":" + reservation.getEmailNotificationBeforeMinutes() +  ",\n" +
                         "\"smsNotificationBeforeMinutes\":" + reservation.getSmsNotificationBeforeMinutes() +  "}";
 
-                System.out.println("my parsed sentText = " + mySentText);
-
                 //TODO try to fix startTime format so we can use Gson
-                Gson gson = new Gson();
-                //String sentText = gson.toJson(reservation);
+//                Gson gson = new Gson();
+//                String sentText = gson.toJson(reservation);
 
                 Log.d("serialized registration", sentText);
 
-                Log.d("MY serialized reg", mySentText);
+                Log.d("MY serialized reg", sentText);
 
                 //doplnenie infa do Reservation a odoslanie rezervacie sa poriesi v onPostExecute
-                new LocalAsyncAPIRequestExtension().setPlainRequest(mySentText).execute("/reservations", HttpMethod.POST);
+                new LocalAsyncAPIRequestExtension().setPlainRequest(sentText).execute("/reservations", HttpMethod.POST);
             }
         });
 

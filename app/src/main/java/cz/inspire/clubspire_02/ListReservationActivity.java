@@ -104,7 +104,6 @@ public class ListReservationActivity extends AbstractBaseActivity {
 
                         String shownText = baseJSON.getJSONObject("message").getString("clientMessage");
 
-                        //TODO: shownText in ListReservationuserMessage is not well-formed
                         ((TextView) findViewById(R.id.ListReservationuserMessage)).setText(shownText);
                     } else {
                         populateReservationList();
@@ -251,7 +250,7 @@ public class ListReservationActivity extends AbstractBaseActivity {
             // set icon
             ImageView activityIcon = (ImageView)itemView.findViewById(R.id.reservation_item_icon);
             Picasso.with(getContext())
-                    .load(currentReservation.getIconUrl())//TODO fix
+                    .load(currentReservation.getIconUrl())
                     .placeholder(R.drawable.loader_icon)
                     .error(R.drawable.error_icon)
                     .resize((int) App.getContext().getResources().getDimension(R.dimen.icon_width),(int)App.getContext().getResources().getDimension(R.dimen.icon_height))
